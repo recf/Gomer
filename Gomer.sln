@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gomer.Core", "Gomer.Core\Gomer.Core.csproj", "{BD3F7ABC-2B49-47B7-A23E-E8B7762733C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gomer.Cli", "Gomer.Cli\Gomer.Cli.csproj", "{6FEFE22C-5A79-47E7-8006-67759D11DFA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gomer.Core.Tests", "Gomer.Core.Tests\Gomer.Core.Tests.csproj", "{D3ED9CD0-D47B-4B30-BDA2-B565B58215DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BD3F7ABC-2B49-47B7-A23E-E8B7762733C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD3F7ABC-2B49-47B7-A23E-E8B7762733C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD3F7ABC-2B49-47B7-A23E-E8B7762733C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD3F7ABC-2B49-47B7-A23E-E8B7762733C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FEFE22C-5A79-47E7-8006-67759D11DFA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FEFE22C-5A79-47E7-8006-67759D11DFA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FEFE22C-5A79-47E7-8006-67759D11DFA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FEFE22C-5A79-47E7-8006-67759D11DFA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3ED9CD0-D47B-4B30-BDA2-B565B58215DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3ED9CD0-D47B-4B30-BDA2-B565B58215DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3ED9CD0-D47B-4B30-BDA2-B565B58215DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3ED9CD0-D47B-4B30-BDA2-B565B58215DD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

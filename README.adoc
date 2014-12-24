@@ -1,0 +1,21 @@
+﻿= Gomer
+Aaron Dorheim-Davis, <https://github.com/recf[@recf]>
+v0.1.0, 2014-12-24
+:fonts: icon
+:nofooter:
+:toc:
+:toc-placement: preamble
+// :ci-link:
+// :ci-img:
+// image::{ci-img}[alt=Build Status, link={ci-link}]
+
+Gomer is a command line utility for managing your video game "pile".
+
+== Commands
+
+== TODO
+
+* `Psake` task to patch the version in this README file.
+* `Psake` task to patch the date in this README file.
+
+=== From Source

@@ -5,9 +5,10 @@ v0.1.0, 2014-12-24
 :nofooter:
 :toc:
 :toc-placement: preamble
-// :ci-link:
-// :ci-img:
-// image::{ci-img}[alt=Build Status, link={ci-link}]
+:ci-link: https://ci.appveyor.com/project/recf/gomer
+:ci-img: https://ci.appveyor.com/api/projects/status/oei3gded2b0h9q36?svg=true
+
+image::{ci-img}[alt=Build Status, link={ci-link}]
 
 Gomer is a command line utility for managing your video game "pile".
 

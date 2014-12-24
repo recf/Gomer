@@ -1,4 +1,4 @@
-﻿= Gomer
+= Gomer
 Aaron Dorheim-Davis, <https://github.com/recf[@recf]>
 v0.1.0, 2014-12-24
 :fonts: icon

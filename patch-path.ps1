@@ -1,5 +1,5 @@
 $script:codedir = Split-Path $myinvocation.mycommand.path
-$script:bin = "$codedir\Gomer\bin\Debug"
+$script:bin = "$codedir\Gomer.Cli\bin\Debug"
 
 if ($env:Path.Contains($bin))
 {

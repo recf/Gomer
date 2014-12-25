@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ManyConsole;
 
 namespace Gomer.Cli
 {
@@ -10,6 +11,9 @@ namespace Gomer.Cli
     {
         public static void Main(string[] args)
         {
+            var commands = ConsoleCommandDispatcher.FindCommandsInSameAssemblyAs(typeof (Program));
+
+            ConsoleCommandDispatcher.DispatchCommand(commands, args, Console.Out);
         }
     }
 }

@@ -1,0 +1,40 @@
+﻿= Usage
+
+[listing]
+----
+
+Available commands are:
+
+add         - Add a pile game.
+init        - Create a new .pile file.
+
+help <name> - For help with one of the above commands
+
+----
+
+[[add-command]]
+== `add` Command
+
+[listing]
+----
+
+'add' - Add a pile game.
+
+Expected usage: gomer.exe add<name> <platform>
+
+----
+
+[[init-command]]
+== `init` Command
+
+[listing]
+----
+
+'init' - Create a new .pile file.
+
+Expected usage: gomer.exe init <options> 
+<options> available:
+  -n, --name=NAME            Base NAME of the file. (default: aaron)
+  -i, --import-csv=FILE      CSV FILE to import.
+
+----

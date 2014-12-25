@@ -11,6 +11,9 @@ namespace Gomer.Cli
     {
         public static void Main(string[] args)
         {
+            // TODO: Implement edit command
+            // TODO: Implement show command
+            // TODO: Implement remove command
             var commands = ConsoleCommandDispatcher.FindCommandsInSameAssemblyAs(typeof (Program));
 
             ConsoleCommandDispatcher.DispatchCommand(commands, args, Console.Out);

@@ -28,6 +28,7 @@ namespace Gomer.Cli
         public override int Run(string[] remainingArguments)
         {
             return 1;
+            // TODO: Implement command
             //throw new NotImplementedException();
         }
 

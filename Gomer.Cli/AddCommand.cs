@@ -66,6 +66,12 @@ namespace Gomer.Cli
             var name = remainingArguments[0];
             var platform = remainingArguments[1];
 
+            if (pile.Games.Any(g => String.Equals(g.Name, name, StringComparison.CurrentCultureIgnoreCase)))
+            {
+                Console.WriteLine("A game with that name already exists.");
+                return 1;
+            }
+
             var game = new PileGame
             {
                 Name = name,

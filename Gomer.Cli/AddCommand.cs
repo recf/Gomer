@@ -78,7 +78,8 @@ namespace Gomer.Cli
                 Platform = platform,
                 EstimatedHours = _hours,
                 Priority = _priority,
-                OnPileDate = _onPileDate
+                OnPileDate = _onPileDate,
+                Genres = _genres
             };
 
             pile.Games.Add(game);

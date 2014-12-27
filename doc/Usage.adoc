@@ -12,12 +12,11 @@ help <name> - For help with one of the above commands
 
 ----
 
-[[add-command]]
+[add-command]]
 == `add` Command
 
 [listing]
 ----
-
 'add' - Add a pile game.
 
 Expected usage: gomer.exe add <options> <name> <platform>
@@ -25,9 +24,8 @@ Expected usage: gomer.exe add <options> <name> <platform>
   -d, --on-pile-date=DATE    DATE acquired. (default: 2014-12-26)
   -p, --priority=PRIORITY    PRIORITY of the game.
   -h, --hours=HOURS          Estimated HOURS to complete.
-  -g, --genre=GENRE          GENRE that the game belongs to. Can be specified 
+  -g, --genre=GENRE          GENRE that the game belongs to. Can be specified
                                multiple times.
-
 ----
 
 [[init-command]]
@@ -35,12 +33,10 @@ Expected usage: gomer.exe add <options> <name> <platform>
 
 [listing]
 ----
-
 'init' - Create a new .pile file.
 
-Expected usage: gomer.exe init <options> 
+Expected usage: gomer.exe init <options>
 <options> available:
   -n, --name=NAME            Base NAME of the file. (default: aaron)
   -i, --import-csv=FILE      CSV FILE to import.
-
 ----

@@ -54,7 +54,7 @@ Task Extract-Usage {
     $lines += ""
 
     $lines += "[listing]"
-	$lines += "----"	
+	$lines += "----"
     $lines += $topLevel.Trim()
     $lines += "----"
 
@@ -62,6 +62,21 @@ Task Extract-Usage {
 
     foreach ($verb in $verbs)
     {
+        # auto-gen help has this structure:
+        # blank line
+        # command
+        # blank line
+        # options
+        # blank line
+        # blank line
+
+        # Remove all blank lines, then put one back between command and options
+
+        $help = gomer help $verb | ? { $_ -ne "" }
+
+        $command = $help[0]
+        $options = $help[1..$help.Length]
+
         $lines += ""
         $lines += "[[$verb-command]]"
         $lines += "== ``$verb`` Command"
@@ -69,7 +84,9 @@ Task Extract-Usage {
 
 		$lines += "[listing]"
 		$lines += "----"
-        $lines += gomer help $verb
+        $lines += $command
+        $lines += ""
+        $lines += $options
 		$lines += "----"
     }
 

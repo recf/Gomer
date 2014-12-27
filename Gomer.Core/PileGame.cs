@@ -14,6 +14,7 @@ namespace Gomer.Core
         [JsonProperty("platform", Required = Required.Always)]
         public string Platform { get; set; }
 
+        // TODO: Json Convertor to just use ISO short date format (i.e. yyyy-MM-dd)
         [JsonProperty("on_pile_date", Required = Required.Always)]
         public DateTime OnPileDate { get; set; }
 

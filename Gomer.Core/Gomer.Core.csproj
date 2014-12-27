@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PIle.cs" />
+    <Compile Include="Pile.cs" />
     <Compile Include="PileGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -46,8 +46,6 @@ Task Extract-Usage {
 
     ./patch-path
 
-    $openListing = "[listing]`n----"
-    $closeListing = "----"
     $lines = @()
 
     $topLevel = gomer help
@@ -55,9 +53,10 @@ Task Extract-Usage {
     $lines += "= Usage"
     $lines += ""
 
-    $lines += $openListing
+    $lines += "[listing]"
+	$lines += "----"	
     $lines += $topLevel.Trim()
-    $lines += $closeListing
+    $lines += "----"
 
     $verbs = $topLevel | where { $_ -match "^\s+(\w+)\s+-\s+" } | % { $matches[1] }
 
@@ -68,9 +67,10 @@ Task Extract-Usage {
         $lines += "== ``$verb`` Command"
         $lines += ""
 
-        $lines += $openListing
+		$lines += "[listing]"
+		$lines += "----"
         $lines += gomer help $verb
-        $lines += $closeListing
+		$lines += "----"
     }
 
 	$encoding = New-Object System.Text.UTF8Encoding($true)

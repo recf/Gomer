@@ -21,4 +21,4 @@ include::doc/Usage.adoc[leveloffset=+1]
 
 === From Source
 
-include::Source-TODO.adoc[]
+include::Source-TODO.adoc[leveloffset=+1]

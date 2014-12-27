@@ -24,7 +24,9 @@ Expected usage: gomer.exe add <options> <name> <platform>
 <options> available:
   -d, --on-pile-date=DATE    DATE acquired. (default: 2014-12-26)
   -p, --priority=PRIORITY    PRIORITY of the game.
-      --hours=HOURS          Estimated HOURS to complete.
+  -h, --hours=HOURS          Estimated HOURS to complete.
+  -g, --genre=GENRE          GENRE that the game belongs to. Can be specified 
+                               multiple times.
 
 ----
 

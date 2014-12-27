@@ -79,6 +79,12 @@ namespace Gomer.Cli
 
         public static void Show(IList<PileGame> games)
         {
+            if (!games.Any())
+            {
+                Console.WriteLine("No games found with those criteria.");
+                return;
+            }
+
             var tableDef = new Dictionary<string, Func<PileGame, string>>()
             {
                 { "Game", g => g.Name },

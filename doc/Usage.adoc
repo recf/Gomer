@@ -22,7 +22,7 @@ help <name> - For help with one of the above commands
 
 Expected usage: gomer.exe add <options> <name> <platform>
 <options> available:
-  -d, --on-pile-date=DATE    DATE acquired. (default: 2014-12-26)
+  -d, --on-pile-date=DATE    DATE acquired. (default: 2014-12-27)
   -p, --priority=PRIORITY    PRIORITY of the game.
   -h, --hours=HOURS          Estimated HOURS to complete.
   -g, --genre=GENRE          GENRE that the game belongs to. Can be specified 
@@ -49,5 +49,9 @@ Expected usage: gomer.exe init <options>
 ----
 'show' - Show games in pile, with optional filtering.
 
-Expected usage: gomer.exe show
+Expected usage: gomer.exe show <options> 
+<options> available:
+  -n, --name-like=VALUE      Filter by part of the name.
+  -l, --platform-eq=VALUE    Filter by platform.
+  -p, --priority=VALUE       Filter by priority.
 ----

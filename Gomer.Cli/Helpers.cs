@@ -23,12 +23,19 @@ namespace Gomer.Cli
 
             if (candidates.Count == 0)
             {
-                throw new NoPileFileException();
+                Console.WriteLine("No .pile file found. Create one with the `init` command.");
+                return null;
             }
 
             if (candidates.Count > 1)
             {
-                throw new TooManyPileFilesException(candidates);
+                Console.WriteLine("Multiple .pile files found. Please move or delete one of them.");
+                Console.WriteLine();
+                foreach (var fileName in candidates)
+                {
+                    Console.WriteLine(Path.GetFileName(fileName));
+                    return null;
+                }
             }
 
             return candidates.First();
@@ -51,6 +58,10 @@ namespace Gomer.Cli
         public static Pile ReadFile()
         {
             var fileName = ChooseFile();
+            if (fileName == null)
+            {
+                return null;
+            }
 
             return ReadFile(fileName);
         }
@@ -64,6 +75,51 @@ namespace Gomer.Cli
         public static Pile ReadCsvFile(string importCsvFile)
         {
             throw new NotImplementedException();
+        }
+
+        public static void Show(IList<PileGame> games)
+        {
+            var tableDef = new Dictionary<string, Func<PileGame, string>>()
+            {
+                { "Game", g => g.Name },
+                { "Platform", g => g.Platform},
+                { "Pri.", g => g.Priority.ToString()},
+                { "Hrs.", g => g.EstimatedHours.ToString()},
+                { "On Pile", g => g.OnPileDate.ToString("yyyy-MM-dd")},
+                { "Genres", g => string.Join(", ", g.Genres ?? new string[0])},
+            };
+
+            var indexes = Enumerable.Range(0, tableDef.Count).ToArray();
+
+            var headers = tableDef.Select(kvp => kvp.Key).ToArray();
+
+            var tableData = games.OrderBy(g => g.Name).Select(g => tableDef.Select(kvp => kvp.Value(g)).ToArray()).ToArray();
+
+            var lengths = indexes.Select(i => tableData.Select(r => Math.Max(headers[i].Length, r[i].Length)).Max()).ToArray();
+
+            var formatter = "{{0,-{0}}} ";
+
+            foreach (var i in indexes)
+            {
+                Console.Write(string.Format(formatter, lengths[i]), headers[i]);                
+            }
+            Console.WriteLine();
+
+            foreach (var len in lengths)
+            {
+                Console.Write(new String('=', len) + " ");
+            }
+            Console.WriteLine();
+
+            foreach (var record in tableData)
+            {
+                foreach (var i in indexes)
+                {
+                    Console.Write(string.Format(formatter, lengths[i]), record[i]);
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
         }
     }
 }

@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Gomer.Cli.Exceptions;
 using Gomer.Core;
 using ManyConsole;
 
-namespace Gomer.Cli
+namespace Gomer.Cli.Commands
 {
     public class AddCommand : ConsoleCommand
     {
@@ -41,25 +39,9 @@ namespace Gomer.Cli
 
         public override int Run(string[] remainingArguments)
         {
-
-            Pile pile;
-            try
+            var pile= Helpers.ReadFile();
+            if (pile == null)
             {
-                pile = Helpers.ReadFile();
-            }
-            catch (NoPileFileException)
-            {
-                Console.WriteLine("No .pile file found. Create one with the `init` command.");
-                return 1;
-            }
-            catch (TooManyPileFilesException e)
-            {
-                Console.WriteLine("Multiple .pile files found. Please move or delete one of them.");
-                Console.WriteLine();
-                foreach (var fileName in e.Files)
-                {
-                    Console.WriteLine(Path.GetFileName(fileName));
-                }
                 return 1;
             }
 

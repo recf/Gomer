@@ -7,12 +7,13 @@ Available commands are:
 
 add         - Add a pile game.
 init        - Create a new .pile file.
+show        - Show games in pile, with optional filtering.
 
 help <name> - For help with one of the above commands
 
 ----
 
-[add-command]]
+[[add-command]]
 == `add` Command
 
 [listing]
@@ -24,7 +25,7 @@ Expected usage: gomer.exe add <options> <name> <platform>
   -d, --on-pile-date=DATE    DATE acquired. (default: 2014-12-26)
   -p, --priority=PRIORITY    PRIORITY of the game.
   -h, --hours=HOURS          Estimated HOURS to complete.
-  -g, --genre=GENRE          GENRE that the game belongs to. Can be specified
+  -g, --genre=GENRE          GENRE that the game belongs to. Can be specified 
                                multiple times.
 ----
 
@@ -35,8 +36,18 @@ Expected usage: gomer.exe add <options> <name> <platform>
 ----
 'init' - Create a new .pile file.
 
-Expected usage: gomer.exe init <options>
+Expected usage: gomer.exe init <options> 
 <options> available:
   -n, --name=NAME            Base NAME of the file. (default: aaron)
   -i, --import-csv=FILE      CSV FILE to import.
+----
+
+[[show-command]]
+== `show` Command
+
+[listing]
+----
+'show' - Show games in pile, with optional filtering.
+
+Expected usage: gomer.exe show
 ----

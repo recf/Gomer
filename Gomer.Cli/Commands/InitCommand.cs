@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Gomer.Core;
 using ManyConsole;
 
-namespace Gomer.Cli
+namespace Gomer.Cli.Commands
 {
     public class InitCommand : ConsoleCommand
     {

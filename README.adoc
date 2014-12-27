@@ -18,6 +18,7 @@ include::doc/Usage.adoc[leveloffset=+1]
 
 * `Psake` task to patch the version in this README file.
 * `Psake` task to patch the date in this README file.
+* Look into Awestruct for generating gh-pages. That's what asciidoctor.org uses.
 
 === From Source
 

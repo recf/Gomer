@@ -1,4 +1,4 @@
-﻿= Usage
+= Usage
 
 [listing]
 ----
@@ -24,7 +24,7 @@ help <name> - For help with one of the above commands
 
 Expected usage: gomer.exe add <options> <name> <platform>
 <options> available:
-  -d, --on-pile-date=DATE    DATE acquired. (default: 2014-12-27)
+  -a, --added-date=DATE      DATE acquired. (default: 2014-12-27)
   -p, --priority=PRIORITY    PRIORITY of the game. (default: 2)
   -h, --hours=HOURS          Estimated HOURS to complete. (default: 10)
   -g, --genre=GENRE          GENRE that the game belongs to. Can be specified 
@@ -42,7 +42,9 @@ Expected usage: gomer.exe edit <options> <name>
 <options> available:
       --rename=NAME          Set the NAME.
   -l, --platform=PLATFORM    Set the PLATFORM.
-  -d, --on-pile-date=DATE    Set the DATE acquired.
+  -a, --added-date=DATE      Set the DATE acquired.
+  -f, --finished-date=DATE   Set the DATE finished.
+      --finished             Set finished with today's date.
   -p, --priority=PRIORITY    Set the PRIORITY of the game.
   -h, --hours=HOURS          Set the estimated HOURS to complete.
       --clear-genres         Clear existing genre list. Run before adding new 

@@ -1,4 +1,6 @@
-﻿* link:./Gomer.Cli/Program.cs[]
+* link:./Gomer.Cli/Helpers.cs[]
+** link:./Gomer.Cli/Helpers.cs#L13[13] If I decide to support common parameters (e.g. verbose), I may need to convert this into a BaseCommand class.
+* link:./Gomer.Cli/Program.cs[]
 ** link:./Gomer.Cli/Program.cs#L14[14] Implement edit command
 * link:./Gomer.Cli/Commands/ShowCommand.cs[]
 ** link:./Gomer.Cli/Commands/ShowCommand.cs#L27[27] Priority, platform and genre filters should probably be ONE-OF filters.

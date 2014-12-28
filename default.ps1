@@ -1,5 +1,11 @@
+# NOTE: BOM is not recommended, and I think is what sometimes mucks up Asciidoc
+# rendering in github, and hilighting in emacs, so we are writing to files
+# without BOM. When creating the UTF-8 encoding object, we have to specify false
+# explicitly. Otherwise it is marked as neither UTF-8 with, or without BOM.
+
 Properties {
     $build_dir = Split-Path $psake.build_script_file
+	$encoding = New-Object System.Text.UTF8Encoding($false)
 }
 
 Task Default -Depends Extract-Todos,Extract-Usage
@@ -37,7 +43,6 @@ Task Extract-Todos {
 		$todoLines += "** link:.$($todo.Path)#L$($todo.LineNum)[$($todo.LineNum)] $($todo.Task)"
 	}
 
-	$encoding = New-Object System.Text.UTF8Encoding($true)
 	[System.IO.File]::WriteAllLines($sourceTodoFile, $todoLines, $encoding)
 }
 
@@ -90,6 +95,5 @@ Task Extract-Usage {
 		$lines += "----"
     }
 
-	$encoding = New-Object System.Text.UTF8Encoding($true)
 	[System.IO.File]::WriteAllLines($usageFile, $lines, $encoding)
 }

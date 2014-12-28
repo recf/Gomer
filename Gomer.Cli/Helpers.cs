@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 
 namespace Gomer.Cli
 {
+    // TODO: If I decide to support common parameters (e.g. verbose), I may need to convert this into a BaseCommand class.
     public static class Helpers
     {
         public static IList<string> GetCandidatesFiles()
@@ -50,6 +51,9 @@ namespace Gomer.Cli
 
         public static void WriteFile(Pile pile, string fileName)
         {
+            Console.WriteLine("Writing {0}", Path.GetFileName(fileName));
+            Console.WriteLine();
+
             var contents = JsonConvert.SerializeObject(pile, Formatting.Indented);
 
             File.WriteAllText(fileName, contents);
@@ -68,6 +72,9 @@ namespace Gomer.Cli
 
         public static Pile ReadFile(string fileName)
         {
+            Console.WriteLine("Reading {0}", Path.GetFileName(fileName));
+            Console.WriteLine();
+
             var contents = File.ReadAllText(fileName);
             return JsonConvert.DeserializeObject<Pile>(contents);
         }

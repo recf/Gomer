@@ -51,6 +51,8 @@ Task Extract-Usage {
 
     ./patch-path
 
+    echo $replacements
+
     $lines = @()
 
     $topLevel = gomer help
@@ -79,8 +81,12 @@ Task Extract-Usage {
 
         $help = gomer help $verb | ? { $_ -ne "" }
 
+        $today = Get-Date -Format "yyyy-MM-dd"
+
         $command = $help[0]
-        $options = $help[1..$help.Length]
+        $options = $help[1..$help.Length] | `
+          %{ $_ -replace "default: $today", 'default: <today>' `
+                -replace "default: $env:USERNAME", 'default: <current user>' }
 
         $lines += ""
         $lines += "[[$verb-command]]"

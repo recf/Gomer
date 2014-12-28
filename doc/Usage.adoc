@@ -24,7 +24,7 @@ help <name> - For help with one of the above commands
 
 Expected usage: gomer.exe add <options> <name> <platform>
 <options> available:
-  -a, --added-date=DATE      DATE acquired. (default: 2014-12-27)
+  -a, --added-date=DATE      DATE acquired. (default: <today>)
   -p, --priority=PRIORITY    PRIORITY of the game. (default: 2)
   -h, --hours=HOURS          Estimated HOURS to complete. (default: 10)
   -g, --genre=GENRE          GENRE that the game belongs to. Can be specified 
@@ -62,7 +62,7 @@ Expected usage: gomer.exe edit <options> <name>
 
 Expected usage: gomer.exe init <options> 
 <options> available:
-  -n, --name=NAME            Base NAME of the file. (default: aaron)
+  -n, --name=NAME            Base NAME of the file. (default: <current user>)
   -i, --import-csv=FILE      CSV FILE to import.
 ----
 

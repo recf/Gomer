@@ -77,6 +77,11 @@ namespace Gomer.Cli
             throw new NotImplementedException();
         }
 
+        public static void Show(PileGame game)
+        {
+            Show(new[] { game });
+        }
+
         public static void Show(IList<PileGame> games)
         {
             if (!games.Any())

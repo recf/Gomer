@@ -66,6 +66,8 @@ namespace Gomer.Cli.Commands
 
             pile.Games.Add(game);
 
+            Helpers.Show(game);
+
             Helpers.WriteFile(pile);
 
             return 0;

@@ -12,7 +12,9 @@ namespace Gomer.Cli.Commands
     {
         private string _newName;
 
-        private DateTime? _onPileDate;
+        private DateTime? _addedDate;
+
+        private DateTime? _finishedDate;
 
         private int? _priority;
 
@@ -32,7 +34,9 @@ namespace Gomer.Cli.Commands
 
             HasOption("rename=", "Set the {NAME}.", v => _newName = v);
             HasOption("l|platform=", "Set the {PLATFORM}.", v => _platform = v);
-            HasOption("d|on-pile-date=", "Set the {DATE} acquired.", (DateTime v) => _onPileDate = v);
+            HasOption("a|added-date=", "Set the {DATE} acquired.", (DateTime v) => _addedDate = v);
+            HasOption("f|finished-date=", "Set the {DATE} finished.", (DateTime v) => _finishedDate = v);
+            HasOption("finished", "Set finished with today's date.", _ => _finishedDate = DateTime.Today);
             HasOption("p|priority=", "Set the {PRIORITY} of the game.", (int v) => _priority = v);
             HasOption("h|hours=", "Set the estimated {HOURS} to complete.", (int v) => _hours = v);
             HasOption(
@@ -92,10 +96,16 @@ namespace Gomer.Cli.Commands
                 game.EstimatedHours = _hours.Value;
             }
 
-            if (_onPileDate.HasValue)
+            if (_addedDate.HasValue)
             {
-                Console.WriteLine(auditFormat, "On pile date", game.OnPileDate.ToString("yyyy-MM-dd"), _onPileDate.Value.ToString("yyyy-MM-dd"));
-                game.OnPileDate = _onPileDate.Value;
+                Console.WriteLine(auditFormat, "Added", Helpers.DateToString(game.AddedDate), Helpers.DateToString(_addedDate));
+                game.AddedDate = _addedDate.Value;
+            }
+
+            if (_finishedDate.HasValue)
+            {
+                Console.WriteLine(auditFormat, "Finished", Helpers.DateToString(game.FinishDate), Helpers.DateToString(_finishedDate));
+                game.FinishDate = _finishedDate.Value;
             }
 
             var updatingGenres = false;

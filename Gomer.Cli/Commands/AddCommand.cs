@@ -14,12 +14,12 @@ namespace Gomer.Cli.Commands
         {
             IsCommand("add", "Add a pile game.");
 
-            _onPileDate = DateTime.Today;
+            _addedDate = DateTime.Today;
             _priority = 2;
             _hours = 10;
             _genres = new List<string>();
             
-            HasOption("d|on-pile-date=", string.Format("{{DATE}} acquired. (default: {0:yyyy-MM-dd})", _onPileDate), (DateTime v) => _onPileDate = v);
+            HasOption("a|added-date=", string.Format("{{DATE}} acquired. (default: {0:yyyy-MM-dd})", _addedDate), (DateTime v) => _addedDate = v);
             HasOption("p|priority=", string.Format("{{PRIORITY}} of the game. (default: {0})", _priority), (int v) => _priority = v);
             HasOption("h|hours=", string.Format("Estimated {{HOURS}} to complete. (default: {0})", _hours), (int v) => _hours = v);
             HasOption("g|genre=", "{GENRE} that the game belongs to. Can be specified multiple times.", v => _genres.Add(v));
@@ -33,7 +33,7 @@ namespace Gomer.Cli.Commands
 
         private int _priority;
 
-        private DateTime _onPileDate;
+        private DateTime _addedDate;
 
         #region Overrides of ConsoleCommand
 
@@ -60,7 +60,7 @@ namespace Gomer.Cli.Commands
                 Platform = platform,
                 EstimatedHours = _hours,
                 Priority = _priority,
-                OnPileDate = _onPileDate,
+                AddedDate = _addedDate,
                 Genres = _genres
             };
 

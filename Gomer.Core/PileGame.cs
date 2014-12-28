@@ -15,8 +15,11 @@ namespace Gomer.Core
         public string Platform { get; set; }
 
         // TODO: Json Convertor to just use ISO short date format (i.e. yyyy-MM-dd)
-        [JsonProperty("on_pile_date", Required = Required.Always)]
-        public DateTime OnPileDate { get; set; }
+        [JsonProperty("added_date", Required = Required.Always)]
+        public DateTime AddedDate { get; set; }
+
+        [JsonProperty("finish_date")]
+        public DateTime? FinishDate { get; set; }
 
         [JsonProperty("priority", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         [DefaultValue(2)]

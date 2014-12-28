@@ -82,6 +82,21 @@ namespace Gomer.Cli
             Show(new[] { game });
         }
 
+        public static string DateToString(DateTime? dateTime)
+        {
+            if (dateTime.HasValue)
+            {
+                return DateToString(dateTime.Value);
+            }
+
+            return string.Empty;
+        }
+
+        public static string DateToString(DateTime dateTime)
+        {
+            return dateTime.ToString("yyyy-MM-dd");
+        }
+
         public static void Show(IList<PileGame> games)
         {
             if (!games.Any())
@@ -93,11 +108,12 @@ namespace Gomer.Cli
             var tableDef = new Dictionary<string, Func<PileGame, string>>()
             {
                 { "Game", g => g.Name },
-                { "Platform", g => g.Platform},
-                { "Pri.", g => g.Priority.ToString()},
-                { "Hrs.", g => g.EstimatedHours.ToString()},
-                { "On Pile", g => g.OnPileDate.ToString("yyyy-MM-dd")},
-                { "Genres", g => string.Join(", ", g.Genres ?? new string[0])},
+                { "Platform", g => g.Platform },
+                { "Pri.", g => g.Priority.ToString() },
+                { "Hrs.", g => g.EstimatedHours.ToString() },
+                { "Genres", g => string.Join(", ", g.Genres ?? new string[0]) },
+                { "Added", g => DateToString(g.AddedDate) },
+                { "Finished", g => DateToString(g.FinishDate) },
             };
 
             var indexes = Enumerable.Range(0, tableDef.Count).ToArray();

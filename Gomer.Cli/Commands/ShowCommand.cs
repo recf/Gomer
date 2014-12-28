@@ -23,11 +23,11 @@ namespace Gomer.Cli.Commands
         {
             IsCommand("show", "Show games in pile, with optional filtering.");
 
-            HasOption("n|name-like=", "Filter by part of the name.", v => _name = v);
+            HasOption("n|name-like=", "Filter by part of the {NAME}.", v => _name = v);
             // TODO: Priority, platform and genre filters should probably be ONE-OF filters.
-            HasOption("l|platform-eq=", "Filter by platform.", v => _platform = v);
-            HasOption("p|priority=", "Filter by priority.", (int v) => _priority = v);
-            HasOption("g|genre=", "Filter by genre.", v => _genre = v);
+            HasOption("l|platform-eq=", "Filter by {PLATFORM}.", v => _platform = v);
+            HasOption("p|priority=", "Filter by {PRIORITY}.", (int v) => _priority = v);
+            HasOption("g|genre=", "Filter by {GENRE}.", v => _genre = v);
         }
 
         #region Overrides of ConsoleCommand

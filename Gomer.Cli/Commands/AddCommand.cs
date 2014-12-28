@@ -20,8 +20,8 @@ namespace Gomer.Cli.Commands
             _genres = new List<string>();
             
             HasOption("d|on-pile-date=", string.Format("{{DATE}} acquired. (default: {0:yyyy-MM-dd})", _onPileDate), (DateTime v) => _onPileDate = v);
-            HasOption("p|priority=", "{PRIORITY} of the game.", (int v) => _priority = v);
-            HasOption("h|hours=", "Estimated {HOURS} to complete.", (int v) => _hours = v);
+            HasOption("p|priority=", string.Format("{{PRIORITY}} of the game. (default: {0})", _priority), (int v) => _priority = v);
+            HasOption("h|hours=", string.Format("Estimated {{HOURS}} to complete. (default: {0})", _hours), (int v) => _hours = v);
             HasOption("g|genre=", "{GENRE} that the game belongs to. Can be specified multiple times.", v => _genres.Add(v));
 
             HasAdditionalArguments(2, "<name> <platform>");

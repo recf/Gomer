@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\AddCommand.cs" />
+    <Compile Include="Commands\EditCommand.cs" />
     <Compile Include="Commands\InitCommand.cs" />
     <Compile Include="Commands\RemoveCommand.cs" />
     <Compile Include="Commands\ShowCommand.cs" />

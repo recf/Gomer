@@ -1,8 +1,6 @@
 ﻿* link:./Gomer.Cli/Program.cs[]
 ** link:./Gomer.Cli/Program.cs#L14[14] Implement edit command
-** link:./Gomer.Cli/Program.cs#L15[15] Implement show command
-** link:./Gomer.Cli/Program.cs#L16[16] Implement remove command
 * link:./Gomer.Cli/Commands/ShowCommand.cs[]
-** link:./Gomer.Cli/Commands/ShowCommand.cs#L25[25] Priority, platform and genre filters should probably be ONE-OF filters.
+** link:./Gomer.Cli/Commands/ShowCommand.cs#L27[27] Priority, platform and genre filters should probably be ONE-OF filters.
 * link:./Gomer.Core/PileGame.cs[]
 ** link:./Gomer.Core/PileGame.cs#L17[17] Json Convertor to just use ISO short date format (i.e. yyyy-MM-dd)

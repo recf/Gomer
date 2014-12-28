@@ -6,7 +6,9 @@
 Available commands are:
 
 add         - Add a pile game.
+edit        - Edit a pile game.
 init        - Create a new .pile file.
+rm          - Remove a pile game.
 show        - Show games in pile, with optional filtering.
 
 help <name> - For help with one of the above commands
@@ -23,10 +25,30 @@ help <name> - For help with one of the above commands
 Expected usage: gomer.exe add <options> <name> <platform>
 <options> available:
   -d, --on-pile-date=DATE    DATE acquired. (default: 2014-12-27)
-  -p, --priority=PRIORITY    PRIORITY of the game.
-  -h, --hours=HOURS          Estimated HOURS to complete.
+  -p, --priority=PRIORITY    PRIORITY of the game. (default: 2)
+  -h, --hours=HOURS          Estimated HOURS to complete. (default: 10)
   -g, --genre=GENRE          GENRE that the game belongs to. Can be specified 
                                multiple times.
+----
+
+[[edit-command]]
+== `edit` Command
+
+[listing]
+----
+'edit' - Edit a pile game.
+
+Expected usage: gomer.exe edit <options> <name>
+<options> available:
+      --rename=NAME          Set the NAME.
+  -l, --platform=PLATFORM    Set the PLATFORM.
+  -d, --on-pile-date=DATE    Set the DATE acquired.
+  -p, --priority=PRIORITY    Set the PRIORITY of the game.
+  -h, --hours=HOURS          Set the estimated HOURS to complete.
+      --clear-genres         Clear existing genre list. Run before adding new 
+                               genres.
+  -g, --genre=GENRE          Add a GENRE that the game belongs to. Can be 
+                               specified multiple times.
 ----
 
 [[init-command]]
@@ -42,6 +64,16 @@ Expected usage: gomer.exe init <options>
   -i, --import-csv=FILE      CSV FILE to import.
 ----
 
+[[rm-command]]
+== `rm` Command
+
+[listing]
+----
+'rm' - Remove a pile game.
+
+Expected usage: gomer.exe rm <name>
+----
+
 [[show-command]]
 == `show` Command
 
@@ -51,7 +83,8 @@ Expected usage: gomer.exe init <options>
 
 Expected usage: gomer.exe show <options> 
 <options> available:
-  -n, --name-like=VALUE      Filter by part of the name.
-  -l, --platform-eq=VALUE    Filter by platform.
-  -p, --priority=VALUE       Filter by priority.
+  -n, --name-like=NAME       Filter by part of the NAME.
+  -l, --platform-eq=PLATFORM Filter by PLATFORM.
+  -p, --priority=PRIORITY    Filter by PRIORITY.
+  -g, --genre=GENRE          Filter by GENRE.
 ----

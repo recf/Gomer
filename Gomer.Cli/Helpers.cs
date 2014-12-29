@@ -8,6 +8,7 @@ using CsvHelper;
 using Gomer.Cli.Exceptions;
 using Gomer.Core;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Gomer.Cli
 {
@@ -55,7 +56,9 @@ namespace Gomer.Cli
             Console.WriteLine("Writing {0}", Path.GetFileName(fileName));
             Console.WriteLine();
 
-            var contents = JsonConvert.SerializeObject(pile, Formatting.Indented);
+            var dateConverter = new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd" };
+
+            var contents = JsonConvert.SerializeObject(pile, Formatting.Indented, dateConverter);
 
             File.WriteAllText(fileName, contents);
         }

@@ -6,6 +6,10 @@
 Properties {
     $build_dir = Split-Path $psake.build_script_file
 	$encoding = New-Object System.Text.UTF8Encoding($false)
+    $version_major = 0
+    $version_minor = 1
+    $version_patch = 0
+    $version_label = "alpha"
 }
 
 Task Default -Depends Extract-Todos,Extract-Usage
@@ -102,4 +106,47 @@ Task Extract-Usage {
     }
 
 	[System.IO.File]::WriteAllLines($usageFile, $lines, $encoding)
+}
+
+Task Patch-Version -Depends Patch-AssemblyInfoVersion
+Task Patch-AssemblyInfoVersion {
+
+    $version = [string]::Join('.', @($version_major,
+                                     $version_minor,
+                                     $version_patch))
+
+    $infoVersion = "$version-$version_label".Trim('-')
+
+    echo "Setting version = $version"
+    echo "Setting informational version = $infoVersion"
+
+    # Patching assembly version attributes
+    $verAttrPattern = "\[assembly: (Assembly\w*Version)\(`"([\d.]+)`"\)\]"
+    $results = ls -r -include AssemblyInfo.cs | Select-String $verAttrPattern
+
+    Write-Verbose "Patching"
+    foreach ($result in $results)
+    {
+        $filePath = $result.Path
+        $relPath = $filePath.Replace($build_dir, '')
+        $lineNumber = $result.LineNumber
+
+        $attribute = $result.Matches.Groups[1].Value
+
+        $contents = [System.IO.File]::ReadAllLines($result.Path, $encoding)
+
+        $newVersion = $version
+        if ($attribute -eq "AssemblyInformationalVersion")
+        {
+            $newVersion = $infoVersion
+        }
+
+        $newLine = "[assembly: $attribute(`"$newVersion`")]"
+
+        $contents[$lineNumber - 1] = $newLine
+
+        Write-Verbose "$relPath : $lineNumber : $newLine"
+
+    	[System.IO.File]::WriteAllLines($result.Path, $contents, $encoding)
+    }
 }

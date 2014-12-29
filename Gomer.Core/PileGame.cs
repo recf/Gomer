@@ -18,8 +18,8 @@ namespace Gomer.Core
         [JsonProperty("added_date", Required = Required.Always)]
         public DateTime AddedDate { get; set; }
 
-        [JsonProperty("finish_date")]
-        public DateTime? FinishDate { get; set; }
+        [JsonProperty("finished_date")]
+        public DateTime? FinishedDate { get; set; }
 
         [JsonProperty("priority", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         [DefaultValue(2)]

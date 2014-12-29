@@ -65,7 +65,7 @@ Task Extract-Usage {
     $lines += $topLevel.Trim()
     $lines += "----"
 
-    $verbs = $topLevel | where { $_ -match "^\s+(\w+)\s+-\s+" } | % { $matches[1] }
+    $verbs = $topLevel | where { $_ -match "^\s+([\w-]+)\s+-\s+" } | % { $matches[1] }
 
     foreach ($verb in $verbs)
     {

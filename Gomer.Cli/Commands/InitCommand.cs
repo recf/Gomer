@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CsvHelper;
 using Gomer.Core;
 using ManyConsole;
 
@@ -8,19 +10,16 @@ namespace Gomer.Cli.Commands
 {
     public class InitCommand : ConsoleCommand
     {
+        private string _name;
+
         public InitCommand()
         {
             _name = Environment.UserName;
 
             IsCommand("init", "Create a new .pile file.");
 
-            HasOption("n|name=", string.Format("Base {{NAME}} of the file. (default: {0})", _name), v=> _name = v);
-            HasOption("i|import-csv=", "CSV {FILE} to import.", v => _importCsvFile = v);
+            HasOption("n|name=", String.Format("Base {{NAME}} of the file. (default: {0})", _name), v=> _name = v);
         }
-
-        private string _name;
-
-        private string _importCsvFile;
 
         #region Overrides of ConsoleCommand
 
@@ -42,22 +41,11 @@ first.";
                 return 1;
             }
 
-            Pile pile = null;
-
-            if (string.IsNullOrWhiteSpace(_importCsvFile))
-            {
-                pile = new Pile();
-            }
-            else
-            {
-                pile = Helpers.ReadCsvFile(_importCsvFile);
-            }
+            var pile = new Pile();
 
             var fileName = _name + ".pile";
 
             Helpers.WriteFile(pile, fileName);
-
-            Console.WriteLine("Created {0}", fileName);
             return 0;
         }
 

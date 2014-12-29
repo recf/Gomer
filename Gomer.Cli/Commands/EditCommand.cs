@@ -104,8 +104,8 @@ namespace Gomer.Cli.Commands
 
             if (_finishedDate.HasValue)
             {
-                Console.WriteLine(auditFormat, "Finished", Helpers.DateToString(game.FinishDate), Helpers.DateToString(_finishedDate));
-                game.FinishDate = _finishedDate.Value;
+                Console.WriteLine(auditFormat, "Finished", Helpers.DateToString(game.FinishedDate), Helpers.DateToString(_finishedDate));
+                game.FinishedDate = _finishedDate.Value;
             }
 
             var updatingGenres = false;

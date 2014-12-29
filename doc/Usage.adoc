@@ -7,6 +7,7 @@ Available commands are:
 
 add         - Add a pile game.
 edit        - Edit a pile game.
+import-csv  - Import a file in CSV format to an existing .pile file.
 init        - Create a new .pile file.
 rm          - Remove a pile game.
 show        - Show games in pile, with optional filtering.
@@ -53,6 +54,33 @@ Expected usage: gomer.exe edit <options> <name>
                                specified multiple times.
 ----
 
+[[import-csv-command]]
+== `import-csv` Command
+
+[listing]
+----
+'import-csv' - Import a file in CSV format to an existing .pile file.
+
+Expected usage: gomer.exe import-csv <options> <filename>
+<options> available:
+  -n, --name-field=FIELD     FIELD in CSV file to map to Name. (default: 
+                               'Name')
+  -l, --platform-field=FIELD FIELD in CSV file to map to Platform. (default: 
+                               'Platform')
+  -p, --priority-field=FIELD FIELD in CSV file to map to Priority. (default: 
+                               'Priority')
+  -h, --hours-field=FIELD    FIELD in CSV file to map to Hours. (default: 
+                               'Hours')
+  -g, --genres-field=FIELD   FIELD in CSV file to map to Genres. (default: 
+                               'Genres')
+  -a, --added-date-field=FIELD
+                             FIELD in CSV file to map to Added Date. 
+                               (default: 'Added Date')
+  -f, --finished-date-field=FIELD
+                             FIELD in CSV file to map to Finished Date. 
+                               (default: 'Finished Date')
+----
+
 [[init-command]]
 == `init` Command
 
@@ -63,7 +91,6 @@ Expected usage: gomer.exe edit <options> <name>
 Expected usage: gomer.exe init <options> 
 <options> available:
   -n, --name=NAME            Base NAME of the file. (default: <current user>)
-  -i, --import-csv=FILE      CSV FILE to import.
 ----
 
 [[rm-command]]

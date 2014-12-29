@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CsvHelper;
 using Gomer.Cli.Exceptions;
 using Gomer.Core;
 using Newtonsoft.Json;
@@ -79,16 +80,6 @@ namespace Gomer.Cli
             return JsonConvert.DeserializeObject<Pile>(contents);
         }
 
-        public static Pile ReadCsvFile(string importCsvFile)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void Show(PileGame game)
-        {
-            Show(new[] { game });
-        }
-
         public static string DateToString(DateTime? dateTime)
         {
             if (dateTime.HasValue)
@@ -102,6 +93,11 @@ namespace Gomer.Cli
         public static string DateToString(DateTime dateTime)
         {
             return dateTime.ToString("yyyy-MM-dd");
+        }
+
+        public static void Show(PileGame game)
+        {
+            Show(new[] { game });
         }
 
         public static void Show(IList<PileGame> games)
@@ -120,14 +116,21 @@ namespace Gomer.Cli
                 { "Hrs.", g => g.EstimatedHours.ToString() },
                 { "Genres", g => string.Join(", ", g.Genres ?? new string[0]) },
                 { "Added", g => DateToString(g.AddedDate) },
-                { "Finished", g => DateToString(g.FinishDate) },
+                { "Finished", g => DateToString(g.FinishedDate) },
             };
 
+            var items = games.OrderBy(g => g.Name).ToList();
+
+            ShowTable(tableDef, items);
+        }
+
+        public static void ShowTable<T>(Dictionary<string, Func<T, string>> tableDef, IList<T> items)
+        {
             var indexes = Enumerable.Range(0, tableDef.Count).ToArray();
 
             var headers = tableDef.Select(kvp => kvp.Key).ToArray();
 
-            var tableData = games.OrderBy(g => g.Name).Select(g => tableDef.Select(kvp => kvp.Value(g)).ToArray()).ToArray();
+            var tableData = items.Select(g => tableDef.Select(kvp => kvp.Value(g)).ToArray()).ToArray();
 
             var lengths = indexes.Select(i => tableData.Select(r => Math.Max(headers[i].Length, r[i].Length)).Max()).ToArray();
 
@@ -135,7 +138,7 @@ namespace Gomer.Cli
 
             foreach (var i in indexes)
             {
-                Console.Write(string.Format(formatter, lengths[i]), headers[i]);                
+                Console.Write(string.Format(formatter, lengths[i]), headers[i]);
             }
             Console.WriteLine();
 

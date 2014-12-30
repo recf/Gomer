@@ -112,10 +112,7 @@ Task Generate-Usage {
 Task Generate-Schema {
     ./patch-path
 
-    $version = [string]::Join('-', @($version_major,
-                                     $version_minor,
-                                     $version_patch))
-
+    $version = "0" + $version_major
     $path = "$build_dir\doc\schemas\Gomer-v$version.schema.json"
     gomer schema -o $path
 }

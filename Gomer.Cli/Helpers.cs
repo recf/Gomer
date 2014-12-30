@@ -56,11 +56,7 @@ namespace Gomer.Cli
             Console.WriteLine("Writing {0}", Path.GetFileName(fileName));
             Console.WriteLine();
 
-            var dateConverter = new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd" };
-
-            var contents = JsonConvert.SerializeObject(pile, Formatting.Indented, dateConverter);
-
-            File.WriteAllText(fileName, contents);
+            PileManager.SerializeToFile(pile, fileName);
         }
 
         public static Pile ReadFile()
@@ -79,8 +75,7 @@ namespace Gomer.Cli
             Console.WriteLine("Reading {0}", Path.GetFileName(fileName));
             Console.WriteLine();
 
-            var contents = File.ReadAllText(fileName);
-            return JsonConvert.DeserializeObject<Pile>(contents);
+            return PileManager.DeserializeFile(fileName);
         }
 
         public static string DateToString(DateTime? dateTime)

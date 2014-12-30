@@ -12,9 +12,10 @@ Properties {
     $version_label = "alpha"
 }
 
-Task Default -Depends Extract-Todos,Extract-Usage
+Task Default -Depends Generate-Docs,Patch-Version
 
-Task Extract-Todos {
+Task Generate-Docs -Depends Generate-Todo,Generate-Usage,Generate-Schema
+Task Generate-Todo {
     $sourceTodoFile = "$build_dir\Source-TODO.adoc"
 
 	$excludeFolders = @('bin', 'obj', 'packages')
@@ -50,7 +51,7 @@ Task Extract-Todos {
 	[System.IO.File]::WriteAllLines($sourceTodoFile, $todoLines, $encoding)
 }
 
-Task Extract-Usage {
+Task Generate-Usage {
     $usageFile = "$build_dir\doc\Usage.adoc"
 
     ./patch-path
@@ -108,8 +109,19 @@ Task Extract-Usage {
 	[System.IO.File]::WriteAllLines($usageFile, $lines, $encoding)
 }
 
-Task Patch-Version -Depends Patch-AssemblyInfoVersion
-Task Patch-AssemblyInfoVersion {
+Task Generate-Schema {
+    ./patch-path
+
+    $version = [string]::Join('-', @($version_major,
+                                     $version_minor,
+                                     $version_patch))
+
+    $path = "$build_dir\doc\schemas\Gomer-v$version.schema.json"
+    gomer schema -o $path
+}
+
+Task Patch-Version -Depends Patch-AssemblyInfo
+Task Patch-AssemblyInfo {
 
     $version = [string]::Join('.', @($version_major,
                                      $version_minor,

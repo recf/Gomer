@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Schema;
 
 namespace Gomer.Core
 {
@@ -33,6 +34,20 @@ namespace Gomer.Core
             var dateConverter = new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd" };
 
             return JsonConvert.SerializeObject(pile, Formatting.Indented, dateConverter);
+        }
+
+        public static string SerializeSchema()
+        {
+            var generator = new JsonSchemaGenerator();
+
+            var schema = generator.Generate(typeof (Pile));
+            
+            var writer = new StringWriter();
+            var jsonTextWriter = new JsonTextWriter(writer) { Formatting = Formatting.Indented };
+
+            schema.WriteTo(jsonTextWriter);
+
+            return writer.ToString();
         }
     }
 }

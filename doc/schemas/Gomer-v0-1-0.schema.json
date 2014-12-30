@@ -1,0 +1,55 @@
+{
+  "type": "object",
+  "properties": {
+    "games": {
+      "required": true,
+      "type": "array",
+      "items": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "properties": {
+          "name": {
+            "required": true,
+            "type": "string"
+          },
+          "platform": {
+            "required": true,
+            "type": "string"
+          },
+          "added_date": {
+            "required": true,
+            "type": "string"
+          },
+          "finished_date": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "priority": {
+            "type": "integer",
+            "default": 2
+          },
+          "hours": {
+            "type": "integer",
+            "default": 10
+          },
+          "genres": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

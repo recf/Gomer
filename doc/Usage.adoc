@@ -5,15 +5,27 @@
 
 Available commands are:
 
+about       - Show information about the app.
 add         - Add a pile game.
 edit        - Edit a pile game.
 import-csv  - Import a file in CSV format to an existing .pile file.
 init        - Create a new .pile file.
 rm          - Remove a pile game.
+schema      - Show the JSON Schema of a .pile file.
 show        - Show games in pile, with optional filtering.
 
 help <name> - For help with one of the above commands
 
+----
+
+[[about-command]]
+== `about` Command
+
+[listing]
+----
+'about' - Show information about the app.
+
+Expected usage: gomer.exe about
 ----
 
 [[add-command]]
@@ -101,6 +113,19 @@ Expected usage: gomer.exe init <options>
 'rm' - Remove a pile game.
 
 Expected usage: gomer.exe rm <name>
+----
+
+[[schema-command]]
+== `schema` Command
+
+[listing]
+----
+'schema' - Show the JSON Schema of a .pile file.
+
+Expected usage: gomer.exe schema <options> 
+<options> available:
+  -o, --out=FILE             FILE to write output to. Use - for stdout. 
+                               (default: -)
 ----
 
 [[show-command]]

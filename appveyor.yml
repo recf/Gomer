@@ -16,8 +16,8 @@ nuget:
 
 install:
   # - cinst stylecop
-  - Get-Command ruby | fl
-  - Get-Command gem | fl
+  - (Get-Command ruby).Path
+  - (Get-Command gem).Path
   - cinst psake
   - cinst 7zip.commandline
   # - gem update --system

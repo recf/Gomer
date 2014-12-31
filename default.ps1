@@ -173,8 +173,9 @@ Task Clean-Artifacts {
 }
 
 Task Build-ReadmeHtmlArtifact {
-    echo "Creating README.html"
-    asciidoctor ./README.adoc -D ".\artifacts\"
+    # NOTE: Cannot gem install on Appveyor due to cert issues with windows
+    # echo "Creating README.html"
+    # asciidoctor ./README.adoc -D ".\artifacts\"
 }
 
 Task Build-BinZipArtifact -Depends Build-ReadmeHtmlArtifact {
@@ -184,7 +185,7 @@ Task Build-BinZipArtifact -Depends Build-ReadmeHtmlArtifact {
     xcopy ".\Gomer.Cli\bin\$config\*.exe" ".\artifacts\gomer"
     xcopy ".\Gomer.Cli\bin\$config\*.dll" ".\artifacts\gomer"
 
-    copy .\artifacts\README.html .\artifacts\gomer\
+    # copy .\artifacts\README.html .\artifacts\gomer\
 
     echo "Creating zip file"
     7za a .\artifacts\gomer.zip .\artifacts\gomer

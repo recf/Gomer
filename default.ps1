@@ -6,6 +6,7 @@
 Properties {
     $build_dir = Split-Path $psake.build_script_file
 	$encoding = New-Object System.Text.UTF8Encoding($false)
+    $config = "Release"
     $version_major = 0
     $version_minor = 1
     $version_patch = 0
@@ -158,4 +159,34 @@ Task Patch-AssemblyInfo {
 
     	[System.IO.File]::WriteAllLines($result.Path, $contents, $encoding)
     }
+}
+
+Task Build-Artifacts -Depends Clean-Artifacts,Build-ReadmeHtmlArtifact,Build-BinZipArtifact
+Task Clean-Artifacts {
+    if (-not (Test-Path ./artifacts))
+    {
+        echo "Creating artifacts directory"
+        mkdir artifacts
+    }
+
+    rm ./artifacts/* -r
+}
+
+Task Build-ReadmeHtmlArtifact {
+    echo "Creating README.html"
+    asciidoctor ./README.adoc -D ".\artifacts\"
+}
+
+Task Build-BinZipArtifact -Depends Build-ReadmeHtmlArtifact {
+    mkdir ./artifacts/gomer | out-null
+
+    echo "Copying bin"
+    xcopy ".\Gomer.Cli\bin\$config\*.exe" ".\artifacts\gomer"
+    xcopy ".\Gomer.Cli\bin\$config\*.dll" ".\artifacts\gomer"
+
+    copy .\artifacts\README.html .\artifacts\gomer\
+
+    echo "Creating zip file"
+    7za a .\artifacts\gomer.zip .\artifacts\gomer
+    rmdir .\artifacts\gomer -r
 }

@@ -27,6 +27,5 @@ after_build:
 artifacts:
   - path: artifacts\gomer.exe
     name: App
-    type: zip
   - path: artifacts\README.html
     name: README

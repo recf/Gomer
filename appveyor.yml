@@ -18,13 +18,12 @@ install:
   # - cinst stylecop
   - cinst psake
   - cinst 7zip.commandline
-  - ruby --version
-  # - gem update --system --no-ri --no-rdoc
-  # - gem install asciidoctor --no-document
+  - gem update --system --no-ri --no-rdoc
+  - bundle install
 
 after_build:
   - psake Build-Artifacts -properties @{ config=$env:CONFIGURATION }
 
 artifacts:
   - path: artifacts\gomer.zip
-  # - path: artifacts\README.html
+  - path: artifacts\README.html

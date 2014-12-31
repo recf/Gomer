@@ -1,6 +1,13 @@
 {
   "type": "object",
   "properties": {
+    "version": {
+      "required": true,
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "games": {
       "required": true,
       "type": "array",

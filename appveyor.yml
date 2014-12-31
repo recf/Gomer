@@ -17,7 +17,7 @@ nuget:
 install:
   # - cinst stylecop
   - cinst psake
-  - cinst 7zip.commandline
+  - cinst ilmerge
   - gem update --system --no-ri --no-rdoc
   - bundle install
 

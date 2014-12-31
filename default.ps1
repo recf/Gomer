@@ -179,9 +179,8 @@ Task Build-ReadmeHtmlArtifact {
 
 Task Build-ExeArtifact {
 
-    $ilmerge = "$(ls .\packages\ILMerge*)\tools\ILMerge.exe"
     $bin = ".\Gomer.Cli\bin\$config"
 
     echo "Creating merged gomer.exe"
-    & $ilmerge /out:./artifacts/gomer.exe /ndebug /wildcards "$bin\gomer.exe" "$bin\*.dll"
+    ilmerge /targetplatform:"v4" /out:./artifacts/gomer.exe /ndebug /wildcards "$bin\gomer.exe" "$bin\*.dll"
 }

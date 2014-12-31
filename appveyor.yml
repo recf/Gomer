@@ -16,15 +16,14 @@ nuget:
 
 install:
   # - cinst stylecop
-  - (Get-Command ruby).Path
-  - (Get-Command gem).Path
   - cinst psake
   - cinst 7zip.commandline
-  # - gem update --system
+  - ruby --version
+  # - gem update --system --no-ri --no-rdoc
   # - gem install asciidoctor --no-document
 
 after_build:
-  - psake Build-Artifacts
+  - psake Build-Artifacts -properties @{ config=$CONFIGURATION }
 
 artifacts:
   - path: artifacts\gomer.zip

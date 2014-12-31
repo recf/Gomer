@@ -15,11 +15,11 @@ nuget:
   project_feed: true
 
 install:
-  - cinst stylecop
+  # - cinst stylecop
   - cinst psake
   - cinst 7zip.commandline
   - gem update --system
-  - gem install asciidoctor
+  - gem install asciidoctor --no-document
 
 after_build:
   - psake Build-Artifacts

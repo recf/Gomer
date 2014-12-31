@@ -161,7 +161,7 @@ Task Patch-AssemblyInfo {
     }
 }
 
-Task Build-Artifacts -Depends Clean-Artifacts,Build-ReadmeHtmlArtifact,Build-BinZipArtifact
+Task Build-Artifacts -Depends Clean-Artifacts,Build-ReadmeHtmlArtifact,Build-ExeArtifact
 Task Clean-Artifacts {
     if (-not (Test-Path ./artifacts))
     {
@@ -177,16 +177,11 @@ Task Build-ReadmeHtmlArtifact {
     asciidoctor ./README.adoc -D ".\artifacts\"
 }
 
-Task Build-BinZipArtifact -Depends Build-ReadmeHtmlArtifact {
-    mkdir ./artifacts/gomer | out-null
+Task Build-ExeArtifact {
 
-    echo "Copying bin"
-    xcopy ".\Gomer.Cli\bin\$config\*.exe" ".\artifacts\gomer"
-    xcopy ".\Gomer.Cli\bin\$config\*.dll" ".\artifacts\gomer"
+    $ilmerge = "$(ls .\packages\ILMerge*)\tools\ILMerge.exe"
+    $bin = ".\Gomer.Cli\bin\$config"
 
-    copy .\artifacts\README.html .\artifacts\gomer\
-
-    echo "Creating zip file"
-    7za a .\artifacts\gomer.zip .\artifacts\gomer
-    rmdir .\artifacts\gomer -r
+    echo "Creating merged gomer.exe"
+    & $ilmerge /out:./artifacts/gomer.exe /ndebug /wildcards "$bin\gomer.exe" "$bin\*.dll"
 }

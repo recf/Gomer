@@ -74,48 +74,54 @@ namespace Gomer.Cli.Commands
             Console.WriteLine("Update game:");
             Console.WriteLine("============");
 
-            // TODO: Format output with Helpers.ShowTable()
-            var auditFormat = "{0,12}: {1} -> {2}";
+            var audit = new List<Tuple<string, string, string>>();
+            var tableDef = new Dictionary<string, Func<Tuple<string, string, string>, string>>()
+            {
+                { "Property", t => t.Item1 },
+                { "Old Value", t => t.Item2 },
+                { "New Value", t => t.Item3 },
+            };
 
             if (!string.IsNullOrWhiteSpace(_newName))
             {
-                Console.WriteLine(auditFormat, "Name", game.Name, _newName);
+                audit.Add(new Tuple<string, string, string>("Name", game.Name, _newName));
                 game.Name = _newName;
             }
             
             if (!string.IsNullOrWhiteSpace(_platform))
             {
-                Console.WriteLine(auditFormat, "Platform", game.Platform, _platform);
+                audit.Add(new Tuple<string, string, string>("Platform", game.Platform, _platform));
                 game.Platform = _platform;
             }
 
             if (_priority.HasValue)
             {
-                Console.WriteLine(auditFormat, "Priority", game.Priority, _priority.Value);
+                audit.Add(new Tuple<string, string, string>("Priority", game.Priority.ToString(), _priority.Value.ToString()));
                 game.Priority = _priority.Value;
             }
 
             if (_hours.HasValue)
             {
-                Console.WriteLine(auditFormat, "Est. Hours", game.EstimatedHours, _hours.Value);
+                audit.Add(new Tuple<string, string, string>("Est. Hours", game.EstimatedHours.ToString(), _hours.Value.ToString()));
                 game.EstimatedHours = _hours.Value;
             }
 
             if (_addedDate.HasValue)
             {
-                Console.WriteLine(auditFormat, "Added", Helpers.DateToString(game.AddedDate), Helpers.DateToString(_addedDate));
+                audit.Add(new Tuple<string, string, string>("Added", Helpers.DateToString(game.AddedDate), Helpers.DateToString(_addedDate)));
                 game.AddedDate = _addedDate.Value;
             }
 
             if (_finishedDate.HasValue)
             {
                 _playing = false;
-                Console.WriteLine(auditFormat, "Finished", Helpers.DateToString(game.FinishedDate), Helpers.DateToString(_finishedDate));
+                audit.Add(new Tuple<string, string, string>("Finished", Helpers.DateToString(game.FinishedDate), Helpers.DateToString(_finishedDate)));
                 game.FinishedDate = _finishedDate.Value;
             }
 
             if (_playing.HasValue)
             {
+                audit.Add(new Tuple<string, string, string>("Playing", game.Playing.ToString(), _playing.Value.ToString()));
                 game.Playing = _playing.Value;
             }
 
@@ -144,8 +150,10 @@ namespace Gomer.Cli.Commands
             if (updatingGenres)
             {
                 var newGenres = string.Format("[{0}]", string.Join(", ", game.Genres));
-                Console.WriteLine(auditFormat, "Genres", oldGenres, newGenres);
+                audit.Add(new Tuple<string, string, string>("Genres", oldGenres, newGenres));
             }
+            
+            Helpers.ShowTable(tableDef, audit);
 
             Console.WriteLine();
             Helpers.Show(game);

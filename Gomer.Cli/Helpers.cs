@@ -125,6 +125,11 @@ namespace Gomer.Cli
 
         public static void ShowTable<T>(Dictionary<string, Func<T, string>> tableDef, IList<T> items)
         {
+            if (!items.Any())
+            {
+                return;
+            }
+
             var indexes = Enumerable.Range(0, tableDef.Count).ToArray();
 
             var headers = tableDef.Select(kvp => kvp.Key).ToArray();

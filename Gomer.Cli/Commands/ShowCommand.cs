@@ -19,6 +19,8 @@ namespace Gomer.Cli.Commands
 
         private string _genre;
 
+        private bool? _playing;
+
         public ShowCommand()
         {
             IsCommand("show", "Show games in pile, with optional filtering.");
@@ -28,6 +30,8 @@ namespace Gomer.Cli.Commands
             HasOption("l|platform-eq=", "Filter by {PLATFORM}.", v => _platform = v);
             HasOption("p|priority=", "Filter by {PRIORITY}.", (int v) => _priority = v);
             HasOption("g|genre=", "Filter by {GENRE}.", v => _genre = v);
+            HasOption("playing", "Filter by Playing.", _ => _playing = true);
+            HasOption("not-playing", "Filter by not Playing.", _ => _playing = false);
         }
 
         #region Overrides of ConsoleCommand
@@ -65,6 +69,12 @@ namespace Gomer.Cli.Commands
             {
                 criteria.Add(string.Format("genre ~= '{0}'", _genre));
                 games = games.Where(g => (g.Genres ?? new string[0]).Any(x => x.IndexOf(_genre, StringComparison.CurrentCultureIgnoreCase) >= 0));
+            }
+
+            if (_playing.HasValue)
+            {
+                criteria.Add(string.Format("playing = {0}", _playing.Value));
+                games = games.Where(g => g.Playing == _playing.Value);
             }
 
             if (criteria.Any())

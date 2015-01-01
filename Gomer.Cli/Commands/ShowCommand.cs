@@ -21,6 +21,8 @@ namespace Gomer.Cli.Commands
 
         private bool? _playing;
 
+        private bool? _finished;
+
         public ShowCommand()
         {
             IsCommand("show", "Show games in pile, with optional filtering.");
@@ -32,6 +34,8 @@ namespace Gomer.Cli.Commands
             HasOption("g|genre=", "Filter by {GENRE}.", v => _genre = v);
             HasOption("playing", "Filter by Playing.", _ => _playing = true);
             HasOption("not-playing", "Filter by not Playing.", _ => _playing = false);
+            HasOption("finished", "Filter by Finished", _ => _finished = true);
+            HasOption("not-finished", "Filter by not Finished", _ => _finished = false);
         }
 
         #region Overrides of ConsoleCommand
@@ -75,6 +79,12 @@ namespace Gomer.Cli.Commands
             {
                 criteria.Add(string.Format("playing = {0}", _playing.Value));
                 games = games.Where(g => g.Playing == _playing.Value);
+            }
+
+            if (_finished.HasValue)
+            {
+                criteria.Add(string.Format("finished date {0} empty", _finished.Value ? "is not" : "is"));
+                games = games.Where(g => g.FinishedDate.HasValue == _finished.Value);
             }
 
             if (criteria.Any())

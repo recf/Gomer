@@ -56,14 +56,15 @@ Expected usage: gomer.exe edit <options> <name>
       --rename=NAME          Set the NAME.
   -l, --platform=PLATFORM    Set the PLATFORM.
   -a, --added-date=DATE      Set the DATE acquired.
-  -f, --finished-date=DATE   Set the DATE finished.
-      --finished             Set finished with today's date.
+  -f, --finished-date=DATE   Set the DATE finished. Implies --not-playing.
+      --finished             Equivalent to --finished-date with today's date.
   -p, --priority=PRIORITY    Set the PRIORITY of the game.
   -h, --hours=HOURS          Set the estimated HOURS to complete.
-      --clear-genres         Clear existing genre list. Run before adding new 
-                               genres.
-  -g, --genre=GENRE          Add a GENRE that the game belongs to. Can be 
-                               specified multiple times.
+      --playing              Set Playing to true.
+      --not-playing          Set Playing to false.
+      --clear-genres         Clear existing genre list. This is run before 
+                               adding new genres.
+  -g, --genre=GENRE          Add a GENRE. Can be specified multiple times.
 ----
 
 [[import-csv-command]]
@@ -138,7 +139,14 @@ Expected usage: gomer.exe schema <options>
 Expected usage: gomer.exe show <options> 
 <options> available:
   -n, --name-like=NAME       Filter by part of the NAME.
-  -l, --platform-eq=PLATFORM Filter by PLATFORM.
-  -p, --priority=PRIORITY    Filter by PRIORITY.
-  -g, --genre=GENRE          Filter by GENRE.
+  -l, --platform=PLATFORM    Filter by PLATFORM. Can be specified multiple 
+                               times. This is a ONE-OF-EQUALS filter.
+  -p, --priority=PRIORITY    Filter by PRIORITY. Can be specified multiple 
+                               times. This is a ONE-OF-EQUALS filter.
+  -g, --genre=GENRE          Filter by GENRE. Can be specified multiple time-
+                               s. This is a ONE-OF-LIKE filter.
+      --playing              Filter by Playing.
+      --not-playing          Filter by not Playing.
+      --finished             Filter by Finished
+  -u, --unfinished           Filter by not Finished
 ----

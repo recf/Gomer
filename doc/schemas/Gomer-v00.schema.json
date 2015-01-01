@@ -43,6 +43,10 @@
             "type": "integer",
             "default": 10
           },
+          "playing": {
+            "type": "boolean",
+            "default": false
+          },
           "genres": {
             "type": [
               "array",

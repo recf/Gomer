@@ -17,7 +17,7 @@ namespace Gomer.Cli.Commands
 
         private List<int> _priorities;
 
-        private string _genre;
+        private List<string> _genres;
 
         private bool? _playing;
 
@@ -27,14 +27,14 @@ namespace Gomer.Cli.Commands
         {
             _platforms = new List<string>();
             _priorities = new List<int>();
+            _genres = new List<string>();
 
             IsCommand("show", "Show games in pile, with optional filtering.");
 
             HasOption("n|name-like=", "Filter by part of the {NAME}.", v => _name = v);
-            // TODO: Priority and genre filters should probably be ONE-OF filters.
-            HasOption("l|platform=", "Filter by {PLATFORM}. Can be specified multiple times. This is a ONE-OF filter.", v => _platforms.Add(v));
-            HasOption("p|priority=", "Filter by {PRIORITY}. Can be specified multiple times. This is a ONE-OF filter.", (int v) => _priorities.Add(v));
-            HasOption("g|genre=", "Filter by {GENRE}.", v => _genre = v);
+            HasOption("l|platform=", "Filter by {PLATFORM}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _platforms.Add(v));
+            HasOption("p|priority=", "Filter by {PRIORITY}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", (int v) => _priorities.Add(v));
+            HasOption("g|genre=", "Filter by {GENRE}. Can be specified multiple times. This is a ONE-OF-LIKE filter.", v => _genres.Add(v));
             HasOption("playing", "Filter by Playing.", _ => _playing = true);
             HasOption("not-playing", "Filter by not Playing.", _ => _playing = false);
             HasOption("finished", "Filter by Finished", _ => _finished = true);
@@ -68,14 +68,15 @@ namespace Gomer.Cli.Commands
 
             if (_priorities.Any())
             {
-                criteria.Add(string.Format("priority = {0}", _priorities));
+                criteria.Add(string.Format("priority = {0}", string.Join(" or ", _priorities)));
                 games = games.Where(g => _priorities.Any(p => g.Priority == p));
             }
 
-            if (!string.IsNullOrWhiteSpace(_genre))
+            if (_genres.Any())
             {
-                criteria.Add(string.Format("genre ~= '{0}'", _genre));
-                games = games.Where(g => (g.Genres ?? new string[0]).Any(x => x.IndexOf(_genre, StringComparison.CurrentCultureIgnoreCase) >= 0));
+                criteria.Add(string.Format("genre ~= '{0}'", string.Join("' or '", _genres)));
+                games = games.Where(g => (g.Genres ?? new string[0]).Any(gg => _genres.Any(fg =>
+                    gg.IndexOf(fg, StringComparison.CurrentCultureIgnoreCase) >= 0)));
             }
 
             if (_playing.HasValue)

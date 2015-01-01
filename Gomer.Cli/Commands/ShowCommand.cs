@@ -11,7 +11,7 @@ namespace Gomer.Cli.Commands
 {
     public class ShowCommand : ConsoleCommand
     {
-        private string _platform;
+        private List<string> _platforms;
 
         private string _name;
 
@@ -25,17 +25,19 @@ namespace Gomer.Cli.Commands
 
         public ShowCommand()
         {
+            _platforms = new List<string>();
+
             IsCommand("show", "Show games in pile, with optional filtering.");
 
             HasOption("n|name-like=", "Filter by part of the {NAME}.", v => _name = v);
-            // TODO: Priority, platform and genre filters should probably be ONE-OF filters.
-            HasOption("l|platform-eq=", "Filter by {PLATFORM}.", v => _platform = v);
+            // TODO: Priority and genre filters should probably be ONE-OF filters.
+            HasOption("l|platform=", "Filter by {PLATFORM}. Can be specified multiple times. This is a ONE-OF filter.", v => _platforms.Add(v));
             HasOption("p|priority=", "Filter by {PRIORITY}.", (int v) => _priority = v);
             HasOption("g|genre=", "Filter by {GENRE}.", v => _genre = v);
             HasOption("playing", "Filter by Playing.", _ => _playing = true);
             HasOption("not-playing", "Filter by not Playing.", _ => _playing = false);
             HasOption("finished", "Filter by Finished", _ => _finished = true);
-            HasOption("not-finished", "Filter by not Finished", _ => _finished = false);
+            HasOption("u|unfinished", "Filter by not Finished", _ => _finished = false);
         }
 
         #region Overrides of ConsoleCommand
@@ -57,10 +59,10 @@ namespace Gomer.Cli.Commands
                 games = games.Where(g => g.Name.IndexOf(_name, StringComparison.CurrentCultureIgnoreCase) >= 0);
             }
 
-            if (!string.IsNullOrWhiteSpace(_platform))
+            if (_platforms.Any())
             {
-                criteria.Add(string.Format("platform = '{0}'", _platform));
-                games = games.Where(g => string.Equals(g.Platform, _platform, StringComparison.InvariantCultureIgnoreCase));
+                criteria.Add(string.Format("platform = '{0}'", string.Join("' or '", _platforms)));
+                games = games.Where(g => _platforms.Any(p => string.Equals(g.Platform, p, StringComparison.InvariantCultureIgnoreCase)));
             }
 
             if (_priority.HasValue)

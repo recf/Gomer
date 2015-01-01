@@ -28,6 +28,10 @@ namespace Gomer.Core
         [DefaultValue(10)]
         public int EstimatedHours { get; set; }
 
+        [JsonProperty("playing", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [DefaultValue(false)]
+        public bool Playing { get; set; }
+
         [JsonProperty("genres", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public IList<string> Genres { get; set; }
     }

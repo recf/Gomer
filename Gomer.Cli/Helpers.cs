@@ -112,9 +112,10 @@ namespace Gomer.Cli
                 { "Platform", g => g.Platform },
                 { "Pri.", g => g.Priority.ToString() },
                 { "Hrs.", g => g.EstimatedHours.ToString() },
-                { "Genres", g => string.Join(", ", g.Genres ?? new string[0]) },
                 { "Added", g => DateToString(g.AddedDate) },
                 { "Finished", g => DateToString(g.FinishedDate) },
+                { "Playing", g => g.Playing ? "yes" : "" },
+                { "Genres", g => string.Join(", ", g.Genres ?? new string[0]) },
             };
 
             var items = games.OrderBy(g => g.Name).ToList();

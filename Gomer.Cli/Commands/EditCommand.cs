@@ -26,6 +26,8 @@ namespace Gomer.Cli.Commands
 
         private string _platform;
 
+        private bool? _playing;
+
         public EditCommand()
         {
             IsCommand("edit", "Edit a pile game.");
@@ -35,15 +37,17 @@ namespace Gomer.Cli.Commands
             HasOption("rename=", "Set the {NAME}.", v => _newName = v);
             HasOption("l|platform=", "Set the {PLATFORM}.", v => _platform = v);
             HasOption("a|added-date=", "Set the {DATE} acquired.", (DateTime v) => _addedDate = v);
-            HasOption("f|finished-date=", "Set the {DATE} finished.", (DateTime v) => _finishedDate = v);
-            HasOption("finished", "Set finished with today's date.", _ => _finishedDate = DateTime.Today);
+            HasOption("f|finished-date=", "Set the {DATE} finished. Implies --not-playing.", (DateTime v) => _finishedDate = v);
+            HasOption("finished", "Equivalent to --finished-date with today's date.", _ => _finishedDate = DateTime.Today);
             HasOption("p|priority=", "Set the {PRIORITY} of the game.", (int v) => _priority = v);
             HasOption("h|hours=", "Set the estimated {HOURS} to complete.", (int v) => _hours = v);
+            HasOption("playing", "Set Playing to true.", _ => _playing = true);
+            HasOption("not-playing", "Set Playing to false.", _ => _playing = false);
             HasOption(
                 "clear-genres", 
-                "Clear existing genre list. Run before adding new genres.",
+                "Clear existing genre list. This is run before adding new genres.",
                 v => _clearGenres = v != null);
-            HasOption("g|genre=", "Add a {GENRE} that the game belongs to. Can be specified multiple times.", v => _genres.Add(v));
+            HasOption("g|genre=", "Add a {GENRE}. Can be specified multiple times.", v => _genres.Add(v));
 
             HasAdditionalArguments(1, "<name>");
         }
@@ -70,6 +74,7 @@ namespace Gomer.Cli.Commands
             Console.WriteLine("Update game:");
             Console.WriteLine("============");
 
+            // TODO: Format output with Helpers.ShowTable()
             var auditFormat = "{0,12}: {1} -> {2}";
 
             if (!string.IsNullOrWhiteSpace(_newName))
@@ -104,8 +109,14 @@ namespace Gomer.Cli.Commands
 
             if (_finishedDate.HasValue)
             {
+                _playing = false;
                 Console.WriteLine(auditFormat, "Finished", Helpers.DateToString(game.FinishedDate), Helpers.DateToString(_finishedDate));
                 game.FinishedDate = _finishedDate.Value;
+            }
+
+            if (_playing.HasValue)
+            {
+                game.Playing = _playing.Value;
             }
 
             var updatingGenres = false;

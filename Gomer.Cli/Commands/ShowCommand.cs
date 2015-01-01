@@ -15,7 +15,7 @@ namespace Gomer.Cli.Commands
 
         private string _name;
 
-        private int? _priority;
+        private List<int> _priorities;
 
         private string _genre;
 
@@ -26,13 +26,14 @@ namespace Gomer.Cli.Commands
         public ShowCommand()
         {
             _platforms = new List<string>();
+            _priorities = new List<int>();
 
             IsCommand("show", "Show games in pile, with optional filtering.");
 
             HasOption("n|name-like=", "Filter by part of the {NAME}.", v => _name = v);
             // TODO: Priority and genre filters should probably be ONE-OF filters.
             HasOption("l|platform=", "Filter by {PLATFORM}. Can be specified multiple times. This is a ONE-OF filter.", v => _platforms.Add(v));
-            HasOption("p|priority=", "Filter by {PRIORITY}.", (int v) => _priority = v);
+            HasOption("p|priority=", "Filter by {PRIORITY}. Can be specified multiple times. This is a ONE-OF filter.", (int v) => _priorities.Add(v));
             HasOption("g|genre=", "Filter by {GENRE}.", v => _genre = v);
             HasOption("playing", "Filter by Playing.", _ => _playing = true);
             HasOption("not-playing", "Filter by not Playing.", _ => _playing = false);
@@ -65,10 +66,10 @@ namespace Gomer.Cli.Commands
                 games = games.Where(g => _platforms.Any(p => string.Equals(g.Platform, p, StringComparison.InvariantCultureIgnoreCase)));
             }
 
-            if (_priority.HasValue)
+            if (_priorities.Any())
             {
-                criteria.Add(string.Format("priority = {0}", _priority));
-                games = games.Where(g => g.Priority == _priority.Value);
+                criteria.Add(string.Format("priority = {0}", _priorities));
+                games = games.Where(g => _priorities.Any(p => g.Priority == p));
             }
 
             if (!string.IsNullOrWhiteSpace(_genre))

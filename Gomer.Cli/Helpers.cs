@@ -37,8 +37,8 @@ namespace Gomer.Cli
                 foreach (var fileName in candidates)
                 {
                     Console.WriteLine(Path.GetFileName(fileName));
-                    return null;
                 }
+                return null;
             }
 
             return candidates.First();
@@ -137,7 +137,7 @@ namespace Gomer.Cli
 
             var tableData = items.Select(g => tableDef.Select(kvp => kvp.Value(g)).ToArray()).ToArray();
 
-            var lengths = indexes.Select(i => tableData.Select(r => Math.Max(headers[i].Length, r[i].Length)).Max()).ToArray();
+            var lengths = indexes.Select(i => tableData.Select(r => Math.Max(headers[i].Length, (r[i] ?? string.Empty).Length)).Max()).ToArray();
 
             var formatter = "{{0,-{0}}} ";
 

@@ -1,4 +1,4 @@
 * link:./Gomer.Cli/Helpers.cs[]
 ** link:./Gomer.Cli/Helpers.cs#L15[15] If I decide to support common parameters (e.g. verbose), I may need to convert this into a BaseCommand class.
 * link:./Gomer.Cli/Commands/ImportCsvCommand.cs[]
-** link:./Gomer.Cli/Commands/ImportCsvCommand.cs#L119[119] Move default priority and default hours into constants, or read them from the attributes on the PileGame class.
+** link:./Gomer.Cli/Commands/ImportCsvCommand.cs#L117[117] Move default priority and default hours into constants, or read them from the attributes on the PileGame class.

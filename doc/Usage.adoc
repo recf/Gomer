@@ -55,6 +55,7 @@ Expected usage: gomer.exe add <options> <name> <platform>
 Expected usage: gomer.exe edit <options> <name or alias>
 <options> available:
       --rename=NAME          Set the NAME.
+      --alias=ALIAS          Set the ALIAS
   -l, --platform=PLATFORM    Set the PLATFORM.
   -a, --added-date=DATE      Set the DATE acquired.
   -f, --finished-date=DATE   Set the DATE finished. Implies --not-playing.
@@ -126,7 +127,7 @@ Expected usage: gomer.exe rm <name or alias>
 
 Expected usage: gomer.exe schema <options> 
 <options> available:
-  -o, --out=FILE             FILE to write output to. Use - for stdout. 
+  -o, --outfile=FILE         FILE to write output to. Use - for stdout. 
                                (default: -)
 ----
 
@@ -139,7 +140,7 @@ Expected usage: gomer.exe schema <options>
 
 Expected usage: gomer.exe show <options> 
 <options> available:
-  -n, --name-like=NAME       Filter by part of the NAME.
+  -n, --name=NAME            Filter by part of the NAME or Alias.
   -l, --platform=PLATFORM    Filter by PLATFORM. Can be specified multiple 
                                times. This is a ONE-OF-EQUALS filter.
   -p, --priority=PRIORITY    Filter by PRIORITY. Can be specified multiple 
@@ -150,4 +151,8 @@ Expected usage: gomer.exe show <options>
       --not-playing          Filter by not Playing.
       --finished             Filter by Finished
   -u, --unfinished           Filter by not Finished
+  -o, --outfile=FILE         FILE to write output to. Use - for stdout. 
+                               (default: -)
+      --format=FORMAT        Output FORMAT. Must be one of [ Console, Pile, 
+                               Csv ]. (default: Console)
 ----

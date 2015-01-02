@@ -11,6 +11,13 @@ namespace Gomer.Cli.Commands
 {
     public class ShowCommand : ConsoleCommand
     {
+        public enum OutputFormat
+        {
+            Console,
+            Pile,
+            Csv
+        }
+
         private List<string> _platforms;
 
         private string _name;
@@ -23,11 +30,18 @@ namespace Gomer.Cli.Commands
 
         private bool? _finished;
 
+        private string _outFile;
+
+        private OutputFormat _outFormat;
+
         public ShowCommand()
         {
             _platforms = new List<string>();
             _priorities = new List<int>();
             _genres = new List<string>();
+
+            _outFile = "-";
+            _outFormat = OutputFormat.Console;
 
             IsCommand("show", "Show games in pile, with optional filtering.");
 
@@ -35,10 +49,21 @@ namespace Gomer.Cli.Commands
             HasOption("l|platform=", "Filter by {PLATFORM}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _platforms.Add(v));
             HasOption("p|priority=", "Filter by {PRIORITY}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", (int v) => _priorities.Add(v));
             HasOption("g|genre=", "Filter by {GENRE}. Can be specified multiple times. This is a ONE-OF-LIKE filter.", v => _genres.Add(v));
+
             HasOption("playing", "Filter by Playing.", _ => _playing = true);
             HasOption("not-playing", "Filter by not Playing.", _ => _playing = false);
+            
             HasOption("finished", "Filter by Finished", _ => _finished = true);
             HasOption("u|unfinished", "Filter by not Finished", _ => _finished = false);
+
+            HasOption("o|outfile=", string.Format("{{FILE}} to write output to. Use - for stdout. (default: {0})", _outFile),
+                v => _outFile = v);
+            HasOption("format=",
+                string.Format(
+                    "Output {{FORMAT}}. Must be one of [ {0} ]. (default: {1})", 
+                    string.Join(", ", Enum.GetNames(typeof (OutputFormat))), 
+                    _outFormat), 
+                (OutputFormat v) => _outFormat = v);
         }
         
         public override int Run(string[] remainingArguments)
@@ -49,7 +74,45 @@ namespace Gomer.Cli.Commands
                 return 1;
             }
 
-            IList<PileGame> games = pile.Search(_name, _platforms, _priorities, _genres, _playing, _finished);
+            var games = pile.Search(_name, _platforms, _priorities, _genres, _playing, _finished);
+
+            switch (_outFormat)
+            {
+                case OutputFormat.Csv:
+                    OutputCsvFormat(games);
+                    break;
+                case OutputFormat.Pile:
+                    OutputPileFormat(games);
+                    break;
+                case OutputFormat.Console:
+                    OutputConsoleFormat(games);
+                    break;
+            }
+
+            return 0;
+        }
+
+        private void OutputPileFormat(IList<PileGame> games)
+        {
+            var pile = new Pile { Games = games };
+
+            if (_outFile == "-")
+            {
+                Console.WriteLine(PileManager.Serialize(pile));
+            }
+            else
+            {
+                PileManager.SerializeToFile(pile, _outFile);
+            }
+        }
+
+        private void OutputCsvFormat(IList<PileGame> games)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OutputConsoleFormat(IList<PileGame> games)
+        {
             var criteria = new List<string>();
 
             if (!string.IsNullOrWhiteSpace(_name))
@@ -91,8 +154,6 @@ namespace Gomer.Cli.Commands
             }
 
             Helpers.Show(games);
-
-            return 0;
         }
     }
 }

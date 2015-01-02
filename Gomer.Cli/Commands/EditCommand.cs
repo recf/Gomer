@@ -52,8 +52,6 @@ namespace Gomer.Cli.Commands
             HasAdditionalArguments(1, "<name or alias>");
         }
 
-        #region Overrides of ConsoleCommand
-
         public override int Run(string[] remainingArguments)
         {
             var pile = Helpers.ReadFile();
@@ -164,7 +162,5 @@ namespace Gomer.Cli.Commands
 
             return 0;
         }
-
-        #endregion
     }
 }

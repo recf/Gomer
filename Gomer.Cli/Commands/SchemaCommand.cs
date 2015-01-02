@@ -19,11 +19,9 @@ namespace Gomer.Cli.Commands
 
             _outFile = "-";
 
-            HasOption("o|out=", string.Format("{{FILE}} to write output to. Use - for stdout. (default: {0})", _outFile),
+            HasOption("o|outfile=", string.Format("{{FILE}} to write output to. Use - for stdout. (default: {0})", _outFile),
                 v => _outFile = v);
         }
-
-        #region Overrides of ConsoleCommand
 
         public override int Run(string[] remainingArguments)
         {
@@ -41,7 +39,5 @@ namespace Gomer.Cli.Commands
 
             return 0;
         }
-
-        #endregion
     }
 }

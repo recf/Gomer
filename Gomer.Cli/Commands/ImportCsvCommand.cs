@@ -46,8 +46,6 @@ namespace Gomer.Cli.Commands
                 string.Format("{{FIELD}} in CSV file to map to {0}. (default: '{1}')", key, _fieldMap[key]),
                 v => _fieldMap[key] = v);
         }
-        
-        #region Overrides of ConsoleCommand
 
         public override int Run(string[] remainingArguments)
         {
@@ -145,7 +143,5 @@ namespace Gomer.Cli.Commands
 
             return defaultValue;
         }
-
-        #endregion
     }
 }

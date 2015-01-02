@@ -21,8 +21,6 @@ namespace Gomer.Cli.Commands
             HasOption("n|name=", String.Format("Base {{NAME}} of the file. (default: {0})", _name), v=> _name = v);
         }
 
-        #region Overrides of ConsoleCommand
-
         public override int Run(string[] remainingArguments)
         {
             var fs = Helpers.GetCandidatesFiles();
@@ -48,7 +46,5 @@ first.";
             Helpers.WriteFile(pile, fileName);
             return 0;
         }
-
-        #endregion
     }
 }

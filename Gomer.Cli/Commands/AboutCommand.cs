@@ -15,8 +15,6 @@ namespace Gomer.Cli.Commands
             IsCommand("about", "Show information about the app.");
         }
 
-        #region Overrides of ConsoleCommand
-
         public override int Run(string[] remainingArguments)
         {
             var assembly = Assembly.GetExecutingAssembly();
@@ -31,7 +29,5 @@ namespace Gomer.Cli.Commands
 
             return 0;
         }
-
-        #endregion
     }
 }

@@ -31,7 +31,7 @@ namespace Gomer.Cli.Commands
 
             IsCommand("show", "Show games in pile, with optional filtering.");
 
-            HasOption("n|name-like=", "Filter by part of the {NAME}.", v => _name = v);
+            HasOption("n|name=", "Filter by part of the {NAME} or Alias.", v => _name = v);
             HasOption("l|platform=", "Filter by {PLATFORM}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _platforms.Add(v));
             HasOption("p|priority=", "Filter by {PRIORITY}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", (int v) => _priorities.Add(v));
             HasOption("g|genre=", "Filter by {GENRE}. Can be specified multiple times. This is a ONE-OF-LIKE filter.", v => _genres.Add(v));
@@ -40,9 +40,7 @@ namespace Gomer.Cli.Commands
             HasOption("finished", "Filter by Finished", _ => _finished = true);
             HasOption("u|unfinished", "Filter by not Finished", _ => _finished = false);
         }
-
-        #region Overrides of ConsoleCommand
-
+        
         public override int Run(string[] remainingArguments)
         {
             var pile = Helpers.ReadFile();
@@ -51,46 +49,37 @@ namespace Gomer.Cli.Commands
                 return 1;
             }
 
-            IEnumerable<PileGame> games = pile.Games;
+            IList<PileGame> games = pile.Search(_name, _platforms, _priorities, _genres, _playing, _finished);
             var criteria = new List<string>();
 
             if (!string.IsNullOrWhiteSpace(_name))
             {
                 criteria.Add(string.Format("name or alias ~= '{0}'", _name));
-                games = games.Where(g => 
-                    g.Name.IndexOf(_name, StringComparison.CurrentCultureIgnoreCase) >= 0 
-                    || (g.Alias ?? string.Empty).IndexOf(_name, StringComparison.CurrentCultureIgnoreCase) >= 0);
             }
 
             if (_platforms.Any())
             {
                 criteria.Add(string.Format("platform = '{0}'", string.Join("' or '", _platforms)));
-                games = games.Where(g => _platforms.Any(p => string.Equals(g.Platform, p, StringComparison.InvariantCultureIgnoreCase)));
             }
 
             if (_priorities.Any())
             {
                 criteria.Add(string.Format("priority = {0}", string.Join(" or ", _priorities)));
-                games = games.Where(g => _priorities.Any(p => g.Priority == p));
             }
 
             if (_genres.Any())
             {
                 criteria.Add(string.Format("genre ~= '{0}'", string.Join("' or '", _genres)));
-                games = games.Where(g => (g.Genres ?? new string[0]).Any(gg => _genres.Any(fg =>
-                    gg.IndexOf(fg, StringComparison.CurrentCultureIgnoreCase) >= 0)));
             }
 
             if (_playing.HasValue)
             {
                 criteria.Add(string.Format("playing = {0}", _playing.Value));
-                games = games.Where(g => g.Playing == _playing.Value);
             }
 
             if (_finished.HasValue)
             {
                 criteria.Add(string.Format("finished date {0} empty", _finished.Value ? "is not" : "is"));
-                games = games.Where(g => g.FinishedDate.HasValue == _finished.Value);
             }
 
             if (criteria.Any())
@@ -101,11 +90,9 @@ namespace Gomer.Cli.Commands
                 Console.WriteLine();
             }
 
-            Helpers.Show(games.ToList());
+            Helpers.Show(games);
 
             return 0;
         }
-
-        #endregion
     }
 }

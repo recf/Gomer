@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -9,7 +10,7 @@ using ManyConsole;
 
 namespace Gomer.Cli.Commands
 {
-    public class ShowCommand : ConsoleCommand
+    public class ShowCommand : BaseCommand
     {
         public enum OutputFormat
         {
@@ -29,9 +30,7 @@ namespace Gomer.Cli.Commands
         private bool? _playing;
 
         private bool? _finished;
-
-        private string _outFile;
-
+        
         private OutputFormat _outFormat;
 
         public ShowCommand()
@@ -40,7 +39,6 @@ namespace Gomer.Cli.Commands
             _priorities = new List<int>();
             _genres = new List<string>();
 
-            _outFile = "-";
             _outFormat = OutputFormat.Console;
 
             IsCommand("show", "Show games in pile, with optional filtering.");
@@ -56,8 +54,6 @@ namespace Gomer.Cli.Commands
             HasOption("finished", "Filter by Finished", _ => _finished = true);
             HasOption("u|unfinished", "Filter by not Finished", _ => _finished = false);
 
-            HasOption("o|outfile=", string.Format("{{FILE}} to write output to. Use - for stdout. (default: {0})", _outFile),
-                v => _outFile = v);
             HasOption("format=",
                 string.Format(
                     "Output {{FORMAT}}. Must be one of [ {0} ]. (default: {1})", 
@@ -66,52 +62,38 @@ namespace Gomer.Cli.Commands
                 (OutputFormat v) => _outFormat = v);
         }
         
-        public override int Run(string[] remainingArguments)
+        public override void Run(string[] remainingArguments, TextWriter output)
         {
-            var pile = Helpers.ReadFile();
-            if (pile == null)
-            {
-                return 1;
-            }
+            var pile = ReadFile(output);
 
             var games = pile.Search(_name, _platforms, _priorities, _genres, _playing, _finished);
 
             switch (_outFormat)
             {
                 case OutputFormat.Csv:
-                    OutputCsvFormat(games);
+                    OutputCsvFormat(games, output);
                     break;
                 case OutputFormat.Pile:
-                    OutputPileFormat(games);
+                    OutputPileFormat(games, output);
                     break;
                 case OutputFormat.Console:
-                    OutputConsoleFormat(games);
+                    OutputConsoleFormat(games, output);
                     break;
             }
-
-            return 0;
         }
 
-        private void OutputPileFormat(IList<PileGame> games)
+        private void OutputPileFormat(IList<PileGame> games, TextWriter output)
         {
             var pile = new Pile { Games = games };
-
-            if (_outFile == "-")
-            {
-                Console.WriteLine(PileManager.Serialize(pile));
-            }
-            else
-            {
-                PileManager.SerializeToFile(pile, _outFile);
-            }
+            output.WriteLine(PileManager.Serialize(pile));
         }
 
-        private void OutputCsvFormat(IList<PileGame> games)
+        private void OutputCsvFormat(IList<PileGame> games, TextWriter output)
         {
             throw new NotImplementedException();
         }
 
-        private void OutputConsoleFormat(IList<PileGame> games)
+        private void OutputConsoleFormat(IList<PileGame> games, TextWriter output)
         {
             var criteria = new List<string>();
 
@@ -147,10 +129,10 @@ namespace Gomer.Cli.Commands
 
             if (criteria.Any())
             {
-                Console.WriteLine("Criteria");
-                Console.WriteLine("========");
-                criteria.ForEach(Console.WriteLine);
-                Console.WriteLine();
+                output.WriteLine("Criteria");
+                output.WriteLine("========");
+                criteria.ForEach(output.WriteLine);
+                output.WriteLine();
             }
 
             Helpers.Show(games);

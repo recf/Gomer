@@ -11,6 +11,9 @@ namespace Gomer.Core
         [JsonProperty("name", Required = Required.Always)]
         public string  Name { get; set; }
 
+        [JsonProperty("alias", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string Alias { get; set; }
+
         [JsonProperty("platform", Required = Required.Always)]
         public string Platform { get; set; }
 

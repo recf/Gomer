@@ -42,6 +42,7 @@ Expected usage: gomer.exe add <options> <name> <platform>
   -h, --hours=HOURS          Estimated HOURS to complete. (default: 10)
   -g, --genre=GENRE          GENRE that the game belongs to. Can be specified 
                                multiple times.
+      --alias=ALIAS          Alternate ALIAS for the game.
 ----
 
 [[edit-command]]
@@ -51,7 +52,7 @@ Expected usage: gomer.exe add <options> <name> <platform>
 ----
 'edit' - Edit a pile game.
 
-Expected usage: gomer.exe edit <options> <name>
+Expected usage: gomer.exe edit <options> <name or alias>
 <options> available:
       --rename=NAME          Set the NAME.
   -l, --platform=PLATFORM    Set the PLATFORM.
@@ -113,7 +114,7 @@ Expected usage: gomer.exe init <options>
 ----
 'rm' - Remove a pile game.
 
-Expected usage: gomer.exe rm <name>
+Expected usage: gomer.exe rm <name or alias>
 ----
 
 [[schema-command]]

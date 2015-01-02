@@ -21,6 +21,12 @@
             "required": true,
             "type": "string"
           },
+          "alias": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "platform": {
             "required": true,
             "type": "string"

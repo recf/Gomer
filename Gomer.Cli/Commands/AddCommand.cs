@@ -10,6 +10,16 @@ namespace Gomer.Cli.Commands
 {
     public class AddCommand : ConsoleCommand
     {
+        private IList<string> _genres;
+
+        private int _hours;
+
+        private int _priority;
+
+        private DateTime _addedDate;
+
+        private string _alias;
+
         public AddCommand()
         {
             IsCommand("add", "Add a pile game.");
@@ -23,17 +33,10 @@ namespace Gomer.Cli.Commands
             HasOption("p|priority=", string.Format("{{PRIORITY}} of the game. (default: {0})", _priority), (int v) => _priority = v);
             HasOption("h|hours=", string.Format("Estimated {{HOURS}} to complete. (default: {0})", _hours), (int v) => _hours = v);
             HasOption("g|genre=", "{GENRE} that the game belongs to. Can be specified multiple times.", v => _genres.Add(v));
+            HasOption("alias=", "Alternate {ALIAS} for the game.", v => _alias = v);
 
             HasAdditionalArguments(2, "<name> <platform>");
         }
-
-        private IList<string> _genres;
-
-        private int _hours;
-
-        private int _priority;
-
-        private DateTime _addedDate;
 
         #region Overrides of ConsoleCommand
 
@@ -54,9 +57,16 @@ namespace Gomer.Cli.Commands
                 return 1;
             }
 
+            if (pile.Games.Any(g => String.Equals(g.Alias, _alias, StringComparison.CurrentCultureIgnoreCase)))
+            {
+                Console.WriteLine("A game with that alias already exists.");
+                return 1;
+            }
+
             var game = new PileGame
             {
                 Name = name,
+                Alias = _alias,
                 Platform = platform,
                 EstimatedHours = _hours,
                 Priority = _priority,

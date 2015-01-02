@@ -49,7 +49,7 @@ namespace Gomer.Cli.Commands
                 v => _clearGenres = v != null);
             HasOption("g|genre=", "Add a {GENRE}. Can be specified multiple times.", v => _genres.Add(v));
 
-            HasAdditionalArguments(1, "<name>");
+            HasAdditionalArguments(1, "<name or alias>");
         }
 
         #region Overrides of ConsoleCommand
@@ -62,9 +62,11 @@ namespace Gomer.Cli.Commands
                 return 1;
             }
 
-            var name = remainingArguments[0];
+            var nameOrAlias = remainingArguments[0];
 
-            var game = pile.Games.FirstOrDefault(g => String.Equals(g.Name, name, StringComparison.CurrentCultureIgnoreCase));
+            var game = pile.Games.FirstOrDefault(g => 
+                String.Equals(g.Name, nameOrAlias, StringComparison.CurrentCultureIgnoreCase) 
+                || String.Equals(g.Alias, nameOrAlias, StringComparison.CurrentCultureIgnoreCase));
             if (game == default(PileGame))
             {
                 Console.WriteLine("No game with that name found.");

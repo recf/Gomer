@@ -56,8 +56,10 @@ namespace Gomer.Cli.Commands
 
             if (!string.IsNullOrWhiteSpace(_name))
             {
-                criteria.Add(string.Format("name ~= '{0}'", _name));
-                games = games.Where(g => g.Name.IndexOf(_name, StringComparison.CurrentCultureIgnoreCase) >= 0);
+                criteria.Add(string.Format("name or alias ~= '{0}'", _name));
+                games = games.Where(g => 
+                    g.Name.IndexOf(_name, StringComparison.CurrentCultureIgnoreCase) >= 0 
+                    || (g.Alias ?? string.Empty).IndexOf(_name, StringComparison.CurrentCultureIgnoreCase) >= 0);
             }
 
             if (_platforms.Any())

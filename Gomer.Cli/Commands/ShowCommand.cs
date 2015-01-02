@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using CsvHelper;
 using Gomer.Core;
 using ManyConsole;
 
@@ -64,7 +65,7 @@ namespace Gomer.Cli.Commands
         
         public override void Run(string[] remainingArguments, TextWriter output)
         {
-            var pile = ReadFile(output);
+            var pile = ReadFile();
 
             var games = pile.Search(_name, _platforms, _priorities, _genres, _playing, _finished);
 
@@ -90,7 +91,32 @@ namespace Gomer.Cli.Commands
 
         private void OutputCsvFormat(IList<PileGame> games, TextWriter output)
         {
-            throw new NotImplementedException();
+            var csv = new CsvWriter(output);
+
+            csv.WriteField("Name");
+            csv.WriteField("Alias");
+            csv.WriteField("Platform");
+            csv.WriteField("Priority");
+            csv.WriteField("Hours");
+            csv.WriteField("Added Date");
+            csv.WriteField("Finished Date");
+            csv.WriteField("Playing");
+            csv.WriteField("Genres");
+            csv.NextRecord();
+
+            foreach (var game in games)
+            {
+                csv.WriteField(game.Name);
+                csv.WriteField(game.Alias);
+                csv.WriteField(game.Platform);
+                csv.WriteField(game.Priority);
+                csv.WriteField(game.EstimatedHours);
+                csv.WriteField(DateToString(game.AddedDate));
+                csv.WriteField(DateToString(game.FinishedDate));
+                csv.WriteField(game.Playing ? "yes" : "no");
+                csv.WriteField(string.Join(", ", game.Genres));
+                csv.NextRecord();
+            }
         }
 
         private void OutputConsoleFormat(IList<PileGame> games, TextWriter output)

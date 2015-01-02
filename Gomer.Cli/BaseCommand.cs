@@ -80,15 +80,15 @@ namespace Gomer.Cli
             return candidates.First();
         }
 
-        public static Pile ReadFile(TextWriter output)
+        public static Pile ReadFile()
         {
-            return ReadFile(ChooseFile(), output);
+            return ReadFile(ChooseFile());
         }
 
-        public static Pile ReadFile(string fileName, TextWriter output)
+        public static Pile ReadFile(string fileName)
         {
-            output.WriteLine("Reading {0}", Path.GetFileName(fileName));
-            output.WriteLine();
+            Console.WriteLine("Reading {0}", Path.GetFileName(fileName));
+            Console.WriteLine();
 
             return PileManager.DeserializeFile(fileName);
         }

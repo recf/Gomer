@@ -19,16 +19,19 @@ namespace Gomer.Cli.Commands
             _fieldMap = new Dictionary<string, string>
             {
                 { "Name", "Name"},
+                { "Alias", "Alias" },
                 { "Platform", "Platform"},
                 { "Priority", "Priority"},
                 { "Hours", "Hours"},
-                { "Genres", "Genres"},
                 { "Added Date", "Added Date"},
                 { "Finished Date", "Finished Date"},
+                { "Playing", "Playing" },
+                { "Genres", "Genres"},
             };
 
             IsCommand("import-csv", "Import a file in CSV format to an existing .pile file.");
             HasFieldMapOption("n|name-field=", "Name");
+            HasFieldMapOption("alias-field=", "Alias");
             HasFieldMapOption("l|platform-field=", "Platform");
             HasFieldMapOption("p|priority-field=", "Priority");
             HasFieldMapOption("h|hours-field=", "Hours");
@@ -85,7 +88,7 @@ namespace Gomer.Cli.Commands
 
                 if (unmapped.Any())
                 {
-                    Console.WriteLine("Could not the following fields in CSV file");
+                    Console.WriteLine("Could not map the following fields in CSV file");
                     Console.WriteLine();
                     Helpers.ShowTable(tableDef, unmapped);
                     return 1;
@@ -96,8 +99,12 @@ namespace Gomer.Cli.Commands
                 while (csv.Read())
                 {
                     var name = csv.GetField(_fieldMap["Name"]);
+                    string alias;
+                    csv.TryGetField(_fieldMap["Alias"], out alias);
 
-                    var game = pile.Games.FirstOrDefault(g => String.Equals(g.Name, name, StringComparison.CurrentCultureIgnoreCase));
+                    var game = pile.Games.FirstOrDefault(g =>
+                        String.Equals(g.Name, name, StringComparison.CurrentCultureIgnoreCase)
+                        || String.Equals(g.Alias, alias, StringComparison.CurrentCultureIgnoreCase));
                     if (game == default(PileGame))
                     {
                         game = new PileGame
@@ -119,8 +126,12 @@ namespace Gomer.Cli.Commands
                     game.EstimatedHours = GetFieldOrDefault(csv, "Hours", 10);
                     game.Genres = csv.GetField(_fieldMap["Genres"]).Split(',');
                     game.AddedDate = csv.GetField<DateTime>(_fieldMap["Added Date"]);
+                    game.FinishedDate = csv.GetField<DateTime?>(_fieldMap["Finished Date"]);
 
-                    game.FinishedDate = csv.GetField<DateTime?>(_fieldMap["Finished Date"]); ;
+                    var playing = "no";
+                    csv.TryGetField(_fieldMap["Playing"], out playing);
+
+                    game.Playing = new[] { "yes", "true", "1" }.Contains(playing, StringComparer.InvariantCultureIgnoreCase);
                 }
 
                 Console.WriteLine("Created {0} games, updated {1} existing games.", addedCount, updatedCount);

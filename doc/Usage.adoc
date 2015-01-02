@@ -80,6 +80,8 @@ Expected usage: gomer.exe import-csv <options> <filename>
 <options> available:
   -n, --name-field=FIELD     FIELD in CSV file to map to Name. (default: 
                                'Name')
+      --alias-field=FIELD    FIELD in CSV file to map to Alias. (default: 
+                               'Alias')
   -l, --platform-field=FIELD FIELD in CSV file to map to Platform. (default: 
                                'Platform')
   -p, --priority-field=FIELD FIELD in CSV file to map to Priority. (default: 
@@ -140,6 +142,8 @@ Expected usage: gomer.exe schema <options>
 
 Expected usage: gomer.exe show <options> 
 <options> available:
+  -o, --outfile=FILE         FILE to write output to. Use - for stdout. 
+                               (default: -)
   -n, --name=NAME            Filter by part of the NAME or Alias.
   -l, --platform=PLATFORM    Filter by PLATFORM. Can be specified multiple 
                                times. This is a ONE-OF-EQUALS filter.
@@ -151,8 +155,6 @@ Expected usage: gomer.exe show <options>
       --not-playing          Filter by not Playing.
       --finished             Filter by Finished
   -u, --unfinished           Filter by not Finished
-  -o, --outfile=FILE         FILE to write output to. Use - for stdout. 
-                               (default: -)
       --format=FORMAT        Output FORMAT. Must be one of [ Console, Pile, 
                                Csv ]. (default: Console)
 ----

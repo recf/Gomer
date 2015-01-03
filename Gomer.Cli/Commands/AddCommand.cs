@@ -54,8 +54,8 @@ namespace Gomer.Cli.Commands
                 Console.WriteLine("A game with that name already exists.");
                 return 1;
             }
-
-            if (pile.Games.Any(g => String.Equals(g.Alias, _alias, StringComparison.CurrentCultureIgnoreCase)))
+            
+            if (!string.IsNullOrWhiteSpace(_alias) && pile.Games.Any(g => String.Equals(g.Alias, _alias, StringComparison.CurrentCultureIgnoreCase)))
             {
                 Console.WriteLine("A game with that alias already exists.");
                 return 1;

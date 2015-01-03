@@ -35,6 +35,7 @@ namespace Gomer.Cli
                     using (TextWriter output = new StreamWriter(_outFile, false, new UTF8Encoding(false)))
                     {
                         Run(remainingArguments, output);
+                        Console.WriteLine("Writing output to {0}", _outFile);
                     }
                 }
             }

@@ -9,35 +9,18 @@ using ManyConsole;
 
 namespace Gomer.Cli.Commands
 {
-    public class SchemaCommand : ConsoleCommand
+    public class SchemaCommand : BaseCommand
     {
-        private string _outFile;
-
         public SchemaCommand()
         {
             IsCommand("schema", "Show the JSON Schema of a .pile file.");
-
-            _outFile = "-";
-
-            HasOption("o|outfile=", string.Format("{{FILE}} to write output to. Use - for stdout. (default: {0})", _outFile),
-                v => _outFile = v);
         }
 
-        public override int Run(string[] remainingArguments)
+        public override void Run(string[] remainingArguments, TextWriter output)
         {
             var schema = PileManager.SerializeSchema();
 
-            if (_outFile == "-")
-            {
-                Console.WriteLine(schema);
-            }
-            else
-            {
-                File.WriteAllText(_outFile, schema, new UTF8Encoding(false));
-                Console.WriteLine("Writing schema to {0}", _outFile);
-            }
-
-            return 0;
+            output.WriteLine(schema);
         }
     }
 }

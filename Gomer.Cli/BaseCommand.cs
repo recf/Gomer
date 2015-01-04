@@ -109,12 +109,12 @@ namespace Gomer.Cli
             return dateTime.ToString("yyyy-MM-dd");
         }
 
-        public static void Show(PileGame game)
+        public static void Show(PileGame game, TextWriter output)
         {
-            Show(new[] { game });
+            Show(new[] { game }, output);
         }
 
-        public static void Show(IList<PileGame> games)
+        public static void Show(IList<PileGame> games, TextWriter output)
         {
             if (!games.Any())
             {
@@ -137,10 +137,10 @@ namespace Gomer.Cli
 
             var items = games.OrderBy(g => g.Name).ToList();
 
-            ShowTable(tableDef, items);
+            ShowTable(tableDef, items, output);
         }
 
-        public static void ShowTable<T>(Dictionary<string, Func<T, string>> tableDef, IList<T> items)
+        public static void ShowTable<T>(Dictionary<string, Func<T, string>> tableDef, IList<T> items, TextWriter output)
         {
             if (!items.Any())
             {
@@ -161,23 +161,23 @@ namespace Gomer.Cli
             {
                 Console.Write(string.Format(formatter, lengths[i]), headers[i]);
             }
-            Console.WriteLine();
+            output.WriteLine();
 
             foreach (var len in lengths)
             {
-                Console.Write(new String('=', len) + " ");
+                output.Write(new String('=', len) + " ");
             }
-            Console.WriteLine();
+            output.WriteLine();
 
             foreach (var record in tableData)
             {
                 foreach (var i in indexes)
                 {
-                    Console.Write(string.Format(formatter, lengths[i]), record[i]);
+                    output.Write(string.Format(formatter, lengths[i]), record[i]);
                 }
-                Console.WriteLine();
+                output.WriteLine();
             }
-            Console.WriteLine();
+            output.WriteLine();
         }
     }
 }

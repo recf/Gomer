@@ -64,6 +64,7 @@
     <Compile Include="Commands\ImportCsvCommand.cs" />
     <Compile Include="Commands\InitCommand.cs" />
     <Compile Include="Commands\RemoveCommand.cs" />
+    <Compile Include="Commands\ReportCommand.cs" />
     <Compile Include="Commands\SchemaCommand.cs" />
     <Compile Include="Commands\ShowCommand.cs" />
     <Compile Include="Exceptions\NoPileFileException.cs" />

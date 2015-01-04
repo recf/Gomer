@@ -31,8 +31,12 @@ namespace Gomer.Core
             List<string> platforms = null, 
             List<int> priorities = null,
             List<string> genres = null, 
-            bool? playing = null, 
-            bool? finished = null)
+            bool? playing = null,
+            bool? finished = null,
+            DateTime? addedOnOrAfter = null,
+            DateTime? addedBeforeOrOn = null,
+            DateTime? finishedOnOrAfter = null, 
+            DateTime? finishedBeforeOrOn = null)
         {
             if (platforms == null)
             {
@@ -85,6 +89,26 @@ namespace Gomer.Core
             if (finished.HasValue)
             {
                 games = games.Where(g => g.FinishedDate.HasValue == finished.Value);
+            }
+
+            if (addedOnOrAfter.HasValue)
+            {
+                games = games.Where(g => g.AddedDate >= addedOnOrAfter.Value);
+            }
+
+            if (addedBeforeOrOn.HasValue)
+            {
+                games = games.Where(g => g.AddedDate <= addedBeforeOrOn.Value);
+            }
+
+            if (finishedOnOrAfter.HasValue)
+            {
+                games = games.Where(g => g.FinishedDate.HasValue && g.FinishedDate.Value >= finishedOnOrAfter.Value);
+            }
+
+            if (finishedBeforeOrOn.HasValue)
+            {
+                games = games.Where(g => g.FinishedDate.HasValue && g.FinishedDate.Value <= finishedBeforeOrOn.Value);
             }
 
             return games.ToList();

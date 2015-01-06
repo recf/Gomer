@@ -14,14 +14,18 @@ namespace Gomer.Cli
 
         private string _outFile;
 
+        private bool _verbose;
+
         protected BaseCommand()
         {
             SkipsCommandSummaryBeforeRunning();
 
             _outFile = "-";
+            _verbose = false;
 
-            HasOption("o|outfile=", string.Format("{{FILE}} to write output to. Use - for stdout. (default: {0})", _outFile),
+            HasOption("o|outfile=", string.Format("{{FILE}} to write output to. Use - for STDOUT. (default: {0})", _outFile),
                 v => _outFile = v);
+            HasOption("v|verbose", "Print verbose output.", v => _verbose = v != null);
         }
 
         public override int Run(string[] remainingArguments)
@@ -50,6 +54,26 @@ namespace Gomer.Cli
             }
 
             return 0;
+        }
+
+        public void WriteLineMessage(string format, params object[] args)
+        {
+            if (format == null)
+            {
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine(format, args);
+            }
+        }
+
+        public void WriteLineVerbose(string format = null, params object[] args)
+        {
+            if (_verbose)
+            {
+                WriteLineMessage(format, args);
+            }
         }
 
         public static IList<string> GetCandidatesFiles()
@@ -83,15 +107,15 @@ namespace Gomer.Cli
             return candidates.First();
         }
 
-        public static Pile ReadFile()
+        public Pile ReadFile()
         {
             return ReadFile(ChooseFile());
         }
 
-        public static Pile ReadFile(string fileName)
+        public Pile ReadFile(string fileName)
         {
-            Console.WriteLine("Reading {0}", Path.GetFileName(fileName));
-            Console.WriteLine();
+            WriteLineVerbose("Reading {0}", Path.GetFileName(fileName));
+            WriteLineVerbose();
 
             return PileManager.DeserializeFile(fileName);
         }

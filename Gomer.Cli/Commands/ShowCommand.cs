@@ -63,11 +63,9 @@ namespace Gomer.Cli.Commands
             HasOption("p|priority=", "Filter by {PRIORITY}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", (int v) => _priorities.Add(v));
             HasOption("g|genre=", "Filter by {GENRE}. Can be specified multiple times. This is a ONE-OF-LIKE filter.", v => _genres.Add(v));
 
-            HasOption("playing", "Filter by Playing.", _ => _playing = true);
-            HasOption("not-playing", "Filter by not Playing.", _ => _playing = false);
+            HasOption("playing", "Filter by Playing.", v => _playing = v != null);
 
-            HasOption("finished", "Filter by Finished", _ => _finished = true);
-            HasOption("u|unfinished", "Filter by not Finished", _ => _finished = false);
+            HasOption("finished", "Filter by Finished", v => _finished = v != null);
 
             HasOption(
                 "sort=",
@@ -177,10 +175,10 @@ namespace Gomer.Cli.Commands
 
             if (criteria.Any())
             {
-                output.WriteLine("Criteria");
-                output.WriteLine("========");
-                criteria.ForEach(output.WriteLine);
-                output.WriteLine();
+                WriteLineVerbose("Criteria");
+                WriteLineVerbose("========");
+                criteria.ForEach(c => WriteLineVerbose(c));
+                WriteLineVerbose();
             }
 
             Func<PileGame, string> keySelector;

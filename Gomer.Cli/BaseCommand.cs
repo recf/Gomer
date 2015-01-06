@@ -135,9 +135,7 @@ namespace Gomer.Cli
                 { "Genres", g => string.Join(", ", g.Genres ?? new string[0]) },
             };
 
-            var items = games.OrderBy(g => g.Name).ToList();
-
-            ShowTable(tableDef, items, output);
+            ShowTable(tableDef, games, output);
         }
 
         public static void ShowTable<T>(Dictionary<string, Func<T, string>> tableDef, IList<T> items, TextWriter output)

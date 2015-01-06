@@ -20,6 +20,17 @@ namespace Gomer.Cli.Commands
             Csv
         }
 
+        public enum SortFields
+        {
+            Name,
+            Platform,
+            Priority,
+            Hours,
+            Added,
+            Finished,
+            Playing
+        }
+
         private List<string> _platforms;
 
         private string _name;
@@ -31,8 +42,10 @@ namespace Gomer.Cli.Commands
         private bool? _playing;
 
         private bool? _finished;
-        
+
         private OutputFormat _outFormat;
+
+        private SortFields _sortField;
 
         public ShowCommand()
         {
@@ -41,6 +54,7 @@ namespace Gomer.Cli.Commands
             _genres = new List<string>();
 
             _outFormat = OutputFormat.Console;
+            _sortField = SortFields.Name;
 
             IsCommand("show", "Show games in pile, with optional filtering.");
 
@@ -51,18 +65,26 @@ namespace Gomer.Cli.Commands
 
             HasOption("playing", "Filter by Playing.", _ => _playing = true);
             HasOption("not-playing", "Filter by not Playing.", _ => _playing = false);
-            
+
             HasOption("finished", "Filter by Finished", _ => _finished = true);
             HasOption("u|unfinished", "Filter by not Finished", _ => _finished = false);
 
-            HasOption("format=",
+            HasOption(
+                "sort=",
                 string.Format(
-                    "Output {{FORMAT}}. Must be one of [ {0} ]. (default: {1})", 
-                    string.Join(", ", Enum.GetNames(typeof (OutputFormat))), 
-                    _outFormat), 
+                    "{{Field}} to sort by. Must be one of [ {0} ]. (default: {1})",
+                    string.Join(", ", Enum.GetNames(typeof(SortFields))), _sortField),
+                (SortFields v) => _sortField = v);
+
+            HasOption(
+                "format=",
+                string.Format(
+                    "Output {{FORMAT}}. Must be one of [ {0} ]. (default: {1})",
+                    string.Join(", ", Enum.GetNames(typeof(OutputFormat))),
+                    _outFormat),
                 (OutputFormat v) => _outFormat = v);
         }
-        
+
         public override void Run(string[] remainingArguments, TextWriter output)
         {
             var pile = ReadFile();
@@ -161,7 +183,38 @@ namespace Gomer.Cli.Commands
                 output.WriteLine();
             }
 
-            Helpers.Show(games);
+            Func<PileGame, string> keySelector;
+
+
+            switch (_sortField)
+            {
+                case SortFields.Priority:
+                    keySelector = g => g.Priority.ToString("D5") + g.Name;
+                    break;
+                case SortFields.Platform:
+                    keySelector = g => g.Platform + g.Name;
+                    break;
+                case SortFields.Hours:
+                    keySelector = g => g.EstimatedHours.ToString("D5") + g.Name;
+                    break;
+                case SortFields.Added:
+                    keySelector = g => DateToString(g.AddedDate) + g.Name;
+                    break;
+                case SortFields.Finished:
+                    keySelector = g => DateToString(g.FinishedDate) + g.Name;
+                    break;
+                case SortFields.Playing:
+                    keySelector = g => g.Playing ? "1" : "0";
+                    break;
+                case SortFields.Name:
+                default:
+                    keySelector = g => g.Name;
+                    break;
+            }
+
+            games = games.OrderBy(keySelector).ToList();
+
+            Show(games, output);
         }
     }
 }

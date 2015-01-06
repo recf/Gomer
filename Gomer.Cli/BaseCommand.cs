@@ -16,6 +16,8 @@ namespace Gomer.Cli
 
         protected BaseCommand()
         {
+            SkipsCommandSummaryBeforeRunning();
+
             _outFile = "-";
 
             HasOption("o|outfile=", string.Format("{{FILE}} to write output to. Use - for stdout. (default: {0})", _outFile),

@@ -96,7 +96,8 @@ namespace Gomer.Cli.Commands
 
                 var updatedCount = 0;
                 var addedCount = 0;
-                while (csv.Read())
+
+                do
                 {
                     var name = csv.GetField(_fieldMap["Name"]);
                     string alias;
@@ -119,6 +120,7 @@ namespace Gomer.Cli.Commands
                         updatedCount++;
                     }
 
+                    game.Alias = alias;
                     game.Platform = csv.GetField(_fieldMap["Platform"]);
 
                     // TODO: Move default priority and default hours into constants, or read them from the attributes on the PileGame class.
@@ -131,8 +133,9 @@ namespace Gomer.Cli.Commands
                     var playing = "no";
                     csv.TryGetField(_fieldMap["Playing"], out playing);
 
-                    game.Playing = new[] { "yes", "true", "1" }.Contains(playing, StringComparer.InvariantCultureIgnoreCase);
-                }
+                    game.Playing = new[] { "yes", "true", "1" }.Contains(playing,
+                        StringComparer.InvariantCultureIgnoreCase);
+                } while (csv.Read());
 
                 Console.WriteLine("Created {0} games, updated {1} existing games.", addedCount, updatedCount);
             }

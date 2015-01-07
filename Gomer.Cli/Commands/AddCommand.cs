@@ -8,7 +8,7 @@ using ManyConsole;
 
 namespace Gomer.Cli.Commands
 {
-    public class AddCommand : ConsoleCommand
+    public class AddCommand : BaseCommand
     {
         private IList<string> _genres;
 
@@ -38,27 +38,21 @@ namespace Gomer.Cli.Commands
             HasAdditionalArguments(2, "<name> <platform>");
         }
 
-        public override int Run(string[] remainingArguments)
+        public override void Run(string[] remainingArguments, TextWriter output)
         {
-            var pile= Helpers.ReadFile();
-            if (pile == null)
-            {
-                return 1;
-            }
+            var pile = ReadFile();
 
             var name = remainingArguments[0];
             var platform = remainingArguments[1];
 
             if (pile.Games.Any(g => String.Equals(g.Name, name, StringComparison.CurrentCultureIgnoreCase)))
             {
-                Console.WriteLine("A game with that name already exists.");
-                return 1;
+                throw new CommandException("A game with that name already exists.");
             }
             
             if (!string.IsNullOrWhiteSpace(_alias) && pile.Games.Any(g => String.Equals(g.Alias, _alias, StringComparison.CurrentCultureIgnoreCase)))
             {
-                Console.WriteLine("A game with that alias already exists.");
-                return 1;
+                throw new CommandException("A game with that alias already exists.");
             }
 
             var game = new PileGame
@@ -74,11 +68,9 @@ namespace Gomer.Cli.Commands
 
             pile.Games.Add(game);
 
-            Helpers.Show(game);
+            Show(game, output);
 
-            Helpers.WriteFile(pile);
-
-            return 0;
+            WriteFile(pile, output);
         }
     }
 }

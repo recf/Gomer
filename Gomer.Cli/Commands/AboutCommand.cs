@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -8,14 +9,14 @@ using ManyConsole;
 
 namespace Gomer.Cli.Commands
 {
-    public class AboutCommand : ConsoleCommand
+    public class AboutCommand : BaseCommand
     {
         public AboutCommand()
         {
             IsCommand("about", "Show information about the app.");
         }
 
-        public override int Run(string[] remainingArguments)
+        public override void Run(string[] remainingArguments, TextWriter output)
         {
             var assembly = Assembly.GetExecutingAssembly();
 
@@ -25,9 +26,7 @@ namespace Gomer.Cli.Commands
 
             var descAttr = assembly.GetCustomAttribute<AssemblyDescriptionAttribute>();
 
-            Console.WriteLine("{0} v{1} - {2}", name, versionAttr.InformationalVersion, descAttr.Description);
-
-            return 0;
+            output.WriteLine("{0} v{1} - {2}", name, versionAttr.InformationalVersion, descAttr.Description);
         }
     }
 }

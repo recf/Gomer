@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using ManyConsole;
 
 namespace Gomer.Cli.Commands
 {
-    public class RemoveCommand : ConsoleCommand
+    public class RemoveCommand : BaseCommand
     {
         public RemoveCommand()
         {
@@ -17,13 +18,9 @@ namespace Gomer.Cli.Commands
             HasAdditionalArguments(1, " <name or alias>");
         }
 
-        public override int Run(string[] remainingArguments)
+        public override void Run(string[] remainingArguments, TextWriter output)
         {
-            var pile = Helpers.ReadFile();
-            if (pile == null)
-            {
-                return 1;
-            }
+            var pile = ReadFile();
 
             var nameOrAlias = remainingArguments[0];
 
@@ -32,18 +29,15 @@ namespace Gomer.Cli.Commands
                 || String.Equals(g.Alias, nameOrAlias, StringComparison.CurrentCultureIgnoreCase));
             if (game == default(PileGame))
             {
-                Console.WriteLine("No game with that name found.");
-                return 1;
+                throw new CommandException("No game with that name found.");
             }
 
             pile.Games.Remove(game);
 
-            Console.WriteLine("Removing game from pile.");
-            Helpers.Show(game);
+            output.WriteLine("Removing game from pile.");
+            Show(game, output);
 
-            Helpers.WriteFile(pile);
-
-            return 0;
+            WriteFile(pile, output);
         }
     }
 }

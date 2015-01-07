@@ -8,7 +8,7 @@ using ManyConsole;
 
 namespace Gomer.Cli.Commands
 {
-    public class InitCommand : ConsoleCommand
+    public class InitCommand : BaseCommand
     {
         private string _name;
 
@@ -21,9 +21,9 @@ namespace Gomer.Cli.Commands
             HasOption("n|name=", String.Format("Base {{NAME}} of the file. (default: {0})", _name), v=> _name = v);
         }
 
-        public override int Run(string[] remainingArguments)
+        public override void Run(string[] remainingArguments, TextWriter output)
         {
-            var fs = Helpers.GetCandidatesFiles();
+            var fs = GetCandidatesFiles();
 
             var msg = @"Cannot initialize because the following *.pile file already exists in the 
 current directory:
@@ -35,16 +35,14 @@ first.";
 
             if (fs.Any())
             {
-                Console.WriteLine(msg, Path.GetFileName(fs.First()));
-                return 1;
+                throw new CommandException(string.Format(msg, Path.GetFileName(fs.First())));
             }
 
             var pile = new Pile();
 
             var fileName = _name + ".pile";
 
-            Helpers.WriteFile(pile, fileName);
-            return 0;
+            WriteFile(pile, fileName, output);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using ManyConsole;
 
 namespace Gomer.Cli.Commands
 {
-    public class EditCommand : ConsoleCommand
+    public class EditCommand : BaseCommand
     {
         private string _newName;
 
@@ -55,13 +56,9 @@ namespace Gomer.Cli.Commands
             HasAdditionalArguments(1, "<name or alias>");
         }
 
-        public override int Run(string[] remainingArguments)
+        public override void Run(string[] remainingArguments, TextWriter output)
         {
-            var pile = Helpers.ReadFile();
-            if (pile == null)
-            {
-                return 1;
-            }
+            var pile = ReadFile();
 
             var nameOrAlias = remainingArguments[0];
 
@@ -70,8 +67,7 @@ namespace Gomer.Cli.Commands
                 || String.Equals(g.Alias, nameOrAlias, StringComparison.CurrentCultureIgnoreCase));
             if (game == default(PileGame))
             {
-                Console.WriteLine("No game with that name found.");
-                return 1;
+                throw new CommandException("No game with that name found.");
             }
 
             Console.WriteLine("Update game:");
@@ -117,14 +113,14 @@ namespace Gomer.Cli.Commands
 
             if (_addedDate.HasValue)
             {
-                audit.Add(new Tuple<string, string, string>("Added", Helpers.DateToString(game.AddedDate), Helpers.DateToString(_addedDate)));
+                audit.Add(new Tuple<string, string, string>("Added", DateToString(game.AddedDate), DateToString(_addedDate)));
                 game.AddedDate = _addedDate.Value;
             }
 
             if (_finishedDate.HasValue)
             {
                 _playing = false;
-                audit.Add(new Tuple<string, string, string>("Finished", Helpers.DateToString(game.FinishedDate), Helpers.DateToString(_finishedDate)));
+                audit.Add(new Tuple<string, string, string>("Finished", DateToString(game.FinishedDate), DateToString(_finishedDate)));
                 game.FinishedDate = _finishedDate.Value;
             }
 
@@ -162,14 +158,12 @@ namespace Gomer.Cli.Commands
                 audit.Add(new Tuple<string, string, string>("Genres", oldGenres, newGenres));
             }
             
-            Helpers.ShowTable(tableDef, audit);
+            ShowTable(tableDef, audit, output);
 
-            Console.WriteLine();
-            Helpers.Show(game);
+            output.WriteLine();
+            Show(game, output);
 
-            Helpers.WriteFile(pile);
-
-            return 0;
+            WriteFile(pile, output);
         }
     }
 }

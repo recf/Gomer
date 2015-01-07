@@ -119,6 +119,21 @@ namespace Gomer.Cli
 
             return PileManager.DeserializeFile(fileName);
         }
+        
+        public void WriteFile(Pile pile, TextWriter output)
+        {
+            var fileName = ChooseFile();
+
+            WriteFile(pile, fileName, output);
+        }
+
+        public void WriteFile(Pile pile, string fileName, TextWriter output)
+        {
+            output.WriteLine("Writing {0}", Path.GetFileName(fileName));
+            output.WriteLine();
+
+            PileManager.SerializeToFile(pile, fileName);
+        }
 
         public static string DateToString(DateTime? dateTime)
         {

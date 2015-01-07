@@ -10,7 +10,7 @@ using ManyConsole;
 
 namespace Gomer.Cli.Commands
 {
-    public class ImportCsvCommand : ConsoleCommand
+    public class ImportCsvCommand : BaseCommand
     {
         private Dictionary<string, string> _fieldMap;
 
@@ -50,19 +50,14 @@ namespace Gomer.Cli.Commands
                 v => _fieldMap[key] = v);
         }
 
-        public override int Run(string[] remainingArguments)
+        public override void Run(string[] remainingArguments, TextWriter output)
         {
-            var pile = Helpers.ReadFile();
-            if (pile == null)
-            {
-                return 1;
-            }
+            var pile = ReadFile();
 
             var fileName = remainingArguments[0];
             if (!File.Exists(fileName))
             {
-                Console.WriteLine("Cannot find file {0}", fileName);
-                return 1;
+                throw new CommandException(string.Format("Cannot find file {0}", fileName));
             }
 
             using (var textReader = File.OpenText(fileName))
@@ -82,16 +77,13 @@ namespace Gomer.Cli.Commands
                     { "CSV Field", kvp => kvp.Value }
                 };
 
-                Console.WriteLine("Mapped the following fields in CSV file");
-                Console.WriteLine();
-                Helpers.ShowTable(tableDef, mapped);
+                output.WriteLine("Mapped the following fields in CSV file");
+                output.WriteLine();
+                ShowTable(tableDef, mapped, output);
 
                 if (unmapped.Any())
                 {
-                    Console.WriteLine("Could not map the following fields in CSV file");
-                    Console.WriteLine();
-                    Helpers.ShowTable(tableDef, unmapped);
-                    return 1;
+                    throw new CommandException("Could not map the following fields in CSV file:" + string.Join(", ", unmapped.Select(u => u.Key)));
                 }
 
                 var updatedCount = 0;
@@ -137,12 +129,10 @@ namespace Gomer.Cli.Commands
                         StringComparer.InvariantCultureIgnoreCase);
                 } while (csv.Read());
 
-                Console.WriteLine("Created {0} games, updated {1} existing games.", addedCount, updatedCount);
+                output.WriteLine("Created {0} games, updated {1} existing games.", addedCount, updatedCount);
             }
 
-            Helpers.WriteFile(pile);
-
-            return 0;
+            WriteFile(pile, output);
         }
 
         private int GetFieldOrDefault(CsvReader csv, string key, int defaultValue)

@@ -69,7 +69,6 @@
     <Compile Include="Commands\ShowCommand.cs" />
     <Compile Include="Exceptions\NoPileFileException.cs" />
     <Compile Include="Exceptions\TooManyPileFilesException.cs" />
-    <Compile Include="Helpers.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -18,7 +18,12 @@ namespace Gomer.Cli.Commands
 
             IsCommand("init", "Create a new .pile file.");
 
-            HasOption("n|name=", String.Format("Base {{NAME}} of the file. (default: {0})", _name), v=> _name = v);
+            Arg(
+                "name", 
+                "Base {{NAME}} of the file. (default: {0})", 
+                v=> _name = v,
+                'n',
+                _name);
         }
 
         public override void Run(string[] remainingArguments, TextWriter output)

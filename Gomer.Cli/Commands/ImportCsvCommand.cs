@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -30,24 +31,26 @@ namespace Gomer.Cli.Commands
             };
 
             IsCommand("import-csv", "Import a file in CSV format to an existing .pile file.");
-            HasFieldMapOption("n|name-field=", "Name");
-            HasFieldMapOption("alias-field=", "Alias");
-            HasFieldMapOption("l|platform-field=", "Platform");
-            HasFieldMapOption("p|priority-field=", "Priority");
-            HasFieldMapOption("h|hours-field=", "Hours");
-            HasFieldMapOption("g|genres-field=", "Genres");
-            HasFieldMapOption("a|added-date-field=", "Added Date");
-            HasFieldMapOption("f|finished-date-field=", "Finished Date");
+            HasFieldMapArg("name-field", "Name", 'n');
+            HasFieldMapArg("alias-field", "Alias");
+            HasFieldMapArg("platform-field", "Platform");
+            HasFieldMapArg("priority-field", "Priority", 'p');
+            HasFieldMapArg("hours-field", "Hours", 'H');
+            HasFieldMapArg("genres-field", "Genres", 'g');
+            HasFieldMapArg("added-date-field", "Added Date", 'a');
+            HasFieldMapArg("finished-date-field", "Finished Date", 'f');
 
             HasAdditionalArguments(1, "<filename>");
         }
 
-        private void HasFieldMapOption(string prototype, string key)
+        private void HasFieldMapArg(string name, string key, char shortName = default(char))
         {
-            HasOption(
-                prototype,
-                string.Format("{{FIELD}} in CSV file to map to {0}. (default: '{1}')", key, _fieldMap[key]),
-                v => _fieldMap[key] = v);
+            Arg(
+                name,
+                string.Format("{{{{FIELD}}}} in CSV file to map to {0}. (default: {{0}})", key),
+                v => _fieldMap[key] = v,
+                shortName,
+                _fieldMap[key]);
         }
 
         public override void Run(string[] remainingArguments, TextWriter output)

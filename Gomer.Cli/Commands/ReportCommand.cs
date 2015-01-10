@@ -24,9 +24,21 @@ namespace Gomer.Cli.Commands
 
             IsCommand("report", "Show report of changes for a date range.");
 
-            HasOption("b|begin=", string.Format("Begin {{DATE}} of the date range. (default: {0:yyyy-MM-dd})", _beginDate), (DateTime v) => _beginDate = v);
-            HasOption("e|end=", string.Format("End {{DATE}} of the date range. (default: {0:yyyy-MM-dd})", _endDate), (DateTime v) => _endDate = v);
-            HasOption("bbcode", "Output in BBCode format, for posting in forums.", _ => _useBBCode = true);
+            Arg(
+                "begin", 
+                "Begin {{DATE}} of the date range. (default: {0:})",
+                v => _beginDate = v,
+                'b',
+                _beginDate);
+
+            Arg(
+                "end", 
+                "End {{DATE}} of the date range. (default: {0:yyyy-MM-dd})", 
+                v => _endDate = v,
+                'e',
+                _endDate);
+
+            Flag("bbcode", "Output in BBCode format, for posting in forums.", _ => _useBBCode = true);
         }
 
         public override void Run(string[] remainingArguments, TextWriter output)

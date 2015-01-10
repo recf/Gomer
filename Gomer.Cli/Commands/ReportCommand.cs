@@ -44,8 +44,8 @@ namespace Gomer.Cli.Commands
         public override void Run(string[] remainingArguments, TextWriter output)
         {
             var pile = ReadFile();
-            var addedGames = pile.Search(addedOnOrAfter: _beginDate, addedBeforeOrOn: _endDate);
-            var finished = pile.Search(finishedOnOrAfter: _beginDate, finishedBeforeOrOn: _endDate);
+            var addedGames = pile.Search(addedOnOrAfter: _beginDate, addedBeforeOrOn: _endDate).OrderBy(g => g.Name).ToList();
+            var finished = pile.Search(finishedOnOrAfter: _beginDate, finishedBeforeOrOn: _endDate).OrderBy(g => g.Name).ToList();
 
             if (_useBBCode)
             {

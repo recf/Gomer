@@ -72,12 +72,14 @@ namespace Gomer.Cli.Commands
                 "{{FIELD}} to sort by. (default: {0})",
                 ReadEnum<SortFields>,
                 v => _sortField = v);
-
-            Arg(
-                "format",
-                "Output {{FORMAT}}. (default: {0})",
-                ReadEnum<OutputFormat>,
-                v => _outFormat = v);
+            
+            Flag("csv",
+                "Format output as Comma Separate Values (Spreadsheet)",
+                _ => _outFormat = OutputFormat.Csv);
+            
+            Flag("json",
+                "Format output as JSON.",
+                _ => _outFormat = OutputFormat.Pile);
         }
 
         public override void Run(string[] remainingArguments, TextWriter output)

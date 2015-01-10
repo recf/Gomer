@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -46,7 +47,7 @@ namespace Gomer.Cli.Commands
         private OutputFormat _outFormat;
 
         private SortFields _sortField;
-
+        
         public ShowCommand()
         {
             _platforms = new List<string>();
@@ -58,29 +59,25 @@ namespace Gomer.Cli.Commands
 
             IsCommand("show", "Show games in pile, with optional filtering.");
 
-            HasOption("n|name=", "Filter by part of the {NAME} or Alias.", v => _name = v);
-            HasOption("l|platform=", "Filter by {PLATFORM}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _platforms.Add(v));
-            HasOption("p|priority=", "Filter by {PRIORITY}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", (int v) => _priorities.Add(v));
-            HasOption("g|genre=", "Filter by {GENRE}. Can be specified multiple times. This is a ONE-OF-LIKE filter.", v => _genres.Add(v));
+            Arg("name", "Filter by part of the {{NAME}} or Alias.", v => _name = v, 'n');
+            Arg("platform", "Filter by {{PLATFORM}}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _platforms.Add(v));
+            Arg("priority", "Filter by {{PRIORITY}}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _priorities.Add(v), 'p');
+            Arg("genre", "Filter by {{GENRE}}. Can be specified multiple times. This is a ONE-OF-LIKE filter.", v => _genres.Add(v), 'g');
 
-            HasOption("playing", "Filter by Playing.", v => _playing = v != null);
+            Flag("playing", "Filter by Playing.", v => _playing = v);
+            Flag("finished", "Filter by Finished", v => _finished = v);
 
-            HasOption("finished", "Filter by Finished", v => _finished = v != null);
+            Arg(
+                "sort",
+                "{{FIELD}} to sort by. (default: {0})",
+                ReadEnum<SortFields>,
+                v => _sortField = v);
 
-            HasOption(
-                "sort=",
-                string.Format(
-                    "{{Field}} to sort by. Must be one of [ {0} ]. (default: {1})",
-                    string.Join(", ", Enum.GetNames(typeof(SortFields))), _sortField),
-                (SortFields v) => _sortField = v);
-
-            HasOption(
-                "format=",
-                string.Format(
-                    "Output {{FORMAT}}. Must be one of [ {0} ]. (default: {1})",
-                    string.Join(", ", Enum.GetNames(typeof(OutputFormat))),
-                    _outFormat),
-                (OutputFormat v) => _outFormat = v);
+            Arg(
+                "format",
+                "Output {{FORMAT}}. (default: {0})",
+                ReadEnum<OutputFormat>,
+                v => _outFormat = v);
         }
 
         public override void Run(string[] remainingArguments, TextWriter output)
@@ -182,7 +179,6 @@ namespace Gomer.Cli.Commands
             }
 
             Func<PileGame, string> keySelector;
-
 
             switch (_sortField)
             {

@@ -45,8 +45,7 @@ namespace Gomer.Cli.Commands
             HasOption("finished", "Equivalent to --finished-date with today's date.", _ => _finishedDate = DateTime.Today);
             HasOption("p|priority=", "Set the {PRIORITY} of the game.", (int v) => _priority = v);
             HasOption("h|hours=", "Set the estimated {HOURS} to complete.", (int v) => _hours = v);
-            HasOption("playing", "Set Playing to true.", _ => _playing = true);
-            HasOption("not-playing", "Set Playing to false.", _ => _playing = false);
+            Flag("playing", "Set Playing to true.", v => _playing = v);
             HasOption(
                 "clear-genres", 
                 "Clear existing genre list. This is run before adding new genres.",

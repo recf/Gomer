@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Gomer.Core;
 using ManyConsole;
+using NDesk.Options;
 
 namespace Gomer.Cli
 {
@@ -16,16 +18,171 @@ namespace Gomer.Cli
 
         private bool _verbose;
 
+        private readonly List<KeyValuePair<string, object>> _trace;
+        
+        private bool _launchDebugger;
+
         protected BaseCommand()
         {
             SkipsCommandSummaryBeforeRunning();
 
+            _trace = new List<KeyValuePair<string, object>>();
+
             _outFile = "-";
             _verbose = false;
+            _launchDebugger = false;
+        }
 
-            HasOption("o|outfile=", string.Format("{{FILE}} to write output to. Use - for STDOUT. (default: {0})", _outFile),
-                v => _outFile = v);
-            HasOption("v|verbose", "Print verbose output.", v => _verbose = v != null);
+        public void Arg<T>(
+            int position,
+            string name,
+            T defaultValue,
+            string description,
+            Func<string, T> read,
+            Action<T> action,
+            Func<T, string> show = null)
+        {
+            if (show == null)
+            {
+                show = v => Convert.ToString(v);
+            }
+        }
+
+        public void Arg<T>(
+            string longName,
+            string description,
+            Func<string, T> read,
+            Action<T> action,
+            char shortName = default(char),
+            T defaultValue = default(T),
+            Func<T, string> show = null)
+        {
+            if (show == null)
+            {
+                show = v => Convert.ToString(v);
+            }
+
+            var prototype = shortName == default(char) 
+                ? string.Format("{0}=", longName) 
+                : string.Format("{0}|{1}=", shortName, longName);
+
+            var fullDesc = string.Format(description, show(defaultValue));
+
+            Action<string> realAction = v =>
+            {
+                var value = read(v);
+
+                _trace.Add(new KeyValuePair<string, object>(longName, show(value)));
+
+                action(value);
+            };
+
+            HasOption(prototype, fullDesc, realAction);
+        }
+
+        /// <remarks>
+        /// string arg
+        /// </remarks>
+        public void Arg(
+            string longName,
+            string description,
+            Action<string> action,
+            char shortName = default(char),
+            string defaultValue = "")
+        {
+            Arg(
+                longName,
+                description,
+                v => v == null ? null : v.Trim(),
+                action,
+                shortName,
+                defaultValue);
+        }
+
+        /// <remarks>
+        /// int arg
+        /// </remarks>
+        public void Arg(
+            string longName,
+            string description,
+            Action<int> action,
+            char shortName = default(char),
+            int defaultValue = default(int))
+        {
+            Arg(
+                longName,
+                description,
+                int.Parse,
+                action,
+                shortName,
+                defaultValue);
+        }
+        
+        /// <remarks>
+        /// DateTime arg
+        /// </remarks>
+        public void Arg(
+            string longName,
+            string description,
+            Action<DateTime> action,
+            char shortName = default(char),
+            DateTime defaultValue = default(DateTime))
+        {
+            Arg(
+                longName,
+                description,
+                DateTime.Parse,
+                action,
+                shortName,
+                defaultValue,
+                v => v.ToString("yyyy-MM-dd"));
+        }
+        
+        public void Flag(string longName, string description, Action<bool> action, char shortName = default(char))
+        {
+            var prototype = shortName == default(char) ? longName : string.Format("{0}|{1}", shortName, longName);
+            Action<string> realAction = v =>
+            {
+                var flagSet = v != null;
+
+                _trace.Add(new KeyValuePair<string, object>(longName, flagSet ? "+" : "-"));
+
+                action(flagSet);
+            };
+
+            HasOption(prototype, description, realAction);
+        }
+
+        public void VerboseFlag(string description = "Increase verbosity of output.")
+        {
+            Flag("verbose", description, v => _verbose = v, 'v');
+        }
+
+        public void DebugFlag(string description = "Show values sent to options and launch debugger. Implies --trace.")
+        {
+            Flag("debug", description, v =>
+            {
+                _launchDebugger = v;
+            });
+        }
+
+        public void OutfileArg(string description = "{{FILE}} to write output to. Use - for STDOUT. (default: {0})")
+        {
+            Arg("outfile", description, v => _outFile = v, 'o', _outFile);
+        }
+
+        public TEnum ReadEnum<TEnum>(string input)
+        {
+            return (TEnum) Enum.Parse(typeof (TEnum), input, true);
+        }
+
+        public void ShowTrace(TextWriter output)
+        {
+            foreach (var kvp in _trace)
+            {
+                output.WriteLine("{0}: {1}", kvp.Key, kvp.Value);
+            }
+            output.WriteLine();
         }
 
         public override int Run(string[] remainingArguments)
@@ -34,12 +191,24 @@ namespace Gomer.Cli
             {
                 if (_outFile == "-")
                 {
+                    if (_launchDebugger)
+                    {
+                        ShowTrace(Console.Out);
+                        Debugger.Launch();
+                    }
+
                     Run(remainingArguments, Console.Out);
                 }
                 else
                 {
                     using (TextWriter output = new StreamWriter(_outFile, false, new UTF8Encoding(false)))
                     {
+                        if (_launchDebugger)
+                        {
+                            ShowTrace(output);
+                            Debugger.Launch();
+                        }
+
                         Run(remainingArguments, output);
                         Console.WriteLine("Writing output to {0}", _outFile);
                     }
@@ -95,7 +264,7 @@ namespace Gomer.Cli
                 var message = new StringBuilder();
                 message.AppendLine("Multiple .pile files found. Please move or delete one of them.");
                 message.AppendLine();
-                
+
                 foreach (var fileName in candidates)
                 {
                     message.AppendLine("* " + Path.GetFileName(fileName));
@@ -119,7 +288,7 @@ namespace Gomer.Cli
 
             return PileManager.DeserializeFile(fileName);
         }
-        
+
         public void WriteFile(Pile pile, TextWriter output)
         {
             var fileName = ChooseFile();

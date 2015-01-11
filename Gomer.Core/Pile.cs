@@ -141,11 +141,6 @@ namespace Gomer.Core
                 search = search.Substring(0, search.Length - 1);
             }
 
-            if (prefix == '~')
-            {
-                return string.Join(".*", search.ToCharArray());
-            }
-
             if (prefix == '=')
             {
                 return "^" + search + "$";
@@ -161,7 +156,12 @@ namespace Gomer.Core
                 return "^" + search;
             }
 
-            return search;
+            if (prefix == '*' && suffix == '*')
+            {
+                return search;
+            }
+
+            return string.Join(".*", search.ToCharArray());
         }
     }
 }

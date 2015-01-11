@@ -28,13 +28,13 @@ Some commands support smart matching based on a prefix and/or suffix on the sear
 |===
 | Example | Effect
 
-| \*TERM* | Show results that contain the term. This is the default.
+| \*TERM* | Show results that contain the term.
 | TERM* | Show results that start with the term
 | *TERM | Show results that end with the term
-| ~TERM | Show results that "fuzzy match" the term. This means that all
+| =TERM | Show results that match exactly.
+|  TERM | Show results that "fuzzy match" the term. This means that all
   characters in the term appear in the same order given, but not necessarily
   next to each other.
-| =TERM | Show results that match exactly.
 |===
 
 [listing]

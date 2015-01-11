@@ -31,6 +31,8 @@ namespace Gomer.Cli.Commands
 
         private bool? _hidden;
 
+        // TODO: Edit multiple at once?
+        // TODO: Edit piped input in JSON format?
         public EditCommand()
         {
             IsCommand("edit", "Edit a pile game.");
@@ -39,6 +41,7 @@ namespace Gomer.Cli.Commands
             _tags = new List<string>();
 
             Arg("rename", "Set the {{NAME}}.", v => _newName = v);
+
             Arg("platform", "Set the {{PLATFORM}}.", v => _platform = v);
             Arg("added-date", "Set the {{DATE}} acquired.", v => _addedDate = v, 'a');
             Arg("finished-date", "Set the {{DATE}} finished. Implies --not-playing.", v => _finishedDate = v, 'f');

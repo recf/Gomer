@@ -59,7 +59,7 @@ namespace Gomer.Cli.Commands
             _tags = new List<string>();
 
             _outFormat = OutputFormat.Console;
-            _sortField = SortFields.Name;
+            _sortField = SortFields.Priority;
 
             IsCommand("show", "Show games in pile, with optional filtering. Only unfinished, unhidden games are included by default.");
 
@@ -70,7 +70,7 @@ namespace Gomer.Cli.Commands
 
             Flag("playing", "Filter by Playing.", v => _playing = v);
             Flag("finished", "Include Finished games only.", _ => _finished = true);
-            Flag("collection", "Include finished and unfinished games", _ => _finished = null, 'c');
+            Flag("collection", "Include finished and unfinished games.", _ => _finished = null, 'c');
             Flag("hidden", "Include hidden games only.", _ => _hidden = true);
 
             Arg(

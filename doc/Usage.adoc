@@ -13,7 +13,7 @@ init        - Create a new .pile file.
 rm          - Remove a pile game.
 report      - Show report of changes for a date range.
 schema      - Show the JSON Schema of a .pile file.
-show        - Show games in pile, with optional filtering.
+show        - Show games in pile, with optional filtering. Only unfinished, unhidden games are included by default.
 
 help <name> - For help with one of the above commands
 
@@ -40,8 +40,8 @@ Expected usage: gomer.exe add <options> <name> <platform>
 <options> available:
   -a, --added-date=DATE      DATE acquired. (default: <today>))
   -p, --priority=PRIORITY    PRIORITY of the game. (default: 2)
-  -h, --hours=HOURS          Estimated HOURS to complete. (default: 10)
-  -g, --genre=GENRE          GENRE that the game belongs to. Can be specified 
+  -H, --hours=HOURS          Estimated HOURS to complete. (default: 10)
+  -t, --tag=TAG              TAG that the game belongs to. Can be specified 
                                multiple times.
       --alias=ALIAS          Alternate ALIAS for the game.
 ----
@@ -56,17 +56,18 @@ Expected usage: gomer.exe add <options> <name> <platform>
 Expected usage: gomer.exe edit <options> <name or alias>
 <options> available:
       --rename=NAME          Set the NAME.
-      --alias=ALIAS          Set the ALIAS
-  -l, --platform=PLATFORM    Set the PLATFORM.
+      --platform=PLATFORM    Set the PLATFORM.
   -a, --added-date=DATE      Set the DATE acquired.
   -f, --finished-date=DATE   Set the DATE finished. Implies --not-playing.
       --finished             Equivalent to --finished-date with today's date.
   -p, --priority=PRIORITY    Set the PRIORITY of the game.
-  -h, --hours=HOURS          Set the estimated HOURS to complete.
+  -H, --hours=HOURS          Set the estimated HOURS to complete.
       --playing              Set Playing to true.
-      --clear-genres         Clear existing genre list. This is run before 
-                               adding new genres.
-  -g, --genre=GENRE          Add a GENRE. Can be specified multiple times.
+      --clear-tags           Clear existing tag list. This is run before 
+                               adding new tags.
+  -t, --tag=TAG              Add a TAG. Can be specified multiple times.
+      --hide                 Mark a game as hidden.
+      --unhide               Mark a game as visible.
 ----
 
 [[import-csv-command]]
@@ -78,24 +79,20 @@ Expected usage: gomer.exe edit <options> <name or alias>
 
 Expected usage: gomer.exe import-csv <options> <filename>
 <options> available:
-  -n, --name-field=FIELD     FIELD in CSV file to map to Name. (default: 
-                               'Name')
-      --alias-field=FIELD    FIELD in CSV file to map to Alias. (default: 
-                               'Alias')
-  -l, --platform-field=FIELD FIELD in CSV file to map to Platform. (default: 
-                               'Platform')
+  -n, --name-field=FIELD     FIELD in CSV file to map to Name. (default: Name)
+      --platform-field=FIELD FIELD in CSV file to map to Platform. (default: 
+                               Platform)
   -p, --priority-field=FIELD FIELD in CSV file to map to Priority. (default: 
-                               'Priority')
-  -h, --hours-field=FIELD    FIELD in CSV file to map to Hours. (default: 
-                               'Hours')
-  -g, --genres-field=FIELD   FIELD in CSV file to map to Genres. (default: 
-                               'Genres')
+                               Priority)
+  -H, --hours-field=FIELD    FIELD in CSV file to map to Hours. (default: 
+                               Hours)
+  -g, --genres-field=FIELD   FIELD in CSV file to map to Tags. (default: Tags)
   -a, --added-date-field=FIELD
                              FIELD in CSV file to map to Added Date. 
-                               (default: 'Added Date')
+                               (default: Added Date)
   -f, --finished-date-field=FIELD
                              FIELD in CSV file to map to Finished Date. 
-                               (default: 'Finished Date')
+                               (default: Finished Date)
 ----
 
 [[init-command]]
@@ -133,6 +130,8 @@ Expected usage: gomer.exe report <options>
                                01)
   -e, --end=DATE             End DATE of the date range. (default: 2015-01-31)
       --bbcode               Output in BBCode format, for posting in forums.
+      --list                 List the games in the report, in addition to 
+                               stats.
 ----
 
 [[schema-command]]
@@ -150,19 +149,23 @@ Expected usage: gomer.exe schema
 
 [listing]
 ----
-'show' - Show games in pile, with optional filtering.
+'show' - Show games in pile, with optional filtering. Only unfinished, unhidden games are included by default.
 
 Expected usage: gomer.exe show <options> 
 <options> available:
-  -n, --name=NAME            Filter by part of the NAME or Alias.
+  -n, --name=NAME            Filter by the NAME using fuzzy matching.
       --platform=PLATFORM    Filter by PLATFORM. Can be specified multiple 
                                times. This is a ONE-OF-EQUALS filter.
   -p, --priority=PRIORITY    Filter by PRIORITY. Can be specified multiple 
                                times. This is a ONE-OF-EQUALS filter.
-  -g, --genre=GENRE          Filter by GENRE. Can be specified multiple time-
-                               s. This is a ONE-OF-LIKE filter.
+  -t, --tag=TAG              Filter by TAG. Can be specified multiple times. 
+                               This is a ONE-OF-LIKE filter.
       --playing              Filter by Playing.
-      --finished             Filter by Finished
+      --finished             Include Finished games only.
+  -c, --collection           Include finished and unfinished games.
+      --hidden               Include hidden games only.
       --sort=FIELD           FIELD to sort by. (default: Name)
-      --format=FORMAT        Output FORMAT. (default: Console)
+      --csv                  Format output as Comma Separate Values 
+                               (Spreadsheet)
+      --json                 Format output as JSON.
 ----

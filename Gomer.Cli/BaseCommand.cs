@@ -335,7 +335,6 @@ namespace Gomer.Cli
             var tableDef = new Dictionary<string, Func<PileGame, string>>()
             {
                 { "Game", g => g.Name },
-                { "Alias", g => g.Alias ?? string.Empty },
                 { "Platform", g => g.Platform },
                 { "Pri.", g => g.Priority.ToString() },
                 { "Hrs.", g => g.EstimatedHours.ToString() },

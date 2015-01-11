@@ -75,16 +75,10 @@ namespace Gomer.Cli.Commands
             {
                 throw new CommandException("A game with that name already exists.");
             }
-            
-            if (!string.IsNullOrWhiteSpace(_alias) && pile.Games.Any(g => String.Equals(g.Alias, _alias, StringComparison.CurrentCultureIgnoreCase)))
-            {
-                throw new CommandException("A game with that alias already exists.");
-            }
 
             var game = new PileGame
             {
                 Name = name,
-                Alias = _alias,
                 Platform = platform,
                 EstimatedHours = _hours,
                 Priority = _priority,

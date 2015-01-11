@@ -22,15 +22,27 @@ namespace Gomer.Cli.Commands
         {
             var pile = ReadFile();
 
-            var nameOrAlias = remainingArguments[0];
+            var name = remainingArguments[0];
 
-            var game = pile.Games.FirstOrDefault(g => 
-                String.Equals(g.Name, nameOrAlias, StringComparison.CurrentCultureIgnoreCase) 
-                || String.Equals(g.Alias, nameOrAlias, StringComparison.CurrentCultureIgnoreCase));
-            if (game == default(PileGame))
+            var games = pile.Search(name: name);
+
+            if (!games.Any())
             {
                 throw new CommandException("No game with that name found.");
             }
+
+            if (games.Count > 1)
+            {
+                var msg = new StringBuilder();
+                msg.AppendLine("Found multiple games. Please narrow your search.");
+                foreach (var g in games)
+                {
+                    msg.AppendLine("* " + g.Name);
+                }
+                throw new CommandException(msg.ToString());
+            }
+
+            var game = games.First();
 
             pile.Games.Remove(game);
 

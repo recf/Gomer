@@ -29,8 +29,6 @@ namespace Gomer.Cli.Commands
 
         private bool? _playing;
 
-        private string _alias;
-
         public EditCommand()
         {
             IsCommand("edit", "Edit a pile game.");
@@ -38,7 +36,6 @@ namespace Gomer.Cli.Commands
             _genres = new List<string>();
 
             HasOption("rename=", "Set the {NAME}.", v => _newName = v);
-            HasOption("alias=", "Set the {ALIAS}", v => _alias = v);
             HasOption("l|platform=", "Set the {PLATFORM}.", v => _platform = v);
             HasOption("a|added-date=", "Set the {DATE} acquired.", (DateTime v) => _addedDate = v);
             HasOption("f|finished-date=", "Set the {DATE} finished. Implies --not-playing.", (DateTime v) => _finishedDate = v);
@@ -59,9 +56,9 @@ namespace Gomer.Cli.Commands
         {
             var pile = ReadFile();
 
-            var nameOrAlias = remainingArguments[0];
+            var name = remainingArguments[0];
 
-            var games = pile.Search(name: nameOrAlias);
+            var games = pile.Search(name: name);
 
             if (!games.Any())
             {
@@ -96,12 +93,6 @@ namespace Gomer.Cli.Commands
             {
                 audit.Add(new Tuple<string, string, string>("Name", game.Name, _newName));
                 game.Name = _newName;
-            }
-
-            if (!string.IsNullOrWhiteSpace(_alias))
-            {
-                audit.Add(new Tuple<string, string, string>("Alias", game.Alias, _alias));
-                game.Alias = _alias;
             }
             
             if (!string.IsNullOrWhiteSpace(_platform))

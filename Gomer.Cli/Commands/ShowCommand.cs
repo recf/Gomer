@@ -126,7 +126,6 @@ namespace Gomer.Cli.Commands
             foreach (var game in games)
             {
                 csv.WriteField(game.Name);
-                csv.WriteField(game.Alias);
                 csv.WriteField(game.Platform);
                 csv.WriteField(game.Priority);
                 csv.WriteField(game.EstimatedHours);

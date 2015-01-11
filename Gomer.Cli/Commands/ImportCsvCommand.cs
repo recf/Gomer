@@ -20,7 +20,6 @@ namespace Gomer.Cli.Commands
             _fieldMap = new Dictionary<string, string>
             {
                 { "Name", "Name"},
-                { "Alias", "Alias" },
                 { "Platform", "Platform"},
                 { "Priority", "Priority"},
                 { "Hours", "Hours"},
@@ -32,7 +31,6 @@ namespace Gomer.Cli.Commands
 
             IsCommand("import-csv", "Import a file in CSV format to an existing .pile file.");
             HasFieldMapArg("name-field", "Name", 'n');
-            HasFieldMapArg("alias-field", "Alias");
             HasFieldMapArg("platform-field", "Platform");
             HasFieldMapArg("priority-field", "Priority", 'p');
             HasFieldMapArg("hours-field", "Hours", 'H');
@@ -56,7 +54,7 @@ namespace Gomer.Cli.Commands
         public override void Run(string[] remainingArguments, TextWriter output)
         {
             var pile = ReadFile();
-
+            
             var fileName = remainingArguments[0];
             if (!File.Exists(fileName))
             {
@@ -99,8 +97,7 @@ namespace Gomer.Cli.Commands
                     csv.TryGetField(_fieldMap["Alias"], out alias);
 
                     var game = pile.Games.FirstOrDefault(g =>
-                        String.Equals(g.Name, name, StringComparison.CurrentCultureIgnoreCase)
-                        || String.Equals(g.Alias, alias, StringComparison.CurrentCultureIgnoreCase));
+                        String.Equals(g.Name, name, StringComparison.CurrentCultureIgnoreCase));
                     if (game == default(PileGame))
                     {
                         game = new PileGame
@@ -115,7 +112,6 @@ namespace Gomer.Cli.Commands
                         updatedCount++;
                     }
 
-                    game.Alias = alias;
                     game.Platform = csv.GetField(_fieldMap["Platform"]);
 
                     // TODO: Move default priority and default hours into constants, or read them from the attributes on the PileGame class.

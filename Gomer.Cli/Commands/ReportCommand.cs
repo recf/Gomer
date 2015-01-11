@@ -16,90 +16,133 @@ namespace Gomer.Cli.Commands
 
         private bool _useBBCode;
 
+        private bool _showList;
+
         public ReportCommand()
         {
             var today = DateTime.Today;
             _beginDate = today.AddDays(-today.Day + 1);
             _endDate = _beginDate.AddMonths(1).AddDays(-1);
+            _useBBCode = false;
+            _showList = false;
 
             IsCommand("report", "Show report of changes for a date range.");
 
             Arg(
-                "begin", 
+                "begin",
                 "Begin {{DATE}} of the date range. (default: {0:})",
                 v => _beginDate = v,
                 'b',
                 _beginDate);
 
             Arg(
-                "end", 
-                "End {{DATE}} of the date range. (default: {0:yyyy-MM-dd})", 
+                "end",
+                "End {{DATE}} of the date range. (default: {0})",
                 v => _endDate = v,
                 'e',
                 _endDate);
 
-            Flag("bbcode", "Output in BBCode format, for posting in forums.", _ => _useBBCode = true);
+            Flag("bbcode", "Output in BBCode format, for posting in forums.", v => _useBBCode = v);
+
+            Flag("list", "List the games in the report, in addition to stats.", v => _showList = v);
         }
 
         public override void Run(string[] remainingArguments, TextWriter output)
         {
             var pile = ReadFile();
-            var addedGames = pile.Search(addedOnOrAfter: _beginDate, addedBeforeOrOn: _endDate).OrderBy(g => g.Name).ToList();
-            var finished = pile.Search(finishedOnOrAfter: _beginDate, finishedBeforeOrOn: _endDate).OrderBy(g => g.Name).ToList();
+            var report = new PileReport(pile, _beginDate, _endDate);
+
+            var stats = new Dictionary<string, int>
+            {
+                { "Added", report.AddedInPeriod.Count },
+                { "Finished", report.FinishedInPeriod.Count },
+                { "Added hours", report.AddedHoursInPeriod },
+                { "Finished hours", report.FinishedHoursInPeriod },
+                { "Total", report.OverallCount },
+                { "Total Finished", report.OverallFinishedCount },
+                { "Total Hours", report.OverallHours },
+                { "Total Finished Hours", report.OverallFinishedHours }
+            };
+
+            var lists = new Dictionary<string, IReadOnlyList<PileGame>>
+            {
+                { "Added", report.AddedInPeriod },
+                { "Finished", report.FinishedInPeriod }
+            };
 
             if (_useBBCode)
             {
-                OutputBBCode(addedGames, finished, output);
+                OutputBbCode(stats, lists, output);
             }
             else
             {
-                OutputConsole(addedGames, finished, output);
+                OutputConsole(stats, lists, output);
             }
         }
 
-        private void OutputConsole(IList<PileGame> addedGames, IList<PileGame> finished, TextWriter output)
+        private void OutputConsole(Dictionary<string, int> stats, Dictionary<string, IReadOnlyList<PileGame>> lists, TextWriter output)
         {
-            var format = "{0} ({1})";
-            output.WriteLine("Added");
-            output.WriteLine("=====");
-            output.WriteLine();
-            foreach (var game in addedGames)
+            var labelWidth = stats.Max(kvp => kvp.Key.Length);
+            var valueWidth = stats.Max(kvp => kvp.Value.ToString().Length);
+            var statFormat = string.Format("{{0,-{0}}}: {{1,{1}}}", labelWidth, valueWidth);
+
+            foreach (var kvp in stats)
             {
-                output.WriteLine(format, game.Name, game.Platform);
+                output.WriteLine(statFormat, kvp.Key, kvp.Value);
             }
-            output.WriteLine();
-            
-            output.WriteLine("Finished");
-            output.WriteLine("========");
-            output.WriteLine();
-            foreach (var game in finished)
+
+            if (!_showList)
             {
-                output.WriteLine(format, game.Name, game.Platform);
+                return;
+            }
+
+            const string itemFormat = "{0} ({1})";
+            foreach (var kvp in lists)
+            {
+                output.WriteLine();
+                output.WriteLine(kvp.Key);
+
+                output.WriteLine(new string('=', kvp.Key.Length));
+                output.WriteLine();
+                foreach (var game in kvp.Value)
+                {
+                    output.WriteLine(itemFormat, game.Name, game.Platform);
+                }
             }
         }
 
-        private void OutputBBCode(IList<PileGame> addedGames, IList<PileGame> finished, TextWriter output)
+        private void OutputBbCode(Dictionary<string, int> stats, Dictionary<string, IReadOnlyList<PileGame>> lists, TextWriter output)
         {
-            var format = "[*] {0} ({1})";
-            output.WriteLine("[b]Added[/b]");
-            output.WriteLine();
-            output.WriteLine("[list]");
-            foreach (var game in addedGames)
-            {
-                output.WriteLine(format, game.Name, game.Platform);
-            }
-            output.WriteLine("[/list]");
-            output.WriteLine();
+            var labelWidth = stats.Max(kvp => kvp.Key.Length);
+            var valueWidth = stats.Max(kvp => kvp.Value.ToString().Length);
+            var statFormat = string.Format("[tr][td][b] {{0,-{0}}} [/b][/td][td] {{1,{1}}} [/td][/tr]", labelWidth, valueWidth);
 
-            output.WriteLine("[b]Finished[/b]");
-            output.WriteLine();
-            output.WriteLine("[list]");
-            foreach (var game in finished)
+            output.WriteLine("[table]");
+            foreach (var kvp in stats)
             {
-                output.WriteLine(format, game.Name, game.Platform);
+                output.WriteLine(statFormat, kvp.Key, kvp.Value);
             }
-            output.WriteLine("[/list]");
-            output.WriteLine();
+            output.WriteLine("[/table]");
+
+            if (!_showList)
+            {
+                return;
+            }
+
+            const string itemFormat = "[*] {0} ({1})";
+            foreach (var kvp in lists)
+            {
+                output.WriteLine();
+                output.WriteLine("[b]{0}[/b]", kvp.Key);
+
+                output.WriteLine();
+                output.WriteLine("[list]");
+                foreach (var game in kvp.Value)
+                {
+                    output.WriteLine(itemFormat, game.Name, game.Platform);
+                }
+                output.WriteLine("[/list]");
+            }
         }
     }
 }

@@ -66,6 +66,7 @@ namespace Gomer.Cli.Commands
 
             Flag("playing", "Filter by Playing.", v => _playing = v);
             Flag("finished", "Filter by Finished", v => _finished = v);
+            Flag("unfinished", "Filter by Finished", v => _finished = !v, 'u');
 
             Arg(
                 "sort",

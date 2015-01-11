@@ -48,6 +48,7 @@
     <Compile Include="Pile.cs" />
     <Compile Include="PileGame.cs" />
     <Compile Include="PileManager.cs" />
+    <Compile Include="PileReport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

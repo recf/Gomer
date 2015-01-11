@@ -80,7 +80,7 @@ namespace Gomer.Core
 
             if (genres.Any())
             {
-                games = games.Where(g => (g.Genres ?? new string[0]).Any(gg => genres.Any(fg =>
+                games = games.Where(g => (g.Tags ?? new string[0]).Any(gg => genres.Any(fg =>
                     gg.IndexOf(fg, StringComparison.CurrentCultureIgnoreCase) >= 0)));
             }
 

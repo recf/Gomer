@@ -52,9 +52,10 @@ namespace Gomer.Cli.Commands
 
 
             Arg(
-                "genre", 
-                "{{GENRE}} that the game belongs to. Can be specified multiple times.", 
-                v => _genres.Add(v));
+                "tag", 
+                "{{TAG}} that the game belongs to. Can be specified multiple times.", 
+                v => _genres.Add(v),
+                't');
 
             Arg(
                 "alias", 
@@ -83,7 +84,7 @@ namespace Gomer.Cli.Commands
                 EstimatedHours = _hours,
                 Priority = _priority,
                 AddedDate = _addedDate,
-                Genres = _genres
+                Tags = _genres
             };
 
             pile.Games.Add(game);

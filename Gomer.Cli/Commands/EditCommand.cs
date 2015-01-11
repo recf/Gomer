@@ -21,7 +21,7 @@ namespace Gomer.Cli.Commands
 
         private int? _hours;
 
-        private List<string> _genres;
+        private List<string> _tags;
 
         private bool _clearGenres = false;
 
@@ -33,21 +33,21 @@ namespace Gomer.Cli.Commands
         {
             IsCommand("edit", "Edit a pile game.");
 
-            _genres = new List<string>();
+            _tags = new List<string>();
 
-            HasOption("rename=", "Set the {NAME}.", v => _newName = v);
-            HasOption("l|platform=", "Set the {PLATFORM}.", v => _platform = v);
-            HasOption("a|added-date=", "Set the {DATE} acquired.", (DateTime v) => _addedDate = v);
-            HasOption("f|finished-date=", "Set the {DATE} finished. Implies --not-playing.", (DateTime v) => _finishedDate = v);
-            HasOption("finished", "Equivalent to --finished-date with today's date.", _ => _finishedDate = DateTime.Today);
-            HasOption("p|priority=", "Set the {PRIORITY} of the game.", (int v) => _priority = v);
-            HasOption("h|hours=", "Set the estimated {HOURS} to complete.", (int v) => _hours = v);
+            Arg("rename", "Set the {{NAME}}.", v => _newName = v);
+            Arg("platform", "Set the {{PLATFORM}}.", v => _platform = v);
+            Arg("added-date", "Set the {{DATE}} acquired.", v => _addedDate = v, 'a');
+            Arg("finished-date", "Set the {{DATE}} finished. Implies --not-playing.", v => _finishedDate = v, 'f');
+            Flag("finished", "Equivalent to --finished-date with today's date.", _ => _finishedDate = DateTime.Today);
+            Arg("priority", "Set the {{PRIORITY}} of the game.", v => _priority = v, 'p');
+            Arg("hours", "Set the estimated {{HOURS}} to complete.", v => _hours = v, 'H');
             Flag("playing", "Set Playing to true.", v => _playing = v);
-            HasOption(
-                "clear-genres", 
-                "Clear existing genre list. This is run before adding new genres.",
-                v => _clearGenres = v != null);
-            HasOption("g|genre=", "Add a {GENRE}. Can be specified multiple times.", v => _genres.Add(v));
+            Flag(
+                "clear-tags", 
+                "Clear existing tag list. This is run before adding new tags.",
+                v => _clearGenres = v);
+            Arg("tag", "Add a {{TAG}}. Can be specified multiple times.", v => _tags.Add(v), 't');
 
             HasAdditionalArguments(1, "<name or alias>");
         }
@@ -133,31 +133,31 @@ namespace Gomer.Cli.Commands
             }
 
             var updatingGenres = false;
-            var oldGenres = string.Format("[{0}]", string.Join(", ", game.Genres ?? new string[0]));
+            var oldGenres = string.Format("[{0}]", string.Join(", ", game.Tags ?? new string[0]));
             if (_clearGenres)
             {
                 updatingGenres = true;
-                if (game.Genres == null)
+                if (game.Tags == null)
                 {
-                    game.Genres = new List<string>();
+                    game.Tags = new List<string>();
                 }
-                game.Genres.Clear();
+                game.Tags.Clear();
             }
 
-            if (_genres.Any())
+            if (_tags.Any())
             {
                 updatingGenres = true;
-                if (game.Genres == null)
+                if (game.Tags == null)
                 {
-                    game.Genres = new List<string>();
+                    game.Tags = new List<string>();
                 }
-                _genres.ForEach(game.Genres.Add);
+                _tags.ForEach(game.Tags.Add);
             }
 
             if (updatingGenres)
             {
-                var newGenres = string.Format("[{0}]", string.Join(", ", game.Genres));
-                audit.Add(new Tuple<string, string, string>("Genres", oldGenres, newGenres));
+                var newGenres = string.Format("[{0}]", string.Join(", ", game.Tags));
+                audit.Add(new Tuple<string, string, string>("Tags", oldGenres, newGenres));
             }
             
             ShowTable(tableDef, audit, output);

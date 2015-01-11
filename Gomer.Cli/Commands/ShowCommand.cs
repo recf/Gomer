@@ -38,7 +38,7 @@ namespace Gomer.Cli.Commands
 
         private List<int> _priorities;
 
-        private List<string> _genres;
+        private List<string> _tags;
 
         private bool? _playing;
 
@@ -52,7 +52,7 @@ namespace Gomer.Cli.Commands
         {
             _platforms = new List<string>();
             _priorities = new List<int>();
-            _genres = new List<string>();
+            _tags = new List<string>();
 
             _outFormat = OutputFormat.Console;
             _sortField = SortFields.Name;
@@ -62,7 +62,7 @@ namespace Gomer.Cli.Commands
             Arg("name", "Filter by the {{NAME}} using fuzzy matching.", v => _name = v, 'n');
             Arg("platform", "Filter by {{PLATFORM}}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _platforms.Add(v));
             Arg("priority", "Filter by {{PRIORITY}}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _priorities.Add(v), 'p');
-            Arg("genre", "Filter by {{GENRE}}. Can be specified multiple times. This is a ONE-OF-LIKE filter.", v => _genres.Add(v), 'g');
+            Arg("tag", "Filter by {{TAG}}. Can be specified multiple times. This is a ONE-OF-LIKE filter.", v => _tags.Add(v), 't');
 
             Flag("playing", "Filter by Playing.", v => _playing = v);
             Flag("finished", "Filter by Finished", v => _finished = v);
@@ -87,7 +87,7 @@ namespace Gomer.Cli.Commands
         {
             var pile = ReadFile();
 
-            var games = pile.Search(_name, _platforms, _priorities, _genres, _playing, _finished);
+            var games = pile.Search(_name, _platforms, _priorities, _tags, _playing, _finished);
 
             switch (_outFormat)
             {
@@ -121,7 +121,7 @@ namespace Gomer.Cli.Commands
             csv.WriteField("Added Date");
             csv.WriteField("Finished Date");
             csv.WriteField("Playing");
-            csv.WriteField("Genres");
+            csv.WriteField("Tags");
             csv.NextRecord();
 
             foreach (var game in games)
@@ -133,7 +133,7 @@ namespace Gomer.Cli.Commands
                 csv.WriteField(DateToString(game.AddedDate));
                 csv.WriteField(DateToString(game.FinishedDate));
                 csv.WriteField(game.Playing ? "yes" : "no");
-                csv.WriteField(string.Join(", ", game.Genres));
+                csv.WriteField(string.Join(", ", game.Tags));
                 csv.NextRecord();
             }
         }
@@ -157,9 +157,9 @@ namespace Gomer.Cli.Commands
                 criteria.Add(string.Format("priority = {0}", string.Join(" or ", _priorities)));
             }
 
-            if (_genres.Any())
+            if (_tags.Any())
             {
-                criteria.Add(string.Format("genre ~= '{0}'", string.Join("' or '", _genres)));
+                criteria.Add(string.Format("genre ~= '{0}'", string.Join("' or '", _tags)));
             }
 
             if (_playing.HasValue)

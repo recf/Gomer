@@ -32,7 +32,7 @@ namespace Gomer.Core
         [DefaultValue(false)]
         public bool Playing { get; set; }
 
-        [JsonProperty("genres", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public IList<string> Genres { get; set; }
+        [JsonProperty("tags", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public IList<string> Tags { get; set; }
     }
 }

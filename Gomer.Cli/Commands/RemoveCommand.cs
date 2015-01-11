@@ -24,7 +24,7 @@ namespace Gomer.Cli.Commands
 
             var name = remainingArguments[0];
 
-            var games = pile.Search(name: name);
+            var games = pile.Search(name: name, hidden: null);
 
             if (!games.Any())
             {

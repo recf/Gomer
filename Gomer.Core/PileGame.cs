@@ -11,6 +11,10 @@ namespace Gomer.Core
         [JsonProperty("name", Required = Required.Always)]
         public string  Name { get; set; }
 
+        [JsonProperty("hidden", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [DefaultValue(false)]
+        public bool IsHidden { get; set; }
+
         [JsonProperty("platform", Required = Required.Always)]
         public string Platform { get; set; }
 

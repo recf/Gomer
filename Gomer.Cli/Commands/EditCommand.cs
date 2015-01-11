@@ -29,10 +29,13 @@ namespace Gomer.Cli.Commands
 
         private bool? _playing;
 
+        private bool? _hidden;
+
         public EditCommand()
         {
             IsCommand("edit", "Edit a pile game.");
 
+            _hidden = null;
             _tags = new List<string>();
 
             Arg("rename", "Set the {{NAME}}.", v => _newName = v);
@@ -48,6 +51,8 @@ namespace Gomer.Cli.Commands
                 "Clear existing tag list. This is run before adding new tags.",
                 v => _clearGenres = v);
             Arg("tag", "Add a {{TAG}}. Can be specified multiple times.", v => _tags.Add(v.Trim()), 't');
+            Flag("hide", "Mark a game as hidden.", _ => _hidden = true);
+            Flag("unhide", "Mark a game as visible.", _ => _hidden = false);
 
             HasAdditionalArguments(1, "<name or alias>");
         }
@@ -58,7 +63,7 @@ namespace Gomer.Cli.Commands
 
             var name = remainingArguments[0];
 
-            var games = pile.Search(name: name);
+            var games = pile.Search(name: name, hidden: null);
 
             if (!games.Any())
             {
@@ -130,6 +135,12 @@ namespace Gomer.Cli.Commands
             {
                 audit.Add(new Tuple<string, string, string>("Playing", game.Playing.ToString(), _playing.Value.ToString()));
                 game.Playing = _playing.Value;
+            }
+
+            if (_hidden.HasValue)
+            {
+                audit.Add(new Tuple<string, string, string>("Hidden", game.IsHidden.ToString(), _hidden.Value.ToString()));
+                game.IsHidden = _hidden.Value;
             }
 
             var updatingGenres = false;

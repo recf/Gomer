@@ -44,12 +44,15 @@ namespace Gomer.Cli.Commands
 
         private bool? _finished;
 
+        private bool _hidden;
+
         private OutputFormat _outFormat;
 
         private SortFields _sortField;
-        
+
         public ShowCommand()
         {
+            _hidden = false;
             _finished = false;
             _platforms = new List<string>();
             _priorities = new List<int>();
@@ -58,7 +61,7 @@ namespace Gomer.Cli.Commands
             _outFormat = OutputFormat.Console;
             _sortField = SortFields.Name;
 
-            IsCommand("show", "Show games in pile, with optional filtering. Only unfinished games are included by default.");
+            IsCommand("show", "Show games in pile, with optional filtering. Only unfinished, unhidden games are included by default.");
 
             Arg("name", "Filter by the {{NAME}} using fuzzy matching.", v => _name = v, 'n');
             Arg("platform", "Filter by {{PLATFORM}}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _platforms.Add(v));
@@ -67,7 +70,8 @@ namespace Gomer.Cli.Commands
 
             Flag("playing", "Filter by Playing.", v => _playing = v);
             Flag("finished", "Include Finished games only.", _ => _finished = true);
-            Flag("collection", "Include all game", _ => _finished = null, 'c');
+            Flag("collection", "Include finished and unfinished games", _ => _finished = null, 'c');
+            Flag("hidden", "Include hidden games only.", _ => _hidden = true);
 
             Arg(
                 "sort",
@@ -88,7 +92,7 @@ namespace Gomer.Cli.Commands
         {
             var pile = ReadFile();
 
-            var games = pile.Search(_name, _platforms, _priorities, _tags, _playing, _finished);
+            var games = pile.Search(_name, _platforms, _priorities, _tags, _playing, _finished, hidden:_hidden);
 
             switch (_outFormat)
             {

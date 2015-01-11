@@ -24,12 +24,14 @@ namespace Gomer.Core
                     .OrderBy(g => g.Name)
                     .ToList();
 
-            OverallCount = pile.Games.Count;
-
+            var allGames = pile.Search();
             var allFinished = pile.Search(finished: true);
+
+            OverallCount = allGames.Count;
+
             OverallFinishedCount = allFinished.Count;
 
-            OverallHours = pile.Games.Sum(g => g.EstimatedHours);
+            OverallHours = allGames.Sum(g => g.EstimatedHours);
             OverallFinishedHours = allFinished.Sum(g => g.EstimatedHours);
         }
 

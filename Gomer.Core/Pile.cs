@@ -38,7 +38,8 @@ namespace Gomer.Core
             DateTime? addedOnOrAfter = null,
             DateTime? addedBeforeOrOn = null,
             DateTime? finishedOnOrAfter = null, 
-            DateTime? finishedBeforeOrOn = null)
+            DateTime? finishedBeforeOrOn = null, 
+            bool? hidden = false)
         {
             if (platforms == null)
             {
@@ -55,7 +56,11 @@ namespace Gomer.Core
                 genres = new List<string>();
             }
 
-            IEnumerable<PileGame> games = this.Games;
+            IEnumerable<PileGame> games = Games;
+            if (hidden.HasValue)
+            {
+                games = games.Where(g => g.IsHidden == hidden);
+            }
 
             if (!string.IsNullOrWhiteSpace(name))
             {

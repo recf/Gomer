@@ -50,6 +50,7 @@ namespace Gomer.Cli.Commands
         
         public ShowCommand()
         {
+            _finished = false;
             _platforms = new List<string>();
             _priorities = new List<int>();
             _tags = new List<string>();
@@ -57,7 +58,7 @@ namespace Gomer.Cli.Commands
             _outFormat = OutputFormat.Console;
             _sortField = SortFields.Name;
 
-            IsCommand("show", "Show games in pile, with optional filtering.");
+            IsCommand("show", "Show games in pile, with optional filtering. Only unfinished games are included by default.");
 
             Arg("name", "Filter by the {{NAME}} using fuzzy matching.", v => _name = v, 'n');
             Arg("platform", "Filter by {{PLATFORM}}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _platforms.Add(v));
@@ -65,8 +66,8 @@ namespace Gomer.Cli.Commands
             Arg("tag", "Filter by {{TAG}}. Can be specified multiple times. This is a ONE-OF-LIKE filter.", v => _tags.Add(v), 't');
 
             Flag("playing", "Filter by Playing.", v => _playing = v);
-            Flag("finished", "Filter by Finished", v => _finished = v);
-            Flag("unfinished", "Filter by Finished", v => _finished = !v, 'u');
+            Flag("finished", "Include Finished games only.", _ => _finished = true);
+            Flag("collection", "Include all game", _ => _finished = null, 'c');
 
             Arg(
                 "sort",

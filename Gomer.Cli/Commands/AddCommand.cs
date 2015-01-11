@@ -29,38 +29,16 @@ namespace Gomer.Cli.Commands
             _hours = 10;
             _genres = new List<string>();
 
-            Arg(
-                "added-date",
-                "{{DATE}} acquired. (default: {0:}))",
-                v => _addedDate = v,
-                'a',
-                _addedDate);
-
-            Arg(
-                "priority",
-                "{{PRIORITY}} of the game. (default: {0})",
-                v => _priority = v,
-                'p',
-                _priority);
-
-            Arg(
-                "hours",
-                "Estimated {{HOURS}} to complete. (default: {0})",
-                v => _hours = v,
-                'H',
-                _hours);
-
-
+            Arg("added-date", "{{DATE}} acquired. (default: {0:}))", v => _addedDate = v, 'a', _addedDate);
+            Arg("priority", "{{PRIORITY}} of the game. (default: {0})", v => _priority = v, 'p', _priority);
+            Arg("hours", "Estimated {{HOURS}} to complete. (default: {0})", v => _hours = v, 'H', _hours);
             Arg(
                 "tag", 
                 "{{TAG}} that the game belongs to. Can be specified multiple times.", 
-                v => _genres.Add(v),
+                v => _genres.Add(v.Trim()),
                 't');
 
-            Arg(
-                "alias", 
-                "Alternate {{ALIAS}} for the game.", 
-                v => _alias = v);
+            Arg("alias", "Alternate {{ALIAS}} for the game.", v => _alias = v);
 
             HasAdditionalArguments(2, "<name> <platform>");
         }

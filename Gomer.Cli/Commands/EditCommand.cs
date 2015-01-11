@@ -47,7 +47,7 @@ namespace Gomer.Cli.Commands
                 "clear-tags", 
                 "Clear existing tag list. This is run before adding new tags.",
                 v => _clearGenres = v);
-            Arg("tag", "Add a {{TAG}}. Can be specified multiple times.", v => _tags.Add(v), 't');
+            Arg("tag", "Add a {{TAG}}. Can be specified multiple times.", v => _tags.Add(v.Trim()), 't');
 
             HasAdditionalArguments(1, "<name or alias>");
         }

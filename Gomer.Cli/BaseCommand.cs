@@ -341,7 +341,7 @@ namespace Gomer.Cli
                 { "Added", g => DateToString(g.AddedDate) },
                 { "Finished", g => DateToString(g.FinishedDate) },
                 { "Playing", g => g.Playing ? "yes" : "" },
-                { "Tags", g => string.Join(", ", g.Tags ?? new string[0]) },
+                { "Tags", g => string.Join(", ", (g.Tags ?? new string[0]).OrderBy(t => t, StringComparer.OrdinalIgnoreCase)) },
             };
 
             ShowTable(tableDef, games, output);

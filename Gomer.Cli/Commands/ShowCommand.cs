@@ -59,7 +59,7 @@ namespace Gomer.Cli.Commands
 
             IsCommand("show", "Show games in pile, with optional filtering.");
 
-            Arg("name", "Filter by part of the {{NAME}} or Alias.", v => _name = v, 'n');
+            Arg("name", "Filter by the {{NAME}} using fuzzy matching.", v => _name = v, 'n');
             Arg("platform", "Filter by {{PLATFORM}}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _platforms.Add(v));
             Arg("priority", "Filter by {{PRIORITY}}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _priorities.Add(v), 'p');
             Arg("genre", "Filter by {{GENRE}}. Can be specified multiple times. This is a ONE-OF-LIKE filter.", v => _genres.Add(v), 'g');

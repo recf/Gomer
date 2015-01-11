@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -57,9 +59,10 @@ namespace Gomer.Core
 
             if (!string.IsNullOrWhiteSpace(name))
             {
-                games = games.Where(g =>
-                    g.Name.IndexOf(name, StringComparison.CurrentCultureIgnoreCase) >= 0
-                    || (g.Alias ?? string.Empty).IndexOf(name, StringComparison.CurrentCultureIgnoreCase) >= 0);
+                var pattern = GetPattern(name);
+                var regex = new Regex(pattern, RegexOptions.IgnoreCase);
+
+                games = games.Where(g => regex.IsMatch(g.Name));
             }
 
             if (platforms.Any())
@@ -112,6 +115,48 @@ namespace Gomer.Core
             }
 
             return games.ToList();
+        }
+
+        private static string GetPattern(string term)
+        {
+            var prefixes = new[] { '=', '*', '~' };
+            var suffixes = new[] { '*' };
+
+            var prefix = term.First();
+            var suffix = term.Last();
+
+            var search = term;
+            if (prefixes.Contains(prefix))
+            {
+                search = search.Substring(1);
+            }
+
+            if (suffixes.Contains(suffix))
+            {
+                search = search.Substring(0, search.Length - 1);
+            }
+
+            if (prefix == '~')
+            {
+                return string.Join(".*", search.ToCharArray());
+            }
+
+            if (prefix == '=')
+            {
+                return "^" + search + "$";
+            }
+
+            if (prefix == '*' && suffix != '*')
+            {
+                return search + "$";
+            }
+
+            if (prefix != '*' && suffix == '*')
+            {
+                return "^" + search;
+            }
+
+            return search;
         }
     }
 }

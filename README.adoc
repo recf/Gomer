@@ -21,6 +21,21 @@ and `cd` into a directory that you want to store you .pile file, and use the
 even rename the file after it's created) but it has to be the only file with
 the .pile extension in that directory.
 
+== Matching
+
+Some commands support smart matching based on a prefix and/or suffix on the search term.
+
+|===
+| Example | Effect
+
+| \*TERM* | Show results that contain the term. This is the default.
+| TERM* | Show results that start with the term
+| *TERM | Show results that end with the term
+| ~TERM | Show results that "fuzzy match" the term. This means that all
+  characters in the term appear in the same order given, but not necessarily
+  next to each other.
+|===
+
 [listing]
 .Example
 ----

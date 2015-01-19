@@ -49,6 +49,7 @@ namespace Gomer.Cli.Commands
             Arg("priority", "Set the {{PRIORITY}} of the game.", v => _priority = v, 'p');
             Arg("hours", "Set the estimated {{HOURS}} to complete.", v => _hours = v, 'H');
             Flag("playing", "Set Playing to true.", v => _playing = v);
+            Flag("not-playing", "Set Playing to false.", v => _playing = !v);
             Flag(
                 "clear-tags", 
                 "Clear existing tag list. This is run before adding new tags.",

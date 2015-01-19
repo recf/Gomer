@@ -60,10 +60,10 @@ namespace Gomer.Cli.Commands
 
             _outFormat = OutputFormat.Console;
             _sortField = SortFields.Priority;
+            
+            IsCommand("show", Strings.ResourceManager.GetString("commands.show"));
 
-            IsCommand("show", "Show games in pile, with optional filtering. Only unfinished, unhidden games are included by default.");
-
-            Arg("name", "Filter by the {{NAME}} using fuzzy matching.", v => _name = v, 'n');
+            Arg("name", Strings.ResourceManager.GetString("commands.show.name"), v => _name = v, 'n');
             Arg("platform", "Filter by {{PLATFORM}}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _platforms.Add(v));
             Arg("priority", "Filter by {{PRIORITY}}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _priorities.Add(v), 'p');
             Arg("tag", "Filter by {{TAG}}. Can be specified multiple times. This is a ONE-OF-LIKE filter.", v => _tags.Add(v), 't');

@@ -8,37 +8,38 @@ namespace Gomer.Core
 {
     public class PileReport
     {
-        private Pile _pile;
-
-        public PileReport(Pile pile, DateTime beginDate, DateTime endDate)
+        public PileReport(Pile pile, DateRange dateRange)
         {
-            _pile = pile;
-            BeginDate = beginDate;
-            EndDate = endDate;
-            
+            DateRange = dateRange;
+
             AddedInPeriod =
-                pile.Search(addedOnOrAfter: BeginDate, addedBeforeOrOn: EndDate).OrderBy(g => g.Name).ToList();
-            
+                pile.Search(addedOnOrAfter: DateRange.Start, addedBeforeOrOn: DateRange.End).OrderBy(g => g.Name).ToList();
+
             FinishedInPeriod =
-                pile.Search(finishedOnOrAfter: BeginDate, finishedBeforeOrOn: EndDate)
+                pile.Search(finishedOnOrAfter: DateRange.Start, finishedBeforeOrOn: DateRange.End)
                     .OrderBy(g => g.Name)
                     .ToList();
 
-            var allGames = pile.Search();
-            var allFinished = pile.Search(finished: true);
+            var addedCount = AddedInPeriod.Count;
+            var finishedCount = FinishedInPeriod.Count;
 
-            OverallCount = allGames.Count;
+            Delta = addedCount - finishedCount;
+            HoursDelta = AddedHoursInPeriod - FinishedHoursInPeriod;
 
-            OverallFinishedCount = allFinished.Count;
-
-            OverallHours = allGames.Sum(g => g.EstimatedHours);
-            OverallFinishedHours = allFinished.Sum(g => g.EstimatedHours);
+            Ratio = Reduce(addedCount, finishedCount);
+            HoursRatio = Reduce(AddedHoursInPeriod, FinishedHoursInPeriod);
         }
 
-        public DateTime BeginDate { get; private set; }
+        public Tuple<int, int> HoursRatio { get; private set; }
 
-        public DateTime EndDate { get; private set; }
-        
+        public int HoursDelta { get; private set; }
+
+        public int Delta { get; private set; }
+
+        public DateRange DateRange { get; private set; }
+
+        public Tuple<int, int> Ratio { get; private set; }
+
         public IReadOnlyList<PileGame> AddedInPeriod { get; private set; }
 
         public int AddedHoursInPeriod
@@ -53,12 +54,30 @@ namespace Gomer.Core
             get { return FinishedInPeriod.Sum(g => g.EstimatedHours); }
         }
 
-        public int OverallFinishedCount { get; private set; }
+        private Tuple<int, int> Reduce(int numerator, int demoninator)
+        {
+            var n = (decimal)numerator;
+            var d = (decimal)demoninator;
 
-        public int OverallCount { get; private set; }
-        
-        public int OverallHours { get; set; }
+            var terms = (new[] { 2, 3, 5, 7, 9, 11, 13, 17 }).Reverse().ToArray();
 
-        public int OverallFinishedHours { get; set; }
+            var index = 0;
+            while (index < terms.Length)
+            {
+                var term = terms[index];
+
+                if (n % term == 0 && d % term == 0)
+                {
+                    n = n / term;
+                    d = d / term;
+                }
+                else
+                {
+                    index++;
+                }
+            }
+
+            return new Tuple<int, int>((int)n, (int)d);
+        }
     }
 }

@@ -14,6 +14,9 @@ namespace Gomer.Cli.Commands
     public class ImportCsvCommand : BaseCommand
     {
         private Dictionary<string, string> _fieldMap;
+        private bool _updateExisting = false;
+
+        private bool _skipPlaying = false;
 
         public ImportCsvCommand()
         {
@@ -30,11 +33,22 @@ namespace Gomer.Cli.Commands
             };
 
             IsCommand("import-csv", "Import a file in CSV format to an existing .pile file.");
+
+            Flag(
+                "update-existing",
+                "Update existing games with data from CSV file. By default, new games are added, but existing games are skipped",
+                v => _updateExisting = true);
+
+            Flag(
+                "skip-playing",
+                "Skip the playing field, when the CSV file does not have that info. Defaults playing to 'no'",
+                _ => _skipPlaying = true);
+
             HasFieldMapArg("name-field", "Name", 'n');
             HasFieldMapArg("platform-field", "Platform");
             HasFieldMapArg("priority-field", "Priority", 'p');
             HasFieldMapArg("hours-field", "Hours", 'H');
-            HasFieldMapArg("genres-field", "Tags", 'g');
+            HasFieldMapArg("tags-field", "Tags", 't');
             HasFieldMapArg("added-date-field", "Added Date", 'a');
             HasFieldMapArg("finished-date-field", "Finished Date", 'f');
 
@@ -54,7 +68,7 @@ namespace Gomer.Cli.Commands
         public override void Run(string[] remainingArguments, TextWriter output)
         {
             var pile = ReadFile();
-            
+
             var fileName = remainingArguments[0];
             if (!File.Exists(fileName))
             {
@@ -69,9 +83,14 @@ namespace Gomer.Cli.Commands
 
                 var headers = csv.FieldHeaders;
 
+                if (_skipPlaying)
+                {
+                    _fieldMap.Remove("Playing");
+                }
+
                 var mapped = _fieldMap.Where(kvp => headers.Contains(kvp.Value, StringComparer.InvariantCultureIgnoreCase)).ToList();
                 var unmapped = _fieldMap.Where(kvp => !headers.Contains(kvp.Value, StringComparer.InvariantCultureIgnoreCase)).ToList();
-                
+
                 var tableDef = new Dictionary<string, Func<KeyValuePair<string, string>, string>>
                 {
                     { "Property", kvp => kvp.Key },
@@ -84,17 +103,15 @@ namespace Gomer.Cli.Commands
 
                 if (unmapped.Any())
                 {
-                    throw new CommandException("Could not map the following fields in CSV file:" + string.Join(", ", unmapped.Select(u => u.Key)));
+                    throw new CommandException("Could not map the following fields in CSV file:" + string.Join(", ", unmapped.Select(u => string.Format("{0} -> {1}", u.Key, u.Value))));
                 }
 
-                var updatedCount = 0;
+                var existingCount = 0;
                 var addedCount = 0;
 
                 do
                 {
                     var name = csv.GetField(_fieldMap["Name"]);
-                    string alias;
-                    csv.TryGetField(_fieldMap["Alias"], out alias);
 
                     var game = pile.Games.FirstOrDefault(g =>
                         String.Equals(g.Name, name, StringComparison.CurrentCultureIgnoreCase));
@@ -109,7 +126,11 @@ namespace Gomer.Cli.Commands
                     }
                     else
                     {
-                        updatedCount++;
+                        existingCount++;
+                        if (!_updateExisting)
+                        {
+                            continue;
+                        }
                     }
 
                     game.Platform = csv.GetField(_fieldMap["Platform"]);
@@ -122,13 +143,24 @@ namespace Gomer.Cli.Commands
                     game.FinishedDate = csv.GetField<DateTime?>(_fieldMap["Finished Date"]);
 
                     var playing = "no";
-                    csv.TryGetField(_fieldMap["Playing"], out playing);
+                    if (!_skipPlaying)
+                    {
+                        csv.TryGetField(_fieldMap["Playing"], out playing);
+                    }
 
                     game.Playing = new[] { "yes", "true", "1" }.Contains(playing,
                         StringComparer.InvariantCultureIgnoreCase);
                 } while (csv.Read());
-
-                output.WriteLine("Created {0} games, updated {1} existing games.", addedCount, updatedCount);
+                
+                output.WriteLine("Created {0} games.", addedCount);
+                if (_updateExisting)
+                {
+                    output.WriteLine("Updated {0} existing games.", existingCount);
+                }
+                else
+                {
+                    output.WriteLine("Skipped {0} existing games.", existingCount);
+                }
             }
 
             WriteFile(pile, output);

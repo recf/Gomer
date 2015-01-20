@@ -31,7 +31,6 @@ namespace Gomer.Core
         public IList<PileGame> Search(
             string name = null, 
             List<string> platforms = null, 
-            List<int> priorities = null,
             List<string> genres = null, 
             bool? playing = null,
             bool? finished = null,
@@ -44,11 +43,6 @@ namespace Gomer.Core
             if (platforms == null)
             {
                 platforms = new List<string>();
-            }
-
-            if (priorities == null)
-            {
-                priorities = new List<int>();
             }
 
             if (genres == null)
@@ -76,11 +70,6 @@ namespace Gomer.Core
                     games.Where(
                         g =>
                             platforms.Any(p => string.Equals(g.Platform, p, StringComparison.InvariantCultureIgnoreCase)));
-            }
-
-            if (priorities.Any())
-            {
-                games = games.Where(g => priorities.Any(p => g.Priority == p));
             }
 
             if (genres.Any())

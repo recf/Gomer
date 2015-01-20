@@ -24,10 +24,6 @@ namespace Gomer.Core
         [JsonProperty("finished_date", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public DateTime? FinishedDate { get; set; }
 
-        [JsonProperty("priority", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        [DefaultValue(2)]
-        public int Priority { get; set; }
-
         [JsonProperty("hours", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         [DefaultValue(10)]
         public int EstimatedHours { get; set; }

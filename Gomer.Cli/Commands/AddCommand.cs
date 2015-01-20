@@ -14,31 +14,23 @@ namespace Gomer.Cli.Commands
 
         private int _hours;
 
-        private int _priority;
-
         private DateTime _addedDate;
-
-        private string _alias;
 
         public AddCommand()
         {
             IsCommand("add", "Add a pile game.");
 
             _addedDate = DateTime.Today;
-            _priority = 2;
             _hours = 10;
             _genres = new List<string>();
 
             Arg("added-date", "{{DATE}} acquired. (default: {0:}))", v => _addedDate = v, 'a', _addedDate);
-            Arg("priority", "{{PRIORITY}} of the game. (default: {0})", v => _priority = v, 'p', _priority);
             Arg("hours", "Estimated {{HOURS}} to complete. (default: {0})", v => _hours = v, 'H', _hours);
             Arg(
                 "tag", 
                 "{{TAG}} that the game belongs to. Can be specified multiple times.", 
                 v => _genres.Add(v.Trim()),
                 't');
-
-            Arg("alias", "Alternate {{ALIAS}} for the game.", v => _alias = v);
 
             HasAdditionalArguments(2, "<name> <platform>");
         }
@@ -60,7 +52,6 @@ namespace Gomer.Cli.Commands
                 Name = name,
                 Platform = platform,
                 EstimatedHours = _hours,
-                Priority = _priority,
                 AddedDate = _addedDate,
                 Tags = _genres
             };

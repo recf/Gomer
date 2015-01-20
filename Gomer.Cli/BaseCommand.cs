@@ -336,7 +336,6 @@ namespace Gomer.Cli
             {
                 { "Game", g => g.Name },
                 { "Platform", g => g.Platform },
-                { "Pri.", g => g.Priority.ToString() },
                 { "Hrs.", g => g.EstimatedHours.ToString() },
                 { "Added", g => DateToString(g.AddedDate) },
                 { "Finished", g => DateToString(g.FinishedDate) },

@@ -25,7 +25,6 @@ namespace Gomer.Cli.Commands
         {
             Name,
             Platform,
-            Priority,
             Hours,
             Added,
             Finished,
@@ -59,7 +58,7 @@ namespace Gomer.Cli.Commands
             _tags = new List<string>();
 
             _outFormat = OutputFormat.Console;
-            _sortField = SortFields.Priority;
+            _sortField = SortFields.Name;
             
             IsCommand("show", Strings.ResourceManager.GetString("commands.show"));
 
@@ -92,7 +91,7 @@ namespace Gomer.Cli.Commands
         {
             var pile = ReadFile();
 
-            var games = pile.Search(_name, _platforms, _priorities, _tags, _playing, _finished, hidden:_hidden);
+            var games = pile.Search(_name, _platforms, _tags, _playing, _finished, hidden:_hidden);
 
             switch (_outFormat)
             {
@@ -133,7 +132,6 @@ namespace Gomer.Cli.Commands
             {
                 csv.WriteField(game.Name);
                 csv.WriteField(game.Platform);
-                csv.WriteField(game.Priority);
                 csv.WriteField(game.EstimatedHours);
                 csv.WriteField(DateToString(game.AddedDate));
                 csv.WriteField(DateToString(game.FinishedDate));
@@ -189,9 +187,6 @@ namespace Gomer.Cli.Commands
 
             switch (_sortField)
             {
-                case SortFields.Priority:
-                    keySelector = g => g.Priority.ToString("D5") + g.Name;
-                    break;
                 case SortFields.Platform:
                     keySelector = g => g.Platform + g.Name;
                     break;

@@ -24,7 +24,6 @@ namespace Gomer.Cli.Commands
             {
                 { "Name", "Name"},
                 { "Platform", "Platform"},
-                { "Priority", "Priority"},
                 { "Hours", "Hours"},
                 { "Added Date", "Added Date"},
                 { "Finished Date", "Finished Date"},
@@ -46,7 +45,6 @@ namespace Gomer.Cli.Commands
 
             HasFieldMapArg("name-field", "Name", 'n');
             HasFieldMapArg("platform-field", "Platform");
-            HasFieldMapArg("priority-field", "Priority", 'p');
             HasFieldMapArg("hours-field", "Hours", 'H');
             HasFieldMapArg("tags-field", "Tags", 't');
             HasFieldMapArg("added-date-field", "Added Date", 'a');
@@ -135,8 +133,7 @@ namespace Gomer.Cli.Commands
 
                     game.Platform = csv.GetField(_fieldMap["Platform"]);
 
-                    // TODO: Move default priority and default hours into constants, or read them from the attributes on the PileGame class.
-                    game.Priority = GetFieldOrDefault(csv, "Priority", 2);
+                    // TODO: Move default hours into constants, or read them from the attributes on the PileGame class.
                     game.EstimatedHours = GetFieldOrDefault(csv, "Hours", 10);
                     game.Tags = csv.GetField(_fieldMap["Tags"]).Split(',');
                     game.AddedDate = csv.GetField<DateTime>(_fieldMap["Added Date"]);

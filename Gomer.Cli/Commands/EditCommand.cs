@@ -46,7 +46,6 @@ namespace Gomer.Cli.Commands
             Arg("added-date", "Set the {{DATE}} acquired.", v => _addedDate = v, 'a');
             Arg("finished-date", "Set the {{DATE}} finished. Implies --not-playing.", v => _finishedDate = v, 'f');
             Flag("finished", "Equivalent to --finished-date with today's date.", _ => _finishedDate = DateTime.Today);
-            Arg("priority", "Set the {{PRIORITY}} of the game.", v => _priority = v, 'p');
             Arg("hours", "Set the estimated {{HOURS}} to complete.", v => _hours = v, 'H');
             Flag("playing", "Set Playing to true.", v => _playing = v);
             Flag("not-playing", "Set Playing to false.", v => _playing = !v);
@@ -109,13 +108,7 @@ namespace Gomer.Cli.Commands
                 audit.Add(new Tuple<string, string, string>("Platform", game.Platform, _platform));
                 game.Platform = _platform;
             }
-
-            if (_priority.HasValue)
-            {
-                audit.Add(new Tuple<string, string, string>("Priority", game.Priority.ToString(), _priority.Value.ToString()));
-                game.Priority = _priority.Value;
-            }
-
+            
             if (_hours.HasValue)
             {
                 audit.Add(new Tuple<string, string, string>("Est. Hours", game.EstimatedHours.ToString(), _hours.Value.ToString()));

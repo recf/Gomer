@@ -71,13 +71,13 @@ namespace Gomer.Cli.Commands
 
             if (_useBBCode)
             {
-                OutputBbCode(null, shortTermStats, lists, output);
-                OutputBbCode("Long Term", longTermStats, null, output);
+                OutputBbCode("Short Term", shortTermReport.DateRange, shortTermStats, lists, output);
+                OutputBbCode("Long Term", longTermReport.DateRange, longTermStats, null, output);
             }
             else
             {
-                OutputConsole(null, shortTermStats, lists, output);
-                OutputConsole("Long Term", longTermStats, null, output);
+                OutputConsole("Short Term", shortTermReport.DateRange, shortTermStats, lists, output);
+                OutputConsole("Long Term", longTermReport.DateRange, longTermStats, null, output);
             }
         }
 
@@ -98,14 +98,15 @@ namespace Gomer.Cli.Commands
             };
         }
 
-        private void OutputConsole(string label, Dictionary<string, string> stats, Dictionary<string, IReadOnlyList<PileGame>> lists, TextWriter output)
+        private void OutputConsole(string label, DateRange dateRange, Dictionary<string, string> stats, Dictionary<string, IReadOnlyList<PileGame>> lists, TextWriter output)
         {
             output.WriteLine();
 
             if (!string.IsNullOrWhiteSpace(label))
             {
-                output.WriteLine(label);
-                output.WriteLine(new string('=', label.Length));
+                var header = string.Format("{0} ({1})", label, dateRange);
+                output.WriteLine(header);
+                output.WriteLine(new string('=', header.Length));
                 output.WriteLine();
             }
 
@@ -118,6 +119,7 @@ namespace Gomer.Cli.Commands
                 output.WriteLine(statFormat, kvp.Key, kvp.Value);
             }
 
+            // TODO: Move Console list output to a separate method
             if (!_showList || lists == null)
             {
                 return;
@@ -138,13 +140,14 @@ namespace Gomer.Cli.Commands
             }
         }
 
-        private void OutputBbCode(string label, Dictionary<string, string> stats, Dictionary<string, IReadOnlyList<PileGame>> lists, TextWriter output)
+        private void OutputBbCode(string label, DateRange dateRange, Dictionary<string, string> stats, Dictionary<string, IReadOnlyList<PileGame>> lists, TextWriter output)
         {
             output.WriteLine();
 
             if (!string.IsNullOrWhiteSpace(label))
             {
-                output.WriteLine("[b]{0}[/b]", label);
+                var header = string.Format("{0} ({1})", label, dateRange);
+                output.WriteLine("[b]{0}[/b]", header);
                 output.WriteLine();
             }
 
@@ -159,11 +162,11 @@ namespace Gomer.Cli.Commands
             }
             output.WriteLine("[/table]");
 
+            // TODO: Move BBCode list output to a separate method
             if (!_showList || lists == null)
             {
                 return;
             }
-
 
             const string itemFormat = "[*] {0} ({1})";
             foreach (var kvp in lists)

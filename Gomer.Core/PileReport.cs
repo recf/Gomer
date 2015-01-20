@@ -15,7 +15,7 @@ namespace Gomer.Core
                 pile.Search(addedOnOrAfter: DateRange.Start, addedBeforeOrOn: DateRange.End).OrderBy(g => g.Name).ToList();
 
             FinishedInPeriod =
-                pile.Search(finishedOnOrAfter: DateRange.Start, finishedBeforeOrOn: DateRange.End)
+                pile.Search(finishedOnOrAfter: DateRange.Start, finishedBeforeOrOn: DateRange.End, finished: true)
                     .OrderBy(g => g.Name)
                     .ToList();
 

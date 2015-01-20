@@ -43,7 +43,7 @@ namespace Gomer.Cli.Commands
 
         private bool? _finished;
 
-        private bool _hidden;
+        private bool? _hidden;
 
         private OutputFormat _outFormat;
 
@@ -71,6 +71,11 @@ namespace Gomer.Cli.Commands
             Flag("finished", "Include Finished games only.", _ => _finished = true);
             Flag("collection", "Include finished and unfinished games.", _ => _finished = null, 'c');
             Flag("hidden", "Include hidden games only.", _ => _hidden = true);
+            Flag("all", "Include finished, unfinished and hidden games.", _ =>
+            {
+                _finished = null;
+                _hidden = null;
+            });
 
             Arg(
                 "sort",

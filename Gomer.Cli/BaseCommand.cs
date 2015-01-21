@@ -14,12 +14,10 @@ namespace Gomer.Cli
     {
         public abstract void Run(string[] remainingArguments, TextWriter output);
 
-        private string _outFile;
-
         private bool _verbose;
 
         private readonly List<KeyValuePair<string, object>> _trace;
-        
+
         private bool _launchDebugger;
 
         protected BaseCommand()
@@ -28,7 +26,6 @@ namespace Gomer.Cli
 
             _trace = new List<KeyValuePair<string, object>>();
 
-            _outFile = "-";
             _verbose = false;
             _launchDebugger = false;
         }
@@ -62,15 +59,25 @@ namespace Gomer.Cli
                 show = v => Convert.ToString(v);
             }
 
-            var prototype = shortName == default(char) 
-                ? string.Format("{0}=", longName) 
+            var prototype = shortName == default(char)
+                ? string.Format("{0}=", longName)
                 : string.Format("{0}|{1}=", shortName, longName);
 
             var fullDesc = string.Format(description, show(defaultValue));
 
             Action<string> realAction = v =>
             {
-                var value = read(v);
+                T value;
+                try
+                {
+                    value = read(v);
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException(
+                        string.Format("Could not recognize string \"{0}\" as type {1}", v, typeof (T)), "--" + longName,
+                        e);
+                }
 
                 _trace.Add(new KeyValuePair<string, object>(longName, show(value)));
 
@@ -117,7 +124,7 @@ namespace Gomer.Cli
                 shortName,
                 defaultValue);
         }
-        
+
         /// <remarks>
         /// DateTime arg
         /// </remarks>
@@ -137,7 +144,7 @@ namespace Gomer.Cli
                 defaultValue,
                 v => v.ToString("yyyy-MM-dd"));
         }
-        
+
         public void Flag(string longName, string description, Action<bool> action, char shortName = default(char))
         {
             var prototype = shortName == default(char) ? longName : string.Format("{0}|{1}", shortName, longName);
@@ -166,14 +173,9 @@ namespace Gomer.Cli
             });
         }
 
-        public void OutfileArg(string description = "{{FILE}} to write output to. Use - for STDOUT. (default: {0})")
-        {
-            Arg("outfile", description, v => _outFile = v, 'o', _outFile);
-        }
-
         public TEnum ReadEnum<TEnum>(string input)
         {
-            return (TEnum) Enum.Parse(typeof (TEnum), input, true);
+            return (TEnum)Enum.Parse(typeof(TEnum), input, true);
         }
 
         public void ShowTrace(TextWriter output)
@@ -187,40 +189,13 @@ namespace Gomer.Cli
 
         public override int Run(string[] remainingArguments)
         {
-            try
+            if (_launchDebugger)
             {
-                if (_outFile == "-")
-                {
-                    if (_launchDebugger)
-                    {
-                        ShowTrace(Console.Out);
-                        Debugger.Launch();
-                    }
-
-                    Run(remainingArguments, Console.Out);
-                }
-                else
-                {
-                    using (TextWriter output = new StreamWriter(_outFile, false, new UTF8Encoding(false)))
-                    {
-                        if (_launchDebugger)
-                        {
-                            ShowTrace(output);
-                            Debugger.Launch();
-                        }
-
-                        Run(remainingArguments, output);
-                        Console.WriteLine("Writing output to {0}", _outFile);
-                    }
-                }
+                ShowTrace(Console.Out);
+                Debugger.Launch();
             }
-            catch (CommandException e)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Error.WriteLine("Exception: {0}", e.Message);
-                Console.ResetColor();
-                return e.StatusCode;
-            }
+
+            Run(remainingArguments, Console.Out);
 
             return 0;
         }

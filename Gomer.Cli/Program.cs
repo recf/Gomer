@@ -13,7 +13,27 @@ namespace Gomer.Cli
         {
             var commands = ConsoleCommandDispatcher.FindCommandsInSameAssemblyAs(typeof (Program));
 
-            ConsoleCommandDispatcher.DispatchCommand(commands, args, Console.Out);
+            var statusCode = 0;
+            try
+            {
+                statusCode = ConsoleCommandDispatcher.DispatchCommand(commands, args, Console.Out);
+            }
+            catch (ArgumentException e)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Error.WriteLine("Exception: {0}", e.Message);
+                Console.ResetColor();
+                statusCode = 1;
+            }
+            catch (CommandException e)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Error.WriteLine("Exception: {0}", e.Message);
+                Console.ResetColor();
+                statusCode = e.StatusCode;
+            }
+
+            Environment.Exit(statusCode);
         }
     }
 }

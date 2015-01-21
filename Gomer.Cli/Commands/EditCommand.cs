@@ -17,8 +17,6 @@ namespace Gomer.Cli.Commands
 
         private DateTime? _finishedDate;
 
-        private int? _priority;
-
         private int? _hours;
 
         private List<string> _tags;
@@ -57,7 +55,7 @@ namespace Gomer.Cli.Commands
             Flag("hide", "Mark a game as hidden.", _ => _hidden = true);
             Flag("unhide", "Mark a game as visible.", _ => _hidden = false);
 
-            HasAdditionalArguments(1, "<name or alias>");
+            HasAdditionalArguments(1, "<name>");
         }
 
         public override void Run(string[] remainingArguments, TextWriter output)

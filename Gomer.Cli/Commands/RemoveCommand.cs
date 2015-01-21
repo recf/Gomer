@@ -15,7 +15,7 @@ namespace Gomer.Cli.Commands
         {
             IsCommand("rm", "Remove a pile game.");
 
-            HasAdditionalArguments(1, " <name or alias>");
+            HasAdditionalArguments(1, " <name>");
         }
 
         public override void Run(string[] remainingArguments, TextWriter output)

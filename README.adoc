@@ -1,6 +1,6 @@
 = Gomer
 Aaron Dorheim-Davis, <https://github.com/recf[@recf]>
-v0.1.0, 2014-12-24
+v1.0.0, 2015-01-20
 :fonts: icon
 :nofooter:
 :toc:
@@ -12,7 +12,7 @@ image::{ci-img}[alt=Build Status, link={ci-link}]
 
 Gomer is a command line utility for managing your video game "pile".
 
-Pile date is saved in a JSON file with the .pile extension. The JSON Schema of
+Pile data is saved in a JSON file with the .pile extension. The JSON Schema of
 the file can be found at link:./doc/schemas[].
 
 To use it, place gomer.exe (and the other files in the zip file) on your path,
@@ -85,8 +85,8 @@ include::doc/Usage.adoc[leveloffset=+1]
 
 * `Psake` task to patch the version in this README file.
 * `Psake` task to patch the date in this README file.
+* `Psake` task to patch the version in appveyor.yml
 * Look into Awestruct for generating gh-pages. That's what asciidoctor.org uses.
-* `export-csv` command
 
 === From Source
 

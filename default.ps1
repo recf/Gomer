@@ -7,10 +7,10 @@ Properties {
     $build_dir = Split-Path $psake.build_script_file
 	$encoding = New-Object System.Text.UTF8Encoding($false)
     $config = "Release"
-    $version_major = 0
-    $version_minor = 1
+    $version_major = 1
+    $version_minor = 0
     $version_patch = 0
-    $version_label = "alpha"
+    $version_label = $null
 }
 
 Task Default -Depends Generate-Docs,Patch-Version

@@ -39,11 +39,9 @@ Expected usage: gomer.exe about
 Expected usage: gomer.exe add <options> <name> <platform>
 <options> available:
   -a, --added-date=DATE      DATE acquired. (default: <today>))
-  -p, --priority=PRIORITY    PRIORITY of the game. (default: 2)
   -H, --hours=HOURS          Estimated HOURS to complete. (default: 10)
   -t, --tag=TAG              TAG that the game belongs to. Can be specified 
                                multiple times.
-      --alias=ALIAS          Alternate ALIAS for the game.
 ----
 
 [[edit-command]]
@@ -60,9 +58,9 @@ Expected usage: gomer.exe edit <options> <name or alias>
   -a, --added-date=DATE      Set the DATE acquired.
   -f, --finished-date=DATE   Set the DATE finished. Implies --not-playing.
       --finished             Equivalent to --finished-date with today's date.
-  -p, --priority=PRIORITY    Set the PRIORITY of the game.
   -H, --hours=HOURS          Set the estimated HOURS to complete.
       --playing              Set Playing to true.
+      --not-playing          Set Playing to false.
       --clear-tags           Clear existing tag list. This is run before 
                                adding new tags.
   -t, --tag=TAG              Add a TAG. Can be specified multiple times.
@@ -79,14 +77,17 @@ Expected usage: gomer.exe edit <options> <name or alias>
 
 Expected usage: gomer.exe import-csv <options> <filename>
 <options> available:
+      --update-existing      Update existing games with data from CSV file. 
+                               By default, new games are added, but existing 
+                               games are skipped
+      --skip-playing         Skip the playing field, when the CSV file does 
+                               not have that info. Defaults playing to 'no'
   -n, --name-field=FIELD     FIELD in CSV file to map to Name. (default: Name)
       --platform-field=FIELD FIELD in CSV file to map to Platform. (default: 
                                Platform)
-  -p, --priority-field=FIELD FIELD in CSV file to map to Priority. (default: 
-                               Priority)
   -H, --hours-field=FIELD    FIELD in CSV file to map to Hours. (default: 
                                Hours)
-  -g, --genres-field=FIELD   FIELD in CSV file to map to Tags. (default: Tags)
+  -t, --tags-field=FIELD     FIELD in CSV file to map to Tags. (default: Tags)
   -a, --added-date-field=FIELD
                              FIELD in CSV file to map to Added Date. 
                                (default: Added Date)
@@ -126,9 +127,10 @@ Expected usage: gomer.exe rm <name or alias>
 
 Expected usage: gomer.exe report <options> 
 <options> available:
-  -b, --begin=DATE           Begin DATE of the date range. (default: 2015-01-
-                               01)
-  -e, --end=DATE             End DATE of the date range. (default: 2015-01-31)
+  -s, --short=RANGE          Short term date RANGE to report on. (default: 
+                               2015-01-01...2015-01-31)
+  -l, --long=RANGE           Long term date RANGE to report on. (default: 
+                               2015-01-01...2015-12-31)
       --bbcode               Output in BBCode format, for posting in forums.
       --list                 List the games in the report, in addition to 
                                stats.
@@ -153,7 +155,7 @@ Expected usage: gomer.exe schema
 
 Expected usage: gomer.exe show <options> 
 <options> available:
-  -n, --name=NAME            Filter by the NAME using fuzzy matching.
+  -n, --name=NAME            Filter by the NAME using smart matching.
       --platform=PLATFORM    Filter by PLATFORM. Can be specified multiple 
                                times. This is a ONE-OF-EQUALS filter.
   -p, --priority=PRIORITY    Filter by PRIORITY. Can be specified multiple 
@@ -164,6 +166,7 @@ Expected usage: gomer.exe show <options>
       --finished             Include Finished games only.
   -c, --collection           Include finished and unfinished games.
       --hidden               Include hidden games only.
+      --all                  Include finished, unfinished and hidden games.
       --sort=FIELD           FIELD to sort by. (default: Name)
       --csv                  Format output as Comma Separate Values 
                                (Spreadsheet)

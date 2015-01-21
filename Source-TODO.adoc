@@ -2,4 +2,7 @@
 ** link:./Gomer.Cli/Commands/EditCommand.cs#L34[34] Edit multiple at once?
 ** link:./Gomer.Cli/Commands/EditCommand.cs#L35[35] Edit piped input in JSON format?
 * link:./Gomer.Cli/Commands/ImportCsvCommand.cs[]
-** link:./Gomer.Cli/Commands/ImportCsvCommand.cs#L117[117] Move default priority and default hours into constants, or read them from the attributes on the PileGame class.
+** link:./Gomer.Cli/Commands/ImportCsvCommand.cs#L136[136] Move default hours into constants, or read them from the attributes on the PileGame class.
+* link:./Gomer.Cli/Commands/ReportCommand.cs[]
+** link:./Gomer.Cli/Commands/ReportCommand.cs#L122[122] Move Console list output to a separate method
+** link:./Gomer.Cli/Commands/ReportCommand.cs#L165[165] Move BBCode list output to a separate method

@@ -1,6 +1,6 @@
 * link:./Gomer.Cli/Commands/EditCommand.cs[]
-** link:./Gomer.Cli/Commands/EditCommand.cs#L34[34] Edit multiple at once?
-** link:./Gomer.Cli/Commands/EditCommand.cs#L35[35] Edit piped input in JSON format?
+** link:./Gomer.Cli/Commands/EditCommand.cs#L32[32] Edit multiple at once?
+** link:./Gomer.Cli/Commands/EditCommand.cs#L33[33] Edit piped input in JSON format?
 * link:./Gomer.Cli/Commands/ImportCsvCommand.cs[]
 ** link:./Gomer.Cli/Commands/ImportCsvCommand.cs#L136[136] Move default hours into constants, or read them from the attributes on the PileGame class.
 * link:./Gomer.Cli/Commands/ReportCommand.cs[]

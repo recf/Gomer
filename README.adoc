@@ -1,10 +1,13 @@
 = Gomer
 Aaron Dorheim-Davis, <https://github.com/recf[@recf]>
-v1.0.0, 2015-01-20
+:revnumber: 1.1.0-pre
+:revdate: 2015-01-20
 :fonts: icon
 :nofooter:
 :toc:
 :toc-placement: preamble
+:repo: https://github.com/recf/Gomer
+:repo-link: {repo}/tree/master
 :ci-link: https://ci.appveyor.com/project/recf/gomer
 :ci-img: https://ci.appveyor.com/api/projects/status/oei3gded2b0h9q36?svg=true
 
@@ -13,13 +16,13 @@ image::{ci-img}[alt=Build Status, link={ci-link}]
 Gomer is a command line utility for managing your video game "pile".
 
 Pile data is saved in a JSON file with the .pile extension. The JSON Schema of
-the file can be found at link:./doc/schemas[].
+the file can be found at link:{repo-link}/doc/schemas[].
 
-To use it, place gomer.exe (and the other files in the zip file) on your path,
-and `cd` into a directory that you want to store you .pile file, and use the
-`init` command to create a new pile file. You can name it whatever you like (or
-even rename the file after it's created) but it has to be the only file with
-the .pile extension in that directory.
+To use it, place gomer.exe on your path, then open a powershell window and `cd`
+into a directory that you want to store you .pile file. Use the `init` command
+to create a new pile file. You can name it whatever you like (or even rename the
+file after it's created) but it has to be the only file with the .pile extension
+in that directory.
 
 == Matching
 
@@ -87,6 +90,7 @@ include::doc/Usage.adoc[leveloffset=+1]
 * `Psake` task to patch the date in this README file.
 * `Psake` task to patch the version in appveyor.yml
 * Look into Awestruct for generating gh-pages. That's what asciidoctor.org uses.
+* Localization
 
 === From Source
 

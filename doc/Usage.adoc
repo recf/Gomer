@@ -51,7 +51,7 @@ Expected usage: gomer.exe add <options> <name> <platform>
 ----
 'edit' - Edit a pile game.
 
-Expected usage: gomer.exe edit <options> <name or alias>
+Expected usage: gomer.exe edit <options> <name>
 <options> available:
       --rename=NAME          Set the NAME.
       --platform=PLATFORM    Set the PLATFORM.
@@ -115,7 +115,7 @@ Expected usage: gomer.exe init <options>
 ----
 'rm' - Remove a pile game.
 
-Expected usage: gomer.exe rm <name or alias>
+Expected usage: gomer.exe rm <name>
 ----
 
 [[report-command]]

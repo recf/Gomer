@@ -8,9 +8,9 @@ Properties {
 	$encoding = New-Object System.Text.UTF8Encoding($false)
     $config = "Release"
     $version_major = 1
-    $version_minor = 0
+    $version_minor = 1
     $version_patch = 0
-    $version_label = $null
+    $version_label = 'pre'
 }
 
 Task Default -Depends Generate-Docs,Patch-Version

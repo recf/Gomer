@@ -34,9 +34,7 @@ namespace Gomer.Cli.Commands
         private List<string> _platforms;
 
         private string _name;
-
-        private List<int> _priorities;
-
+        
         private List<string> _tags;
 
         private bool? _playing;
@@ -54,7 +52,6 @@ namespace Gomer.Cli.Commands
             _hidden = false;
             _finished = false;
             _platforms = new List<string>();
-            _priorities = new List<int>();
             _tags = new List<string>();
 
             _outFormat = OutputFormat.Console;
@@ -63,8 +60,7 @@ namespace Gomer.Cli.Commands
             IsCommand("show", Strings.ResourceManager.GetString("commands.show"));
 
             Arg("name", Strings.ResourceManager.GetString("commands.show.name"), v => _name = v, 'n');
-            Arg("platform", "Filter by {{PLATFORM}}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _platforms.Add(v));
-            Arg("priority", "Filter by {{PRIORITY}}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _priorities.Add(v), 'p');
+            Arg("platform", "Filter by {{PLATFORM}}. Can be specified multiple times. This is a ONE-OF-EQUALS filter.", v => _platforms.Add(v), 'p');
             Arg("tag", "Filter by {{TAG}}. Can be specified multiple times. This is a ONE-OF-LIKE filter.", v => _tags.Add(v), 't');
 
             Flag("playing", "Filter by Playing.", v => _playing = v);
@@ -158,11 +154,6 @@ namespace Gomer.Cli.Commands
             if (_platforms.Any())
             {
                 criteria.Add(string.Format("platform = '{0}'", string.Join("' or '", _platforms)));
-            }
-
-            if (_priorities.Any())
-            {
-                criteria.Add(string.Format("priority = {0}", string.Join(" or ", _priorities)));
             }
 
             if (_tags.Any())

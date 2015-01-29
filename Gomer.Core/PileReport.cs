@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,9 +26,9 @@ namespace Gomer.Core
             Delta = addedCount - finishedCount;
             HoursDelta = AddedHoursInPeriod - FinishedHoursInPeriod;
 
-            CompletionPercentage = (decimal)finishedCount / addedCount;
 
-            HoursCompletionPercentage = (decimal)FinishedHoursInPeriod / AddedHoursInPeriod;
+            Ratio = Reduce(addedCount, finishedCount);
+            HoursRatio = Reduce(AddedHoursInPeriod, FinishedHoursInPeriod);
         }
 
         public int HoursDelta { get; private set; }
@@ -35,10 +36,6 @@ namespace Gomer.Core
         public int Delta { get; private set; }
 
         public DateRange DateRange { get; private set; }
-
-        public decimal CompletionPercentage { get; private set; }
-
-        public decimal HoursCompletionPercentage { get; private set; }
 
         public IReadOnlyList<PileGame> AddedInPeriod { get; private set; }
 
@@ -52,6 +49,43 @@ namespace Gomer.Core
         public int FinishedHoursInPeriod
         {
             get { return FinishedInPeriod.Sum(g => g.EstimatedHours); }
+        }
+
+        public Tuple<decimal, decimal> Ratio { get; private set; }
+        public Tuple<decimal, decimal> HoursRatio { get; private set; }
+
+        private Tuple<decimal, decimal> Reduce(int numerator, int demoninator)
+        {
+            var fence = 10;
+
+            var n = (decimal)numerator;
+            var d = (decimal)demoninator;
+
+            var terms = (new[] { 2, 3, 5, 7, 9, 11, 13, 17, 19, 23, 29 }).Reverse().ToArray();
+
+            var index = 0;
+            while (index < terms.Length)
+            {
+                var term = terms[index];
+
+                if (n % term == 0 && d % term == 0)
+                {
+                    n = n / term;
+                    d = d / term;
+                }
+                else
+                {
+                    index++;
+                }
+            }
+
+            if (n > fence)
+            {
+                d = d/n;
+                n = 1;
+            }
+
+            return new Tuple<decimal, decimal>(n, d);
         }
     }
 }

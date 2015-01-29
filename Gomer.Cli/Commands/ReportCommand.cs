@@ -78,8 +78,8 @@ namespace Gomer.Cli.Commands
                 { "Finished hours", report.FinishedHoursInPeriod.ToString() },
                 { "Hours Delta", report.HoursDelta.ToString() },
                 
-                { "Completion", string.Format("{0:P1}", report.CompletionPercentage) },
-                { "Hours Completion", string.Format("{0:P1}", report.HoursCompletionPercentage) }
+                { "Ratio", string.Format("{0:G2}:{1:G2}", report.Ratio.Item1, report.Ratio.Item2) },
+                { "Hours Ratio", string.Format("{0:G2}:{1:G2}", report.HoursRatio.Item1, report.HoursRatio.Item2) }
             };
         }
 

@@ -87,7 +87,7 @@ namespace Gomer.Cli.Commands
         {
             output.WriteLine();
 
-            var header = string.Format("{0}", dateRange);
+            var header = GetHeader(dateRange);
             output.WriteLine(header);
             output.WriteLine(new string('=', header.Length));
             output.WriteLine();
@@ -126,9 +126,9 @@ namespace Gomer.Cli.Commands
         {
             output.WriteLine();
 
-                var header = string.Format("{0}", dateRange);
-                output.WriteLine("[b]{0}[/b]", header);
-                output.WriteLine();
+            var header = GetHeader(dateRange);
+            output.WriteLine("[b]{0}[/b]", header);
+            output.WriteLine();
 
             var labelWidth = stats.Max(kvp => kvp.Key.Length);
             var valueWidth = stats.Max(kvp => kvp.Value.Length);
@@ -161,6 +161,33 @@ namespace Gomer.Cli.Commands
                 }
                 output.WriteLine("[/list]");
             }
+        }
+
+        private static string GetHeader(DateRange dateRange)
+        {
+            if (dateRange.Start.HasValue
+                && dateRange.End.HasValue
+                && dateRange.Start.Value.Day == 1
+                && dateRange.End.Value == dateRange.Start.Value.AddMonths(1).AddDays(-1))
+            {
+                return dateRange.Start.Value.ToString("MMMM yyyy");
+            }
+
+            var yearStart = new DateTime(DateTime.Today.Year, 1, 1);
+            var yearEnd = yearStart.AddYears(1).AddDays(-1);
+            if (dateRange.Start.HasValue
+                && dateRange.Start.Value == yearStart
+                && (dateRange.End ?? yearEnd) == yearEnd)
+            {
+                return string.Format("{0:yyyy} Year to Date", dateRange.Start.Value);
+            }
+
+            if (!dateRange.Start.HasValue && !dateRange.End.HasValue)
+            {
+                return "All time";
+            }
+
+            return string.Format("{0}", dateRange);
         }
     }
 }

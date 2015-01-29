@@ -23,7 +23,11 @@ namespace Gomer.Cli.Commands
             var startOfMonth = new DateTime(today.Year, today.Month, 1);
             var startOfYear = new DateTime(today.Year, 1, 1);
 
-            _dateRange = new DateRange(startOfMonth, startOfMonth.AddMonths(1).AddDays(-1));
+            var thisMonth = new DateRange(startOfMonth, startOfMonth.AddMonths(1).AddDays(-1));
+            var lastMonth = new DateRange(startOfMonth.AddMonths(-1), startOfMonth.AddDays(-1));
+            var yearToDate = new DateRange(startOfYear, null);
+
+            _dateRange = thisMonth;
 
             _useBBCode = false;
             _showList = false;
@@ -37,6 +41,16 @@ namespace Gomer.Cli.Commands
                 v => _dateRange = v,
                 'd',
                 _dateRange);
+
+            Flag(
+                "last-month",
+                string.Format("Show report for last month. Equivalent to --date-range {0}", lastMonth), 
+                v => _dateRange = lastMonth);
+
+            Flag(
+                "ytd",
+                string.Format("Show report for year-to-date. Equivalent to --date-range {0}", yearToDate),
+                v => _dateRange = yearToDate);
 
             Flag("bbcode", "Output in BBCode format, for posting in forums.", v => _useBBCode = v);
 

@@ -11,12 +11,11 @@ namespace Gomer.Cli.Commands
 {
     class ReportCommand : BaseCommand
     {
-        private DateRange _shortTerm;
+        private DateRange _dateRange;
 
         private bool _useBBCode;
 
         private bool _showList;
-        private DateRange _longTerm;
 
         public ReportCommand()
         {
@@ -24,9 +23,7 @@ namespace Gomer.Cli.Commands
             var startOfMonth = new DateTime(today.Year, today.Month, 1);
             var startOfYear = new DateTime(today.Year, 1, 1);
 
-            _shortTerm = new DateRange(startOfMonth, startOfMonth.AddMonths(1).AddDays(-1));
-
-            _longTerm = new DateRange(startOfYear, startOfYear.AddYears(1).AddDays(-1));
+            _dateRange = new DateRange(startOfMonth, startOfMonth.AddMonths(1).AddDays(-1));
 
             _useBBCode = false;
             _showList = false;
@@ -34,20 +31,12 @@ namespace Gomer.Cli.Commands
             IsCommand("report", "Show report of changes for a date range.");
 
             Arg(
-                "short",
-                "Short term date {{RANGE}} to report on. (default: {0})",
+                "date-range",
+                "Date {{RANGE}} to report on. (default: {0})",
                 DateRange.Parse,
-                v => _shortTerm = v,
-                's',
-                _shortTerm);
-
-            Arg(
-                "long",
-                "Long term date {{RANGE}} to report on. (default: {0})",
-                DateRange.Parse,
-                v => _longTerm = v,
-                'l',
-                _longTerm);
+                v => _dateRange = v,
+                'd',
+                _dateRange);
 
             Flag("bbcode", "Output in BBCode format, for posting in forums.", v => _useBBCode = v);
 
@@ -57,27 +46,23 @@ namespace Gomer.Cli.Commands
         public override void Run(string[] remainingArguments, TextWriter output)
         {
             var pile = ReadFile();
-            var shortTermReport = new PileReport(pile, _shortTerm);
-            var longTermReport = new PileReport(pile, _longTerm);
+            var report = new PileReport(pile, _dateRange);
 
-            var shortTermStats = MakeStatsDictionary(shortTermReport);
-            var longTermStats = MakeStatsDictionary(longTermReport);
+            var shortTermStats = MakeStatsDictionary(report);
 
             var lists = new Dictionary<string, IReadOnlyList<PileGame>>
             {
-                { "Added", shortTermReport.AddedInPeriod },
-                { "Finished", shortTermReport.FinishedInPeriod }
+                { "Added", report.AddedInPeriod },
+                { "Finished", report.FinishedInPeriod }
             };
 
             if (_useBBCode)
             {
-                OutputBbCode("Short Term", shortTermReport.DateRange, shortTermStats, lists, output);
-                OutputBbCode("Long Term", longTermReport.DateRange, longTermStats, null, output);
+                OutputBbCode(report.DateRange, shortTermStats, lists, output);
             }
             else
             {
-                OutputConsole("Short Term", shortTermReport.DateRange, shortTermStats, lists, output);
-                OutputConsole("Long Term", longTermReport.DateRange, longTermStats, null, output);
+                OutputConsole(report.DateRange, shortTermStats, lists, output);
             }
         }
 
@@ -98,17 +83,14 @@ namespace Gomer.Cli.Commands
             };
         }
 
-        private void OutputConsole(string label, DateRange dateRange, Dictionary<string, string> stats, Dictionary<string, IReadOnlyList<PileGame>> lists, TextWriter output)
+        private void OutputConsole(DateRange dateRange, Dictionary<string, string> stats, Dictionary<string, IReadOnlyList<PileGame>> lists, TextWriter output)
         {
             output.WriteLine();
 
-            if (!string.IsNullOrWhiteSpace(label))
-            {
-                var header = string.Format("{0} ({1})", label, dateRange);
-                output.WriteLine(header);
-                output.WriteLine(new string('=', header.Length));
-                output.WriteLine();
-            }
+            var header = string.Format("{0}", dateRange);
+            output.WriteLine(header);
+            output.WriteLine(new string('=', header.Length));
+            output.WriteLine();
 
             var labelWidth = stats.Max(kvp => kvp.Key.Length);
             var valueWidth = stats.Max(kvp => kvp.Value.Length);
@@ -140,16 +122,13 @@ namespace Gomer.Cli.Commands
             }
         }
 
-        private void OutputBbCode(string label, DateRange dateRange, Dictionary<string, string> stats, Dictionary<string, IReadOnlyList<PileGame>> lists, TextWriter output)
+        private void OutputBbCode(DateRange dateRange, Dictionary<string, string> stats, Dictionary<string, IReadOnlyList<PileGame>> lists, TextWriter output)
         {
             output.WriteLine();
 
-            if (!string.IsNullOrWhiteSpace(label))
-            {
-                var header = string.Format("{0} ({1})", label, dateRange);
+                var header = string.Format("{0}", dateRange);
                 output.WriteLine("[b]{0}[/b]", header);
                 output.WriteLine();
-            }
 
             var labelWidth = stats.Max(kvp => kvp.Key.Length);
             var valueWidth = stats.Max(kvp => kvp.Value.Length);

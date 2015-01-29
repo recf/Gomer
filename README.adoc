@@ -91,6 +91,11 @@ include::doc/Usage.adoc[leveloffset=+1]
 * `Psake` task to patch the version in appveyor.yml
 * Look into Awestruct for generating gh-pages. That's what asciidoctor.org uses.
 * Localization
+* Better test coverage (i.e. any)
+* Remove ManyConsole dependency and implement my own dispatching (not really
+  localizable, and makes some assumptions I really don't like)
+* Make the commands return IEnumerable<string> (probably) a la the `argh`
+  wrapper for `argparse` from python.
 
 === From Source
 

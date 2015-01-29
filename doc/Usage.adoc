@@ -127,10 +127,12 @@ Expected usage: gomer.exe rm <name>
 
 Expected usage: gomer.exe report <options> 
 <options> available:
-  -s, --short=RANGE          Short term date RANGE to report on. (default: 
-                               2015-01-01...2015-01-31)
-  -l, --long=RANGE           Long term date RANGE to report on. (default: 
-                               2015-01-01...2015-12-31)
+  -d, --date-range=RANGE     Date RANGE to report on. (default: 2015-01-01.-
+                               ..2015-01-31)
+      --last-month           Show report for last month. Equivalent to --date-
+                               range 2014-12-01...2014-12-31
+      --ytd                  Show report for year-to-date. Equivalent to --
+                               date-range 2015-01-01...
       --bbcode               Output in BBCode format, for posting in forums.
       --list                 List the games in the report, in addition to 
                                stats.
@@ -156,9 +158,7 @@ Expected usage: gomer.exe schema
 Expected usage: gomer.exe show <options> 
 <options> available:
   -n, --name=NAME            Filter by the NAME using smart matching.
-      --platform=PLATFORM    Filter by PLATFORM. Can be specified multiple 
-                               times. This is a ONE-OF-EQUALS filter.
-  -p, --priority=PRIORITY    Filter by PRIORITY. Can be specified multiple 
+  -p, --platform=PLATFORM    Filter by PLATFORM. Can be specified multiple 
                                times. This is a ONE-OF-EQUALS filter.
   -t, --tag=TAG              Filter by TAG. Can be specified multiple times. 
                                This is a ONE-OF-LIKE filter.

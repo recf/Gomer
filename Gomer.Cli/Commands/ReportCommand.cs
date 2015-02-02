@@ -144,16 +144,12 @@ namespace Gomer.Cli.Commands
             output.WriteLine("[b]{0}[/b]", header);
             output.WriteLine();
 
-            var labelWidth = stats.Max(kvp => kvp.Key.Length);
-            var valueWidth = stats.Max(kvp => kvp.Value.Length);
-            var statFormat = string.Format("[tr][td][b] {{0,-{0}}} [/b][/td][td] {{1,{1}}} [/td][/tr]", labelWidth, valueWidth);
+            var statFormat = "{0}: {1}";
 
-            output.WriteLine("[table]");
             foreach (var kvp in stats)
             {
                 output.WriteLine(statFormat, kvp.Key, kvp.Value);
             }
-            output.WriteLine("[/table]");
 
             // TODO: Move BBCode list output to a separate method
             if (!_showList || lists == null)
@@ -165,7 +161,7 @@ namespace Gomer.Cli.Commands
             foreach (var kvp in lists)
             {
                 output.WriteLine();
-                output.WriteLine("[b]{0}[/b]", kvp.Key);
+                output.WriteLine("[i]{0}[/i]", kvp.Key);
 
                 output.WriteLine();
                 output.WriteLine("[list]");

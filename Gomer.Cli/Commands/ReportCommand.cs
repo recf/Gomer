@@ -60,6 +60,8 @@ namespace Gomer.Cli.Commands
         public override void Run(string[] remainingArguments, TextWriter output)
         {
             var pile = ReadFile();
+            ShouldShowHours = pile.ShouldTrackHours;
+
             var report = new PileReport(pile, _dateRange);
 
             var shortTermStats = MakeStatsDictionary(report);
@@ -80,21 +82,25 @@ namespace Gomer.Cli.Commands
             }
         }
 
-        private static Dictionary<string, string> MakeStatsDictionary(PileReport report)
+        private Dictionary<string, string> MakeStatsDictionary(PileReport report)
         {
-            return new Dictionary<string, string>
+            var stats = new Dictionary<string, string>
             {
                 { "Added", report.AddedInPeriod.Count.ToString() },
                 { "Finished", report.FinishedInPeriod.Count.ToString() },
                 { "Delta", report.Delta.ToString() },
-
-                { "Added hours", report.AddedHoursInPeriod.ToString() },
-                { "Finished hours", report.FinishedHoursInPeriod.ToString() },
-                { "Hours Delta", report.HoursDelta.ToString() },
-                
-                { "Ratio", string.Format("{0:G2}:{1:G2}", report.Ratio.Item1, report.Ratio.Item2) },
-                { "Hours Ratio", string.Format("{0:G2}:{1:G2}", report.HoursRatio.Item1, report.HoursRatio.Item2) }
+                { "Ratio", string.Format("{0:G2}:{1:G2}", report.Ratio.Item1, report.Ratio.Item2) }
             };
+
+            if (ShouldShowHours)
+            {
+                stats.Add("Added hours", report.AddedHoursInPeriod.ToString());
+                stats.Add("Finished hours", report.FinishedHoursInPeriod.ToString());
+                stats.Add("Hours Delta", report.HoursDelta.ToString());
+                stats.Add("Hours Ratio", string.Format("{0:G2}:{1:G2}", report.HoursRatio.Item1, report.HoursRatio.Item2));
+            }
+
+            return stats;
         }
 
         private void OutputConsole(DateRange dateRange, Dictionary<string, string> stats, Dictionary<string, IReadOnlyList<PileGame>> lists, TextWriter output)

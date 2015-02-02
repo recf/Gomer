@@ -60,6 +60,7 @@
     <Compile Include="CommandException.cs" />
     <Compile Include="Commands\AboutCommand.cs" />
     <Compile Include="Commands\AddCommand.cs" />
+    <Compile Include="Commands\Config.cs" />
     <Compile Include="Commands\EditCommand.cs" />
     <Compile Include="Commands\ImportCsvCommand.cs" />
     <Compile Include="Commands\InitCommand.cs" />

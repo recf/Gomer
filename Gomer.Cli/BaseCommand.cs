@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Gomer.Core;
 using ManyConsole;
@@ -19,6 +20,8 @@ namespace Gomer.Cli
         private readonly List<KeyValuePair<string, object>> _trace;
 
         private bool _launchDebugger;
+
+        protected bool ShouldShowHours { get; set; }
 
         protected BaseCommand()
         {
@@ -294,12 +297,12 @@ namespace Gomer.Cli
             return dateTime.ToString("yyyy-MM-dd");
         }
 
-        public static void Show(PileGame game, TextWriter output)
+        public void Show(PileGame game, TextWriter output)
         {
             Show(new[] { game }, output);
         }
 
-        public static void Show(IList<PileGame> games, TextWriter output)
+        public void Show(IList<PileGame> games, TextWriter output)
         {
             if (!games.Any())
             {
@@ -317,6 +320,11 @@ namespace Gomer.Cli
                 { "Playing", g => g.Playing ? "yes" : "" },
                 { "Tags", g => string.Join(", ", (g.Tags ?? new string[0]).OrderBy(t => t, StringComparer.OrdinalIgnoreCase)) },
             };
+
+            if (!ShouldShowHours)
+            {
+                tableDef.Remove("Hrs.");
+            }
 
             ShowTable(tableDef, games, output);
         }

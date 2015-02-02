@@ -91,6 +91,7 @@ namespace Gomer.Cli.Commands
         public override void Run(string[] remainingArguments, TextWriter output)
         {
             var pile = ReadFile();
+            ShouldShowHours = pile.ShouldTrackHours;
 
             var games = pile.Search(_name, _platforms, _tags, _playing, _finished, hidden:_hidden);
 

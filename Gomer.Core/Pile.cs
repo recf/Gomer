@@ -22,8 +22,11 @@ namespace Gomer.Core
                 .InformationalVersion;
         }
 
-        [JsonProperty("version")]
+        [JsonProperty("version", Required = Required.Always)]
         public string Version { get; set; }
+
+        [JsonProperty("track_hours", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public bool ShouldTrackHours { get; set; }
 
         [JsonProperty("games", Required = Required.Always)]
         public IList<PileGame> Games { get; set; }

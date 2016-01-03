@@ -1,88 +1,25 @@
 = Gomer
-Aaron Dorheim-Davis, <https://github.com/recf[@recf]>
+Aaron Dorheim-Davis, <https://github.com/recfab[@recfab]>
 :revnumber: 1.1.0-pre
 :revdate: 2015-01-20
 :fonts: icon
 :nofooter:
 :toc:
 :toc-placement: preamble
-:repo: https://github.com/recf/Gomer
+:repo: https://github.com/https://ci.appveyor.com/nuget/recfab-infrastructure-776tvetcfqt6/Gomer
 :repo-link: {repo}/tree/master
-:ci-link: https://ci.appveyor.com/project/recf/gomer
+:ci-link: https://ci.appveyor.com/project/https://ci.appveyor.com/nuget/recfab-infrastructure-776tvetcfqt6/gomer
 :ci-img: https://ci.appveyor.com/api/projects/status/oei3gded2b0h9q36?svg=true
 
 image::{ci-img}[alt=Build Status, link={ci-link}]
 
-Gomer is a command line utility for managing your video game "pile".
+Gomer is a small utility for managing your video game "pile".
 
 Pile data is saved in a JSON file with the .pile extension. The JSON Schema of
 the file can be found at link:{repo-link}/doc/schemas[].
 
-To use it, place gomer.exe on your path, then open a powershell window and `cd`
-into a directory that you want to store you .pile file. Use the `init` command
-to create a new pile file. You can name it whatever you like (or even rename the
-file after it's created) but it has to be the only file with the .pile extension
-in that directory.
-
-== Matching
-
-Some commands support smart matching based on a prefix and/or suffix on the search term.
-
-|===
-| Example | Effect
-
-| \*TERM* | Show results that contain the term.
-| TERM* | Show results that start with the term
-| *TERM | Show results that end with the term
-| =TERM | Show results that match exactly.
-|  TERM | Show results that "fuzzy match" the term. This means that all
-  characters in the term appear in the same order given, but not necessarily
-  next to each other.
-|===
-
-[listing]
-.Example
-----
-PS>cd .\Documents
-PS>gomer init
-Executing init (Create a new .pile file.):
-
-Writing aaron.pile
-
-PS>gomer add "Some Awesome Game" PS4
-Executing add (Add a pile game.):
-
-Reading aaron.pile
-
-Game              Platform Pri. Hrs. Genres Added      Finished
-================= ======== ==== ==== ====== ========== ========
-Some Awesome Game PS4      2    10          2014-12-30
-
-Writing aaron.pile
-
-PS>gomer add "Some Other Awesome Game: Origins" "XBOX ONE"
-Executing add (Add a pile game.):
-
-Reading aaron.pile
-
-Game                             Platform Pri. Hrs. Genres Added      Finished
-================================ ======== ==== ==== ====== ========== ========
-Some Other Awesome Game: Origins XBOX ONE 2    10          2014-12-30
-
-Writing aaron.pile
-
-PS> gomer show
-Executing show (Show games in pile, with optional filtering.):
-
-Reading aaron.pile
-
-Game                             Platform Pri. Hrs. Genres Added      Finished
-================================ ======== ==== ==== ====== ========== ========
-Some Awesome Game                PS4      2    10          2014-12-30
-Some Other Awesome Game: Origins XBOX ONE 2    10          2014-12-30
-----
-
-include::doc/Usage.adoc[leveloffset=+1]
+There is no installer currently, so to use it, just put it somewhere on your
+system and double-click gomer.exe.
 
 == TODO
 
@@ -92,8 +29,6 @@ include::doc/Usage.adoc[leveloffset=+1]
 * Look into Awestruct for generating gh-pages. That's what asciidoctor.org uses.
 * Localization
 * Better test coverage (i.e. any)
-* Remove ManyConsole dependency and implement my own dispatching (not really
-  localizable, and makes some assumptions I really don't like)
 * Make the commands return IEnumerable<string> (probably) a la the `argh`
   wrapper for `argparse` from python.
 

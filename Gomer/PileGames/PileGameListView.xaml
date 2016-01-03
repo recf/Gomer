@@ -15,7 +15,7 @@
                   IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Platform" Binding="{Binding Platform}"/>
+                <DataGridTextColumn Header="Platform" Binding="{Binding Platform.Name}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

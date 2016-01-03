@@ -29,6 +29,7 @@ namespace Gomer.PileGames
         {
             var refresh = ReactiveCommand.CreateAsyncTask(async _ =>
             {
+                Games.Clear();
                 var games = await _repository.ListItemsAsync();
 
                 foreach (var game in games)

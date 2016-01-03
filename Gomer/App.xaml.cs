@@ -46,12 +46,32 @@ namespace Gomer.UI
             // View Models
             container.RegisterType<MainWindowViewModel>();
 
-            var repo = new MemoryRepository<PileGameModel, Guid>(x => x.Id);
-            container.RegisterInstance<Repository<PileGameModel, Guid>>(repo);
+            var gameRepo = new MemoryRepository<PileGameModel, Guid>(x => x.Id);
+            container.RegisterInstance<Repository<PileGameModel, Guid>>(gameRepo);
+
+            var platforms = new List<PlatformModel>()
+            {
+                new PlatformModel() { Key = "ps3", Name = "Playstation 3"},
+                new PlatformModel() { Key = "ps4", Name = "Playstation 4"},
+                new PlatformModel() { Key = "360", Name = "Xbox 360"},
+                new PlatformModel() { Key = "xbone", Name = "Xbox One"},
+                new PlatformModel() { Key = "wii", Name = "Wii"},
+                new PlatformModel() { Key = "wiiu", Name = "Wii U"},
+                new PlatformModel() { Key = "win", Name = "Windows"},
+            };
+            var platformRepo = new MemoryRepository<PlatformModel, string>(platforms, x => x.Key);
+
+            container.RegisterInstance<Repository<PlatformModel, string>>(platformRepo);
         }
 
         private void ConfigureAutoMapper()
         {
+            // Model -> DTO
+            Mapper.CreateMap<PileGameModel, PileGame>();
+
+            // DTO -> Model
+            //Mapper.CreateMap<PileGame, PileGameModel>();
+
             // View Model -> Model
             Mapper.CreateMap<PileGameDetailViewModel, PileGameModel>();
 
@@ -59,7 +79,8 @@ namespace Gomer.UI
             Mapper.CreateMap<PileGameModel, PileGameDetailViewModel>()
                 .ForMember(dest => dest.Title, opt => opt.Ignore())
                 .ForMember(dest => dest.OkCommand, opt => opt.Ignore())
-                .ForMember(dest => dest.CancelCommand, opt => opt.Ignore());
+                .ForMember(dest => dest.CancelCommand, opt => opt.Ignore())
+                .ForMember(dest => dest.Platforms, opt => opt.Ignore());
 
             Mapper.AssertConfigurationIsValid();
         }

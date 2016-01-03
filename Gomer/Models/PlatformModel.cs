@@ -11,11 +11,8 @@ namespace Gomer.Models
     public class PlatformModel : ReactiveObject
     {
         [Reactive]
-        public Guid Id { get; set; }
-
-        [Reactive]
-        public string Abbreviation { get; set; }
-
+        public string Key { get; set; }
+        
         [Reactive]
         public string Name { get; set; }
     }

@@ -14,7 +14,7 @@
         <TextBox Text="{Binding Name}"/>
         
         <Label Content="Platform"/>
-        <ListBox />
+        <ComboBox ItemsSource="{Binding Platforms}" SelectedItem="{Binding Platform}" DisplayMemberPath="Name"/>
         
         <WrapPanel>
             <Button Content="Ok" Command="{Binding OkCommand}"/>

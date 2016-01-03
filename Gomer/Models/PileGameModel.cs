@@ -13,7 +13,7 @@ namespace Gomer.Models
         public string Name { get; set; }
 
         [Reactive]
-        public string Platform { get; set; }
+        public PlatformModel Platform { get; set; }
 
         public PileGameModel()
         {

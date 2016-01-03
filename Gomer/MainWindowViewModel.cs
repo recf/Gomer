@@ -4,6 +4,9 @@ using System.Linq;
 using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using AutoMapper;
+using Gomer.Dto;
 using Gomer.Models;
 using Gomer.PileGames;
 using Microsoft.Practices.Unity;
@@ -80,15 +83,30 @@ namespace Gomer
             throw new NotImplementedException();
         }
 
-        private void SaveCommandImpl()
+        private async void SaveCommandImpl()
         {
-            throw new NotImplementedException();
+            var dialog = new SaveFileDialog();
+            dialog.DefaultExt = ".pile";
+            dialog.Filter = "Gomer Pile File (*.pile)|*.pile";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var manager = new JsonStructuredFileManager<Pile>(dialog.FileName);
+
+                var gameModels = await _repository.ListItemsAsync();
+                var gameDtos = gameModels.Select(Mapper.Map<PileGame>).ToArray();
+
+                var pile = new Pile();
+                pile.Games = gameDtos;
+
+                manager.Write(pile);
+            }
         }
 
         private void AddCommandImpl()
         {
             var vm = _container.Resolve<PileGameDetailViewModel>();
-            vm.Done.Subscribe(changed => NavigateBack(changed));
+            vm.Done.Subscribe(NavigateBack);
 
             Navigate(vm, "Add Game");
         }

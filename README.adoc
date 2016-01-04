@@ -6,9 +6,9 @@ Aaron Dorheim-Davis, <https://github.com/recfab[@recfab]>
 :nofooter:
 :toc:
 :toc-placement: preamble
-:repo: https://github.com/https://ci.appveyor.com/nuget/recfab-infrastructure-776tvetcfqt6/Gomer
+:repo: https://github.com/recfab/Gomer
 :repo-link: {repo}/tree/master
-:ci-link: https://ci.appveyor.com/project/https://ci.appveyor.com/nuget/recfab-infrastructure-776tvetcfqt6/gomer
+:ci-link: https://ci.appveyor.com/project/recf/gomer
 :ci-img: https://ci.appveyor.com/api/projects/status/oei3gded2b0h9q36?svg=true
 
 image::{ci-img}[alt=Build Status, link={ci-link}]
@@ -18,8 +18,8 @@ Gomer is a small utility for managing your video game "pile".
 Pile data is saved in a JSON file with the .pile extension. The JSON Schema of
 the file can be found at link:{repo-link}/doc/schemas[].
 
-There is no installer currently, so to use it, just put it somewhere on your
-system and double-click gomer.exe.
+There is no installer currently, so to use it, just extract the contents of the
+zip file somewhere on your system and double-click gomer.exe.
 
 == TODO
 

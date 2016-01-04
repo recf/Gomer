@@ -4,7 +4,7 @@ using ReactiveUI.Fody.Helpers;
 
 namespace Gomer.Models
 {
-    public class PileGameModel : ReactiveObject
+    public class GameModel : ReactiveObject
     {
         [Reactive]
         public Guid Id { get; set; }
@@ -13,9 +13,9 @@ namespace Gomer.Models
         public string Name { get; set; }
 
         [Reactive]
-        public PlatformModel Platform { get; set; }
+        public string Platform { get; set; }
 
-        public PileGameModel()
+        public GameModel()
         {
             Id = Guid.NewGuid();
         }

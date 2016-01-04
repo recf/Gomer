@@ -14,31 +14,11 @@ namespace Gomer.PileGames
 {
     public class PileGameListViewModel : ViewModel
     {
-        private readonly Repository<PileGameModel, Guid> _repository;
+        public ReactiveList<GameModel> Games { get; private set; }
 
-        public ReactiveList<PileGameModel> Games { get; private set; }
-
-        public PileGameListViewModel(Repository<PileGameModel, Guid> repository)
+        public PileGameListViewModel(ReactiveList<GameModel> games)
         {
-            Games = new ReactiveList<PileGameModel>();
-
-            _repository = repository;
-        }
-
-        public override async void Refresh()
-        {
-            var refresh = ReactiveCommand.CreateAsyncTask(async _ =>
-            {
-                Games.Clear();
-                var games = await _repository.ListItemsAsync();
-
-                foreach (var game in games)
-                {
-                    Games.Add(game);
-                }
-            });
-
-            await refresh.ExecuteAsync();
+            Games = games;
         }
     }
 }

@@ -48,8 +48,11 @@ Task Generate-Todo {
 	[System.IO.File]::WriteAllLines($sourceTodoFile, $todoLines, $encoding)
 }
 
-Task Build-Artifacts -Depends Clean-Artifacts,Build-ReadmeHtmlArtifact,Build-ExeArtifact
-Task Clean-Artifacts {
+Task Build-CleanArtifacts -Depends Clean-Artifacts,Build-Artifacts
+
+Task Build-Artifacts -Depends Build-ReadmeHtmlArtifact,Build-ZipArtifact
+
+Task Create-ArtifactsDir {
     if (-not (Test-Path ./artifacts))
     {
         echo "Creating artifacts directory"
@@ -59,14 +62,40 @@ Task Clean-Artifacts {
     rm ./artifacts/* -r
 }
 
-Task Build-ReadmeHtmlArtifact {
+Task Clean-ArtifactsDir {
+    if (-not (Test-Path ./artifacts))
+    {
+        return
+    }
+
+    echo "Cleaning artifacts directory"
+    rm ./artifacts/* -r
+}
+
+Task Build-ReadmeHtmlArtifact -Depends Create-ArtifactsDir {
     echo "Creating README.html"
     asciidoctor ./README.adoc -D ".\artifacts\"
 }
 
-Task Build-ExeArtifact {
+Task Build-ZipArtifact -Depends Create-ArtifactsDir  {
 
-    $bin = ".\Gomer.UI\bin\$config"
+    $bin = ".\Gomer\bin\$config"
+
+    $workingdir = ".\artifacts\Gomer"
+    mkdir $workingdir
+
+    echo "Copying contents of $bin -> $workingdir"
+    xcopy "$bin\*" "$workingdir"
+
+    echo "Creating zip"
+    7z a ./artifacts/gomer.zip $workingdir
+
+    rm $workingdir -r
+}
+
+Task Build-ExeArtifact -Depends Create-ArtifactsDir  {
+
+    $bin = ".\Gomer\bin\$config"
 
     echo "Creating merged gomer.exe"
     ilmerge /targetplatform:"v4" /out:./artifacts/gomer.exe /ndebug /wildcards "$bin\gomer.exe" "$bin\*.dll"

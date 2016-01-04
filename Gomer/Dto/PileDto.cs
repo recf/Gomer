@@ -11,9 +11,15 @@ using System.Threading.Tasks;
 namespace Gomer.Dto
 {
     [DataContract]
-    public class Pile
+    public class PileDto
     {
         [DataMember(Name="games", IsRequired = true)]
-        public IList<PileGame> Games { get; set; }
+        public IList<GameDto> Games { get; set; }
+        
+        [DataMember(Name = "wishlist", IsRequired = true)]
+        public IList<GameDto> Wishlist { get; set; }
+
+        [DataMember(Name = "ignored", IsRequired = true)]
+        public IList<GameDto> IgnoreList { get; set; }
     }
 }

@@ -6,12 +6,12 @@ using System.Runtime.Serialization;
 namespace Gomer.Dto
 {
     [DataContract]
-    public class PileGame
+    public class GameDto
     {
         [DataMember(Name="name", IsRequired = true)]
-        public string  Name { get; set; }
+        public string Name { get; set; }
 
-        [DataMember(Name = "platform_key", IsRequired = true)]
-        public string PlatformKey { get; set; }
+        [DataMember(Name = "platform", IsRequired = true)]
+        public string Platform { get; set; }
     }
 }

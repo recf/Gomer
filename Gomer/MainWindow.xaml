@@ -15,13 +15,13 @@
         d:DesignWidth="525"
         d:DesignHeight="350"
         d:DataContext="{d:DesignInstance Type=gomer:MainWindowViewModel}">
-    <DockPanel>
-        <WrapPanel DockPanel.Dock="Top">
-            <Button Content="Open" Command="{Binding OpenCommand}"/>
-            <Button Content="Save" Command="{Binding SaveCommand}"/>
-            <Separator/>
-            <Button Content="Add Game" Command="{Binding AddCommand}"/>
-        </WrapPanel>
+    <DockPanel>        
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open" Command="{Binding OpenCommand}"/>
+                <MenuItem Header="_Save" Command="{Binding SaveCommand}"/>
+            </MenuItem>
+        </Menu>
         <ContentControl Content="{Binding CurrentViewModel}"/>
     </DockPanel>
 </Window>

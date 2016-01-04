@@ -9,7 +9,6 @@ using AutoMapper;
 using Gomer.Dto;
 using Gomer.Models;
 using Gomer.PileGames;
-using Microsoft.Practices.Unity;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Recfab.Infrastructure;
@@ -18,11 +17,11 @@ namespace Gomer
 {
     public class MainWindowViewModel : ReactiveObject
     {
-        private readonly IUnityContainer _container;
+        private JsonStructuredFileManager<PileDto> _manager;
 
-        private Repository<PileGameModel, Guid> _repository;
+        private Repository<GameModel, Guid> _repository;
 
-        private Stack<ViewModel> _navigationStack;
+        private ReactiveList<GameModel> _games;
 
         [Reactive]
         public string Title { get; set; }
@@ -34,13 +33,9 @@ namespace Gomer
 
         public ReactiveCommand<object> SaveCommand { get; protected set; }
 
-        public ReactiveCommand<object> AddCommand { get; protected set; }
-
-        public MainWindowViewModel(IUnityContainer container, Repository<PileGameModel, Guid> repository)
+        public MainWindowViewModel()
         {
-            _container = container;
-            _repository = repository;
-            _navigationStack = new Stack<ViewModel>();
+            _repository = new MemoryRepository<GameModel, Guid>(x => x.Id);
 
             OpenCommand = ReactiveCommand.Create();
             OpenCommand.Subscribe(_ => OpenCommandImpl());
@@ -48,10 +43,9 @@ namespace Gomer
             SaveCommand = ReactiveCommand.Create();
             SaveCommand.Subscribe(_ => SaveCommandImpl());
 
-            AddCommand = ReactiveCommand.Create();
-            AddCommand.Subscribe(_ => AddCommandImpl());
-            
-            Navigate(_container.Resolve<PileGameListViewModel>(), "Games");
+            _games = new ReactiveList<GameModel>();
+
+            Navigate(new PileGameListViewModel(_games), "Games");
         }
 
         private void Navigate(ViewModel viewModel, string title)
@@ -59,56 +53,54 @@ namespace Gomer
             viewModel.Title = title;
             Title = string.Format("Gomer: {0}", viewModel.Title);
 
-            _navigationStack.Push(viewModel);
             CurrentViewModel = viewModel;
-            viewModel.Refresh();
-        }
-
-        private void NavigateBack(bool changed)
-        {
-            _navigationStack.Pop();
-            var viewModel = _navigationStack.Peek();
-            Title = string.Format("Gomer: {0}", viewModel.Title);
-
-            CurrentViewModel = viewModel;
-
-            if (changed)
-            {
-                viewModel.Refresh();
-            }
         }
 
         private void OpenCommandImpl()
         {
-            throw new NotImplementedException();
+            var dialog = new OpenFileDialog();
+            dialog.DefaultExt = ".pile";
+            dialog.Filter = "Gomer Pile File (*.pile)|*.pile";
+
+            if (dialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            _manager = new JsonStructuredFileManager<PileDto>(dialog.FileName);
+            var pile = _manager.Read();
+
+            var gameModels = Mapper.Map<IList<GameModel>>(pile.Games);
+
+            _games.Clear();
+            foreach (var model in gameModels)
+            {
+                _games.Add(model);
+            }
         }
 
         private async void SaveCommandImpl()
         {
-            var dialog = new SaveFileDialog();
-            dialog.DefaultExt = ".pile";
-            dialog.Filter = "Gomer Pile File (*.pile)|*.pile";
-
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (_manager == null)
             {
-                var manager = new JsonStructuredFileManager<Pile>(dialog.FileName);
+                var dialog = new SaveFileDialog();
+                dialog.DefaultExt = ".pile";
+                dialog.Filter = "Gomer Pile File (*.pile)|*.pile";
 
-                var gameModels = await _repository.ListItemsAsync();
-                var gameDtos = gameModels.Select(Mapper.Map<PileGame>).ToArray();
+                if (dialog.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
 
-                var pile = new Pile();
-                pile.Games = gameDtos;
-
-                manager.Write(pile);
+                _manager = new JsonStructuredFileManager<PileDto>(dialog.FileName);
             }
-        }
 
-        private void AddCommandImpl()
-        {
-            var vm = _container.Resolve<PileGameDetailViewModel>();
-            vm.Done.Subscribe(NavigateBack);
+            var gameDtos = _games.Select(Mapper.Map<GameDto>).ToArray();
 
-            Navigate(vm, "Add Game");
+            var pile = new PileDto();
+            pile.Games = gameDtos;
+
+            _manager.Write(pile);
         }
     }
 }

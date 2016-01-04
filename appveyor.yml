@@ -31,7 +31,7 @@ after_build:
   - psake Build-Artifacts -properties @{ config=$env:CONFIGURATION }
 
 artifacts:
-  - path: artifacts\gomer.exe
+  - path: artifacts\gomer.zip
     name: App
   - path: artifacts\README.html
     name: README

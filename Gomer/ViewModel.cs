@@ -7,9 +7,5 @@ namespace Gomer
     {
         [Reactive]
         public string Title { get; set; }
-
-        public virtual void Refresh()
-        {
-        }
     }
 }

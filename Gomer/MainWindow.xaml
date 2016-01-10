@@ -9,8 +9,8 @@
         Title="{Binding Title}" 
         ResizeMode="CanResize"
         SizeToContent="WidthAndHeight"
-        MinHeight="400"
-        MinWidth="400"
+        MinHeight="500"
+        MinWidth="600"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         
         d:DesignWidth="525"

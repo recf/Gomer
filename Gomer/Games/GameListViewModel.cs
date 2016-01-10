@@ -18,28 +18,29 @@ namespace Gomer.Games
 
         public ObservableCollection<GameModel> Games { get; private set; }
 
-        private GameModel _selectedGame;
-        public GameModel SelectedGame
+        private GameDetailViewModel _selectedGameDetails;
+        public GameDetailViewModel SelectedGameDetails
         {
-            get { return _selectedGame; }
+            get { return _selectedGameDetails; }
             set
             {
-                Set(() => SelectedGame, ref _selectedGame, value);
+                Set(() => SelectedGameDetails, ref _selectedGameDetails, value);
             }
         }
-
+        
         public RelayCommand AddCommand { get; set; }
-        public RelayCommand<GameModel> RemoveCommand { get; set; }
+        public RelayCommand<GameModel> EditCommand { get; set; }
 
         public GameListViewModel(Repository<GameModel, Guid> repository)
         {
             _repository = repository;
 
             Games = new ObservableCollection<GameModel>();
-            Refresh();
 
             AddCommand = new RelayCommand(AddCommandImpl);
-            RemoveCommand = new RelayCommand<GameModel>(RemoveCommandImpl);
+            EditCommand = new RelayCommand<GameModel>(EditCommandImpl);
+
+            Refresh();
         }
 
         public async void Refresh()
@@ -51,29 +52,31 @@ namespace Gomer.Games
             {
                 Games.Add(item);
             }
-
-            if (games.Any())
-            {
-                SelectedGame = games.First();
-            }
         }
 
-        private async void AddCommandImpl()
+        private void AddCommandImpl()
         {
-            var game = new GameModel()
-            {
-                Name = "{Name}",
-                Platform = "{Platform}"
-            };
-            await _repository.AddItemAsync(game);
-            Games.Add(game);
-            SelectedGame = game;
+            SelectedGameDetails = new GameDetailViewModel(_repository);
+            SelectedGameDetails.Saved += SelectedGameDetails_OnSaved;
+            SelectedGameDetails.Canceled += SelectedGameDetails_OnCanceled;
         }
 
-        private async void RemoveCommandImpl(GameModel game)
+        private void EditCommandImpl(GameModel game)
         {
-            await _repository.RemoveItemAsync(game.Id);
-            Games.Remove(game);
+            SelectedGameDetails = new GameDetailViewModel(game.Id, _repository);
+            SelectedGameDetails.Saved += SelectedGameDetails_OnSaved;
+            SelectedGameDetails.Canceled += SelectedGameDetails_OnCanceled;
+        }
+
+        private void SelectedGameDetails_OnSaved(object sender, EventArgs e)
+        {
+            SelectedGameDetails = null;
+            Refresh();
+        }
+
+        private void SelectedGameDetails_OnCanceled(object sender, EventArgs e)
+        {
+            SelectedGameDetails = null;
         }
     }
 }

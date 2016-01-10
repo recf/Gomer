@@ -4,4 +4,7 @@
     <DataTemplate DataType="{x:Type games:GameListViewModel}">
         <games:GameListView/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type games:GameDetailViewModel}">
+        <games:GameDetailView/>
+    </DataTemplate>
 </ResourceDictionary>

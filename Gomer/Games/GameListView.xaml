@@ -14,8 +14,8 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="0" Grid.Column="0">
@@ -24,35 +24,30 @@
 
             <DataGrid ItemsSource="{Binding Games}" 
                       AutoGenerateColumns="False"
-                      CanUserAddRows="False"
-                      CanUserDeleteRows="False"
-                      SelectedItem="{Binding SelectedGame}">
+                      IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                     <DataGridTextColumn Header="Platform" Binding="{Binding Platform}"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Edit"
+                                        Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                        CommandParameter="{Binding}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
 
-        <Border Grid.Row="0" Grid.Column="1" DataContext="{Binding SelectedGame}"
+        <Border Grid.Row="0" Grid.Column="1" 
                 BorderBrush="Black"
                 BorderThickness="2"
                 CornerRadius="2"
                 Padding="5"
                 Margin="5">
-            <StackPanel>
-                <Label Content="Name"/>
-                <TextBox Text="{Binding Name}"/>
-
-                <Label Content="Platform"/>
-                <TextBox Text="{Binding Platform}"/>
-
-                <Expander Header="Delete?">
-                    <Button Content="Confirm Delete"
-                            Command="{Binding RemoveCommand}"
-                            CommandParameter="{Binding SelectedGame}" />
-                </Expander>
-            </StackPanel>
+            <ContentControl Content="{Binding SelectedGameDetails}"/>
         </Border>
     </Grid>
 </UserControl>

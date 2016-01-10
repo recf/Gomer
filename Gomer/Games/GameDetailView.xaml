@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="Gomer.Games.GameDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel>
+        <Label Content="Name"/>
+        <TextBox Text="{Binding Game.Name}"/>
+
+        <Label Content="Platform"/>
+        <TextBox Text="{Binding Game.Platform}"/>
+
+        <Button Content="Save" Command="{Binding SaveCommand}"/>
+        <Button Content="Cancel" Command="{Binding CancelCommand}"/>
+
+        <Expander Header="Delete?">
+            <Button Content="Confirm Delete"
+                    Command="{Binding RemoveCommand}" />
+        </Expander>
+    </StackPanel>
+</UserControl>

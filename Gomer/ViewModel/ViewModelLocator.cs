@@ -16,6 +16,7 @@ using AutoMapper;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Gomer.Dto;
+using Gomer.Games;
 using Gomer.Models;
 using Microsoft.Practices.ServiceLocation;
 
@@ -57,10 +58,6 @@ namespace Gomer.ViewModel
 
             // DTO -> Model
             Mapper.CreateMap<GameDto, GameModel>();
-
-            // View Model -> Model
-
-            // Model -> View Model
 
             Mapper.AssertConfigurationIsValid();
         }

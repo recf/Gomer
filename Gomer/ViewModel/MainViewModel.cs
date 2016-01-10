@@ -32,23 +32,43 @@ namespace Gomer.ViewModel
     {
         private Repository<GameModel, Guid> _repository;
 
-        private string _title;
-        public string Title
+        private ViewModelBase _pileGames;
+        public ViewModelBase PileGames
         {
-            get { return _title; }
+            get { return _pileGames; }
             set
             {
-                Set(() => Title, ref _title, value);
+                Set(() => PileGames, ref _pileGames, value);
+            }
+        }
+        
+        private ViewModelBase _playedGames;
+        public ViewModelBase PlayedGames
+        {
+            get { return _playedGames; }
+            set
+            {
+                Set(() => PlayedGames, ref _playedGames, value);
             }
         }
 
-        private ViewModelBase _currentViewModel;
-        public ViewModelBase CurrentViewModel
+        private ViewModelBase _wishlistGames;
+        public ViewModelBase WishlistGames
         {
-            get { return _currentViewModel; }
+            get { return _wishlistGames; }
             set
             {
-                Set(() => CurrentViewModel, ref _currentViewModel, value);
+                Set(() => WishlistGames, ref _wishlistGames, value);
+            }
+        }
+
+        private ViewModelBase _ignoredGames;
+        public ViewModelBase IgnoredGames
+        {
+            get { return _ignoredGames; }
+            set
+            {
+                Set(() => IgnoredGames, ref _ignoredGames, value);
             }
         }
 
@@ -76,12 +96,10 @@ namespace Gomer.ViewModel
                     model => model.Id);
             }
 
-            Navigate(new GameListViewModel(_repository), "Pile");
-        }
-
-        private void Navigate(ViewModelBase viewModel, string title)
-        {
-            CurrentViewModel = viewModel;
+            PileGames = new GameListViewModel(_repository, GameLists.Pile);
+            PlayedGames = new GameListViewModel(_repository, GameLists.Played);
+            WishlistGames = new GameListViewModel(_repository, GameLists.Wishlist);
+            IgnoredGames = new GameListViewModel(_repository, GameLists.Ignored);
         }
     }
 }

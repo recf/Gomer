@@ -13,8 +13,20 @@ namespace Gomer.Games
 {
     public class GameDetailViewModel : ViewModelBase
     {
-        private bool _isNew;
         private Repository<GameModel, Guid> _repository;
+
+        #region Notify Properties
+
+        private Guid _id;
+        public Guid Id
+        {
+            get { return _id; }
+            set
+            {
+                Set(() => Id, ref _id, value);
+                Refresh();
+            }
+        }
 
         private GameModel _game;
         public GameModel Game
@@ -26,36 +38,49 @@ namespace Gomer.Games
             }
         }
 
+        private GameLists _list;
+        public GameLists List
+        {
+            get { return _list; }
+            set
+            {
+                Set(() => List, ref _list, value);
+                Game.List = value;
+            }
+        }
+
+        #endregion
+
         public RelayCommand SaveCommand { get; set; }
         public RelayCommand RemoveCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
-        
-        public GameDetailViewModel(Repository<GameModel, Guid> repository)
-            : this(Guid.Empty, repository)
-        {
-        }
 
-        public GameDetailViewModel(Guid id, Repository<GameModel, Guid> repository)
+        public GameDetailViewModel(Repository<GameModel, Guid> repository)
         {
             _repository = repository;
+
+            Id = Guid.Empty;
+            List = GameLists.Pile;
 
             SaveCommand = new RelayCommand(SaveCommandImpl);
             RemoveCommand = new RelayCommand(RemoveCommandImpl);
             CancelCommand = new RelayCommand(OnCanceled);
-
-            Refresh(id);
+            Refresh();
         }
 
-        private async void Refresh(Guid id)
+        private async void Refresh()
         {
-            if (id == Guid.Empty)
+            if (Id == Guid.Empty)
             {
-                _isNew = true;
-                Game = new GameModel();
+                Game = new GameModel()
+                {
+                    List = List
+                };
                 return;
             }
 
-            Game = await _repository.GetItemAsync(id);
+            Game = await _repository.GetItemAsync(Id);
+            List = Game.List;
         }
 
         public event EventHandler Saved;
@@ -80,8 +105,9 @@ namespace Gomer.Games
 
         private async void SaveCommandImpl()
         {
-            if (_isNew)
+            if (Id == Guid.Empty)
             {
+                Game.Id = Guid.NewGuid();
                 await _repository.AddItemAsync(Game);
             }
             else

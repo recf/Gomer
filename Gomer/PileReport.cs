@@ -10,7 +10,7 @@ namespace Gomer
 {
     public class PileReport
     {
-        //public PileReport(Pile pile, DateRange dateRange)
+        //public PileReport(PileGames pile, DateRange dateRange)
         //{
         //    DateRange = dateRange;
 

@@ -95,6 +95,7 @@
       <DependentUpon>GameDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Games\GameDetailViewModel.cs" />
+    <Compile Include="Models\GameLists.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="DataTemplates.xaml">

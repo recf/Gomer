@@ -15,6 +15,7 @@ namespace Gomer.Games
     public class GameListViewModel : ViewModelBase
     {
         private Repository<GameModel, Guid> _repository;
+        private GameLists _list;
 
         public ObservableCollection<GameModel> Games { get; private set; }
 
@@ -31,9 +32,10 @@ namespace Gomer.Games
         public RelayCommand AddCommand { get; set; }
         public RelayCommand<GameModel> EditCommand { get; set; }
 
-        public GameListViewModel(Repository<GameModel, Guid> repository)
+        public GameListViewModel(Repository<GameModel, Guid> repository, GameLists list)
         {
             _repository = repository;
+            _list = list;
 
             Games = new ObservableCollection<GameModel>();
 
@@ -48,7 +50,7 @@ namespace Gomer.Games
             var games = await _repository.ListItemsAsync();
 
             Games.Clear();
-            foreach (var item in games)
+            foreach (var item in games.Where(g => g.List == _list))
             {
                 Games.Add(item);
             }
@@ -57,13 +59,15 @@ namespace Gomer.Games
         private void AddCommandImpl()
         {
             SelectedGameDetails = new GameDetailViewModel(_repository);
+            SelectedGameDetails.List = _list;
             SelectedGameDetails.Saved += SelectedGameDetails_OnSaved;
             SelectedGameDetails.Canceled += SelectedGameDetails_OnCanceled;
         }
 
         private void EditCommandImpl(GameModel game)
         {
-            SelectedGameDetails = new GameDetailViewModel(game.Id, _repository);
+            SelectedGameDetails = new GameDetailViewModel(_repository);
+            SelectedGameDetails.Id = game.Id;
             SelectedGameDetails.Saved += SelectedGameDetails_OnSaved;
             SelectedGameDetails.Canceled += SelectedGameDetails_OnCanceled;
         }

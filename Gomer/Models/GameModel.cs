@@ -35,6 +35,16 @@ namespace Gomer.Models
             }
         }
 
+        private GameLists _list;
+        public GameLists List
+        {
+            get { return _list; }
+            set
+            {
+                Set(() => List, ref _list, value);
+            }
+        }
+
         public GameModel()
         {
             Id = Guid.NewGuid();

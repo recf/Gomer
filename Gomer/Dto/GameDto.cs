@@ -12,6 +12,9 @@ namespace Gomer.Dto
         [JsonProperty("id", Required = Required.Always)]
         public Guid Id { get; set; }
 
+        [JsonProperty("list", Required = Required.Always)]
+        public string List { get; set; }
+
         [JsonProperty("name", Required = Required.Always)]
         public string Name { get; set; }
 

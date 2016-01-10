@@ -6,7 +6,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:gomer="clr-namespace:Gomer"
         mc:Ignorable="d"
-        Title="{Binding Title}" 
+        Title="Gomer" 
         ResizeMode="CanResize"
         SizeToContent="WidthAndHeight"
         MinHeight="500"
@@ -17,7 +17,10 @@
         d:DesignHeight="350">
     <DockPanel>
         <TabControl>
-            <TabItem Header="Pile" Content="{Binding CurrentViewModel}"/>
+            <TabItem Header="Pile" Content="{Binding PileGames}"/>
+            <TabItem Header="Played" Content="{Binding PlayedGames}"/>
+            <TabItem Header="Wishlist" Content="{Binding WishlistGames}"/>
+            <TabItem Header="Ignored" Content="{Binding IgnoredGames}"/>
         </TabControl>
     </DockPanel>
 </Window>

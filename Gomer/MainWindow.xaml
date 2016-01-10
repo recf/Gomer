@@ -15,13 +15,9 @@
         
         d:DesignWidth="525"
         d:DesignHeight="350">
-    <DockPanel>        
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_Open" Command="{Binding OpenCommand}"/>
-                <MenuItem Header="_Save" Command="{Binding SaveCommand}"/>
-            </MenuItem>
-        </Menu>
-        <ContentControl Content="{Binding CurrentViewModel}"/>
+    <DockPanel>
+        <TabControl>
+            <TabItem Header="Pile" Content="{Binding CurrentViewModel}"/>
+        </TabControl>
     </DockPanel>
 </Window>

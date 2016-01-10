@@ -9,6 +9,9 @@ namespace Gomer.Dto
     [JsonObject(MemberSerialization.OptIn)]
     public class GameDto
     {
+        [JsonProperty("id", Required = Required.Always)]
+        public Guid Id { get; set; }
+
         [JsonProperty("name", Required = Required.Always)]
         public string Name { get; set; }
 

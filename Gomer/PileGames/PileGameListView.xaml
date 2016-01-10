@@ -10,12 +10,49 @@
              d:DesignHeight="300"
              d:DesignWidth="300">
     <Grid>
-        <DataGrid ItemsSource="{Binding Games}" 
-                  AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Platform" Binding="{Binding Platform}"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0">
+
+            <Button Content="Add" Command="{Binding AddCommand}"/>
+
+            <DataGrid ItemsSource="{Binding Games}" 
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      SelectedItem="{Binding SelectedGame}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Platform" Binding="{Binding Platform}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+        <Border Grid.Row="0" Grid.Column="1" DataContext="{Binding SelectedGame}"
+                BorderBrush="Black"
+                BorderThickness="2"
+                CornerRadius="2"
+                Padding="5"
+                Margin="5">
+            <StackPanel>
+                <Label Content="Name"/>
+                <TextBox Text="{Binding Name}"/>
+
+                <Label Content="Platform"/>
+                <TextBox Text="{Binding Platform}"/>
+
+                <Expander Header="Delete?">
+                    <Button Content="Confirm Delete"
+                            Command="{Binding RemoveCommand}"
+                            CommandParameter="{Binding SelectedGame}" />
+                </Expander>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

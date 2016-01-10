@@ -56,8 +56,7 @@ namespace Gomer.ViewModel
             Mapper.CreateMap<GameModel, GameDto>();
 
             // DTO -> Model
-            Mapper.CreateMap<GameDto, GameModel>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore());
+            Mapper.CreateMap<GameDto, GameModel>();
 
             // View Model -> Model
 

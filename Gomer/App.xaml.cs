@@ -8,7 +8,7 @@ using System.Windows;
 using AutoMapper;
 using Gomer.Dto;
 using Gomer.Models;
-using Gomer.PileGames;
+using Gomer.Games;
 using Recfab.Infrastructure;
 
 namespace Gomer.UI

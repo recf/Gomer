@@ -10,9 +10,9 @@ using GalaSoft.MvvmLight.Command;
 using Gomer.Models;
 using Recfab.Infrastructure;
 
-namespace Gomer.PileGames
+namespace Gomer.Games
 {
-    public class PileGameListViewModel : ViewModelBase
+    public class GameListViewModel : ViewModelBase
     {
         private Repository<GameModel, Guid> _repository;
 
@@ -31,7 +31,7 @@ namespace Gomer.PileGames
         public RelayCommand AddCommand { get; set; }
         public RelayCommand<GameModel> RemoveCommand { get; set; }
 
-        public PileGameListViewModel(Repository<GameModel, Guid> repository)
+        public GameListViewModel(Repository<GameModel, Guid> repository)
         {
             _repository = repository;
 

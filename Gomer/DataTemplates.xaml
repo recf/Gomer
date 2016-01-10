@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:pileGames="clr-namespace:Gomer.PileGames">
-    <DataTemplate DataType="{x:Type pileGames:PileGameListViewModel}">
-        <pileGames:PileGameListView/>
+                    xmlns:games="clr-namespace:Gomer.Games">
+    <DataTemplate DataType="{x:Type games:GameListViewModel}">
+        <games:GameListView/>
     </DataTemplate>
 </ResourceDictionary>

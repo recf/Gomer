@@ -11,7 +11,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Gomer.Dto;
 using Gomer.Models;
-using Gomer.PileGames;
+using Gomer.Games;
 using Recfab.Infrastructure;
 
 namespace Gomer.ViewModel
@@ -76,7 +76,7 @@ namespace Gomer.ViewModel
                     model => model.Id);
             }
 
-            Navigate(new PileGameListViewModel(_repository), "Pile");
+            Navigate(new GameListViewModel(_repository), "Pile");
         }
 
         private void Navigate(ViewModelBase viewModel, string title)

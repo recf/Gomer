@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Gomer.PileGames
+namespace Gomer.Games
 {
     /// <summary>
     /// Interaction logic for PileGameListView.xaml
     /// </summary>
-    public partial class PileGameListView : UserControl
+    public partial class GameListView : UserControl
     {
-        public PileGameListView()
+        public GameListView()
         {
             InitializeComponent();
         }

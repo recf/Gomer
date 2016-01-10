@@ -41,13 +41,9 @@
             </DataGrid>
         </StackPanel>
 
-        <Border Grid.Row="0" Grid.Column="1" 
-                BorderBrush="Black"
-                BorderThickness="2"
-                CornerRadius="2"
-                Padding="5"
-                Margin="5">
+        <StackPanel Grid.Row="0" Grid.Column="1" 
+                    Margin="5">
             <ContentControl Content="{Binding SelectedGameDetails}"/>
-        </Border>
+        </StackPanel>
     </Grid>
 </UserControl>

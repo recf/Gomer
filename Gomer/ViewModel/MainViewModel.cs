@@ -32,8 +32,8 @@ namespace Gomer.ViewModel
     {
         private Repository<GameModel, Guid> _repository;
 
-        private ViewModelBase _pileGames;
-        public ViewModelBase PileGames
+        private GameListViewModel _pileGames;
+        public GameListViewModel PileGames
         {
             get { return _pileGames; }
             set
@@ -41,9 +41,9 @@ namespace Gomer.ViewModel
                 Set(() => PileGames, ref _pileGames, value);
             }
         }
-        
-        private ViewModelBase _playedGames;
-        public ViewModelBase PlayedGames
+
+        private GameListViewModel _playedGames;
+        public GameListViewModel PlayedGames
         {
             get { return _playedGames; }
             set
@@ -52,8 +52,8 @@ namespace Gomer.ViewModel
             }
         }
 
-        private ViewModelBase _wishlistGames;
-        public ViewModelBase WishlistGames
+        private GameListViewModel _wishlistGames;
+        public GameListViewModel WishlistGames
         {
             get { return _wishlistGames; }
             set
@@ -62,8 +62,8 @@ namespace Gomer.ViewModel
             }
         }
 
-        private ViewModelBase _ignoredGames;
-        public ViewModelBase IgnoredGames
+        private GameListViewModel _ignoredGames;
+        public GameListViewModel IgnoredGames
         {
             get { return _ignoredGames; }
             set
@@ -100,6 +100,32 @@ namespace Gomer.ViewModel
             PlayedGames = new GameListViewModel(_repository, GameLists.Played);
             WishlistGames = new GameListViewModel(_repository, GameLists.Wishlist);
             IgnoredGames = new GameListViewModel(_repository, GameLists.Ignored);
+
+            PileGames.OtherListChanged += GameList_OtherListChanged;
+            PlayedGames.OtherListChanged += GameList_OtherListChanged;
+            WishlistGames.OtherListChanged += GameList_OtherListChanged;
+            IgnoredGames.OtherListChanged += GameList_OtherListChanged;
+        }
+
+        private void GameList_OtherListChanged(object sender, Events.GameListChangedEventArgs e)
+        {
+            switch (e.List)
+            {
+                case GameLists.Pile:
+                    PileGames.Refresh();
+                    break;
+                case GameLists.Played:
+                    PlayedGames.Refresh();
+                    break;
+                case GameLists.Wishlist:
+                    WishlistGames.Refresh();
+                    break;
+                case GameLists.Ignored:
+                    IgnoredGames.Refresh();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("e.List", string.Format("Unhandled GameList value {0}", e.List));
+            }
         }
     }
 }

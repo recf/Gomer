@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
 using System.Text;
 using System.Threading.Tasks;
+using GalaSoft.MvvmLight;
 using Gomer.Models;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using Recfab.Infrastructure;
 
 namespace Gomer.PileGames
 {
-    public class PileGameListViewModel : ViewModel
+    public class PileGameListViewModel : ViewModelBase
     {
-        public ReactiveList<GameModel> Games { get; private set; }
+        public ObservableCollection<GameModel> Games { get; private set; }
 
-        public PileGameListViewModel(ReactiveList<GameModel> games)
+        public PileGameListViewModel(ObservableCollection<GameModel> games)
         {
             Games = games;
         }

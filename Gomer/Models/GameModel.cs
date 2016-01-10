@@ -1,19 +1,39 @@
 ﻿using System;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
+using GalaSoft.MvvmLight;
 
 namespace Gomer.Models
 {
-    public class GameModel : ReactiveObject
+    public class GameModel : ObservableObject
     {
-        [Reactive]
-        public Guid Id { get; set; }
+        private Guid _id;
+        public Guid Id
+        {
+            get { return _id; }
+            set
+            {
+                Set(() => Id, ref _id, value);
+            }
+        }
 
-        [Reactive]
-        public string Name { get; set; }
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                Set(() => Name, ref _name, value);
+            }
+        }
 
-        [Reactive]
-        public string Platform { get; set; }
+        private string _platform;
+        public string Platform
+        {
+            get { return _platform; }
+            set
+            {
+                Set(() => Platform, ref _platform, value);
+            }
+        }
 
         public GameModel()
         {

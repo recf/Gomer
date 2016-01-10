@@ -20,32 +20,6 @@ namespace Gomer.UI
     {
         public App()
         {
-            Startup += App_Startup;
-        }
-
-        private void App_Startup(object sender, StartupEventArgs e)
-        {
-            ConfigureAutoMapper();
-
-            var mainWindow = new MainWindow();
-            mainWindow.DataContext = new MainWindowViewModel();
-            mainWindow.Show();
-        }
-
-        private void ConfigureAutoMapper()
-        {
-            // Model -> DTO
-            Mapper.CreateMap<GameModel, GameDto>();
-
-            // DTO -> Model
-            Mapper.CreateMap<GameDto, GameModel>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore());
-
-            // View Model -> Model
-
-            // Model -> View Model
-
-            Mapper.AssertConfigurationIsValid();
         }
     }
 }

@@ -11,10 +11,10 @@
         SizeToContent="WidthAndHeight"
         MinHeight="400"
         MinWidth="400"
+        DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         
         d:DesignWidth="525"
-        d:DesignHeight="350"
-        d:DataContext="{d:DesignInstance Type=gomer:MainWindowViewModel}">
+        d:DesignHeight="350">
     <DockPanel>        
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">

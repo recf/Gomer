@@ -45,7 +45,7 @@ namespace Gomer
 
             _games = new ReactiveList<GameModel>();
 
-            Navigate(new PileGameListViewModel(_games), "Games");
+            Navigate(new PileGameListViewModel(_games), "Pile");
         }
 
         private void Navigate(ViewModel viewModel, string title)
@@ -70,7 +70,7 @@ namespace Gomer
             _manager = new JsonStructuredFileManager<PileDto>(dialog.FileName);
             var pile = _manager.Read();
 
-            var gameModels = Mapper.Map<IList<GameModel>>(pile.Games);
+            var gameModels = Mapper.Map<IList<GameModel>>(pile.PileGames);
 
             _games.Clear();
             foreach (var model in gameModels)
@@ -98,7 +98,9 @@ namespace Gomer
             var gameDtos = _games.Select(Mapper.Map<GameDto>).ToArray();
 
             var pile = new PileDto();
-            pile.Games = gameDtos;
+            pile.PileGames = gameDtos;
+            pile.WishlistGames = new List<GameDto>();
+            pile.IgnoredGames = new List<GameDto>();
 
             _manager.Write(pile);
         }

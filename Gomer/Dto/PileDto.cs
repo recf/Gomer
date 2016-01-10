@@ -7,19 +7,20 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Gomer.Dto
 {
-    [DataContract]
+    [JsonObject(MemberSerialization.OptIn)]
     public class PileDto
     {
-        [DataMember(Name="games", IsRequired = true)]
-        public IList<GameDto> Games { get; set; }
-        
-        [DataMember(Name = "wishlist", IsRequired = true)]
-        public IList<GameDto> Wishlist { get; set; }
+        [JsonProperty("pile", Required=Required.Always)]
+        public IList<GameDto> PileGames { get; set; }
 
-        [DataMember(Name = "ignored", IsRequired = true)]
-        public IList<GameDto> IgnoreList { get; set; }
+        [JsonProperty("wishlist", Required = Required.Always)]
+        public IList<GameDto> WishlistGames { get; set; }
+
+        [JsonProperty("ignored", Required = Required.Always)]
+        public IList<GameDto> IgnoredGames { get; set; }
     }
 }

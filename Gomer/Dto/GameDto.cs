@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace Gomer.Dto
 {
-    [DataContract]
+    [JsonObject(MemberSerialization.OptIn)]
     public class GameDto
     {
-        [DataMember(Name="name", IsRequired = true)]
+        [JsonProperty("name", Required = Required.Always)]
         public string Name { get; set; }
 
-        [DataMember(Name = "platform", IsRequired = true)]
+        [JsonProperty("platform", Required = Required.Always)]
         public string Platform { get; set; }
     }
 }

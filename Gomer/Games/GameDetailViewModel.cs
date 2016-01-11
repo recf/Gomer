@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,8 +16,11 @@ namespace Gomer.Games
     public class GameDetailViewModel : ViewModelBase
     {
         private Repository<GameModel, Guid> _repository;
+        private GameLists _originalList;
 
-        #region Notify Properties
+        public ObservableCollection<GameLists> Lists { get; private set; }
+
+        #region INotifyPropertyChanged Properties
 
         private Guid _id;
         public Guid Id
@@ -25,9 +29,6 @@ namespace Gomer.Games
             set
             {
                 Set(() => Id, ref _id, value);
-                RaisePropertyChanged(() => UsePileCommands);
-                RaisePropertyChanged(() => UseWishlistCommands);
-                RaisePropertyChanged(() => UseIgnoreListCommands);
                 Refresh();
             }
         }
@@ -42,62 +43,27 @@ namespace Gomer.Games
             }
         }
 
-        private GameLists? _movedToList = null;
-        private GameLists _list;
-        public GameLists List
-        {
-            get { return _list; }
-            set
-            {
-                Set(() => List, ref _list, value);
-                RaisePropertyChanged(() => UsePileCommands);
-                RaisePropertyChanged(() => UseWishlistCommands);
-                RaisePropertyChanged(() => UseIgnoreListCommands);
-            }
-        }
-
-        public bool UsePileCommands
-        {
-            get
-            {
-                return Id != Guid.Empty && Game.List == GameLists.Pile;
-            }
-        }
-
-        public bool UseWishlistCommands
-        {
-            get
-            {
-                return Id != Guid.Empty && Game.List == GameLists.Wishlist;
-            }
-        }
-
-        public bool UseIgnoreListCommands
-        {
-            get
-            {
-                return Id != Guid.Empty && Game.List == GameLists.Ignored;
-            }
-        }
-
         #endregion
 
         public RelayCommand CancelCommand { get; private set; }
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand RemoveCommand { get; private set; }
-        public RelayCommand<GameLists> MoveToListCommand { get; private set; }
 
-        public GameDetailViewModel(Repository<GameModel, Guid> repository)
+        public GameDetailViewModel(Repository<GameModel, Guid> repository, GameLists originalList)
         {
             _repository = repository;
+            _originalList = originalList;
 
             Id = Guid.Empty;
-            List = GameLists.Pile;
+            Lists = new ObservableCollection<GameLists>();
+            foreach (var list in Enum.GetValues(typeof(GameLists)))
+            {
+                Lists.Add((GameLists)list);
+            }
 
             CancelCommand = new RelayCommand(OnCanceled);
             SaveCommand = new RelayCommand(SaveCommandImpl);
             RemoveCommand = new RelayCommand(RemoveCommandImpl);
-            MoveToListCommand = new RelayCommand<GameLists>(MoveToListCommandImpl);
 
             Refresh();
         }
@@ -108,13 +74,13 @@ namespace Gomer.Games
             {
                 Game = new GameModel()
                 {
-                    List = List
+                    List = _originalList,
+                    AddedOn = DateTime.Today
                 };
                 return;
             }
 
             Game = await _repository.GetItemAsync(Id);
-            List = Game.List;
         }
 
         #region Events
@@ -127,7 +93,8 @@ namespace Gomer.Games
             {
                 var args = new GameSavedEventArgs()
                 {
-                    MovedToList = _movedToList
+                    OriginalList = _originalList,
+                    Game = Game
                 };
 
                 Saved(this, args);
@@ -150,7 +117,6 @@ namespace Gomer.Games
 
         private async void SaveCommandImpl()
         {
-            Game.List = List;
             if (Id == Guid.Empty)
             {
                 Game.Id = Guid.NewGuid();
@@ -167,13 +133,6 @@ namespace Gomer.Games
         {
             await _repository.RemoveItemAsync(Game.Id);
             OnSaved();
-        }
-
-        private void MoveToListCommandImpl(GameLists newList)
-        {
-            _movedToList = newList;
-            List = newList;
-            SaveCommand.Execute(null);
         }
 
         #endregion

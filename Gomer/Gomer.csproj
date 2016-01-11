@@ -91,6 +91,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\DateToShortDateStringConverter.cs" />
     <Compile Include="Events\GameListChangedEventArgs.cs" />
     <Compile Include="Events\GameSavedEventArgs.cs" />
     <Compile Include="Games\GameDetailView.xaml.cs">

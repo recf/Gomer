@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:games="clr-namespace:Gomer.Games"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              
              d:DataContext="{d:DesignInstance Type=games:GameListViewModel}"
              d:DesignHeight="300"
@@ -14,13 +14,15 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="6*"/>
-            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="0" Grid.Column="0">
 
-            <Button Content="Add" Command="{Binding AddCommand}"/>
+            <WrapPanel Margin="10" HorizontalAlignment="Right">
+                <Button Content="Add" Command="{Binding AddCommand}"/>
+            </WrapPanel>
 
             <DataGrid ItemsSource="{Binding Games}" 
                       AutoGenerateColumns="False"
@@ -28,6 +30,12 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                     <DataGridTextColumn Header="Platform" Binding="{Binding Platform}"/>
+                    <DataGridTextColumn Header="Estimate Hrs." Binding="{Binding EstimatedHours}" />
+                    <DataGridTextColumn Header="Played Hrs." Binding="{Binding PlayedHours}"/>
+                    <DataGridTextColumn Header="Remaining Hrs." Binding="{Binding RemainingHours}" /> 
+                    <DataGridTextColumn Header="Added" Binding="{Binding AddedOn, Converter={StaticResource ToShortDate}}" />
+                    <DataGridTextColumn Header="Started" Binding="{Binding StartedOn, Converter={StaticResource ToShortDate}}" />
+                    <DataGridTextColumn Header="Finished" Binding="{Binding FinishedOn, Converter={StaticResource ToShortDate}}" />
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

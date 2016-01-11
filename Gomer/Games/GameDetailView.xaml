@@ -15,29 +15,32 @@
                 <Label Content="Platform"/>
                 <TextBox Text="{Binding Game.Platform}"/>
 
-                <Button Content="Save" Command="{Binding SaveCommand}"/>
-                <Button Content="Cancel" Command="{Binding CancelCommand}"/>
-            </StackPanel>
-        </GroupBox>
+                <Label Content="Estimated Hours"/>
+                <TextBox Text="{Binding Game.EstimatedHours}"/>
 
-        <GroupBox Header="Immediate Actions">
-            <StackPanel>
-                <StackPanel Visibility="{Binding UsePileCommands, Converter={StaticResource BoolToVis}}">
-                    <Button Content="Ignore / Retire" Command="{Binding MoveToListCommand}" CommandParameter="{x:Static models:GameLists.Ignored}"/>
-                </StackPanel>
-                
-                <StackPanel Visibility="{Binding UseWishlistCommands, Converter={StaticResource BoolToVis}}">
-                    <Button Content="Move to Pile" Command="{Binding MoveToListCommand}" CommandParameter="{x:Static models:GameLists.Pile}"/>
-                </StackPanel>
-                
-                <StackPanel Visibility="{Binding UseIgnoreListCommands, Converter={StaticResource BoolToVis}}">
-                    <Button Content="Move to Pile" Command="{Binding MoveToListCommand}" CommandParameter="{x:Static models:GameLists.Pile}"/>
+                <Label Content="Played Hours"/>
+                <TextBox Text="{Binding Game.PlayedHours}"/>
+
+                <Label Content="Added On"/>
+                <DatePicker SelectedDate="{Binding Game.AddedOn}"/>
+
+                <Label Content="Started On"/>
+                <DatePicker SelectedDate="{Binding Game.StartedOn}"/>
+
+                <Label Content="Finished On"/>
+                <DatePicker SelectedDate="{Binding Game.FinishedOn}"/>
+
+                <Label Content="List"/>
+                <ComboBox SelectedItem="{Binding Game.List}" ItemsSource="{Binding Lists}"/>
+
+                <StackPanel Margin="5">
+                    <Button Content="Save" Command="{Binding SaveCommand}"/>
+                    <Button Content="Cancel" Command="{Binding CancelCommand}"/>
                 </StackPanel>
 
                 <Expander Header="Delete">
                     <Button Content="Confirm Delete" Command="{Binding RemoveCommand}" />
                 </Expander>
-
             </StackPanel>
         </GroupBox>
     </StackPanel>

@@ -45,6 +45,78 @@ namespace Gomer.Models
             }
         }
 
+        private DateTime _addedOn;
+        public DateTime AddedOn
+        {
+            get { return _addedOn; }
+            set
+            {
+                Set(() => AddedOn, ref _addedOn, value);
+            }
+        }
+
+        private DateTime? _startedOn;
+        public DateTime? StartedOn
+        {
+            get { return _startedOn; }
+            set
+            {
+                Set(() => StartedOn, ref _startedOn, value);
+            }
+        }
+
+        private DateTime? _finishedOn;
+        public DateTime? FinishedOn
+        {
+            get { return _finishedOn; }
+            set
+            {
+                Set(() => FinishedOn, ref _finishedOn, value);
+                if (value.HasValue)
+                {
+                    List = GameLists.Played;
+                }
+            }
+        }
+
+        private decimal? _estimatedHours;
+        public decimal? EstimatedHours
+        {
+            get { return _estimatedHours; }
+            set
+            {
+                Set(() => EstimatedHours, ref _estimatedHours, value);
+                RaisePropertyChanged(() => RemainingHours);
+            }
+        }
+
+        private decimal? _playedHours;
+        public decimal? PlayedHours
+        {
+            get { return _playedHours; }
+            set
+            {
+                Set(() => PlayedHours, ref _playedHours, value);
+                RaisePropertyChanged(() => RemainingHours);
+            }
+        }
+
+        public decimal? RemainingHours
+        {
+            get
+            {
+                if (!EstimatedHours.HasValue)
+                {
+                    return null;
+                }
+
+                var est = EstimatedHours.Value;
+                var played = PlayedHours.HasValue ? PlayedHours.Value : 0;
+
+                return est - played;
+            }
+        }
+
         public GameModel()
         {
             Id = Guid.NewGuid();

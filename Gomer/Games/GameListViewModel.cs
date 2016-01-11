@@ -79,15 +79,14 @@ namespace Gomer.Games
 
         private void AddCommandImpl()
         {
-            SelectedGameDetails = new GameDetailViewModel(_repository);
-            SelectedGameDetails.List = _list;
+            SelectedGameDetails = new GameDetailViewModel(_repository, _list);
             SelectedGameDetails.Saved += SelectedGameDetails_OnSaved;
             SelectedGameDetails.Canceled += SelectedGameDetails_OnCanceled;
         }
 
         private void EditCommandImpl(GameModel game)
         {
-            SelectedGameDetails = new GameDetailViewModel(_repository);
+            SelectedGameDetails = new GameDetailViewModel(_repository, _list);
             SelectedGameDetails.Id = game.Id;
             SelectedGameDetails.Saved += SelectedGameDetails_OnSaved;
             SelectedGameDetails.Canceled += SelectedGameDetails_OnCanceled;
@@ -97,9 +96,9 @@ namespace Gomer.Games
         {
             SelectedGameDetails = null;
             Refresh();
-            if (e.MovedToList.HasValue)
+            if (e.OriginalList != e.Game.List)
             {
-                OnOtherListChanged(e.MovedToList.Value);
+                OnOtherListChanged(e.Game.List);
             }
         }
 

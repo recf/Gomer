@@ -35,8 +35,8 @@ namespace Gomer.Models
             }
         }
 
-        private GameLists _list;
-        public GameLists List
+        private string _list;
+        public string List
         {
             get { return _list; }
             set
@@ -72,10 +72,6 @@ namespace Gomer.Models
             set
             {
                 Set(() => FinishedOn, ref _finishedOn, value);
-                if (value.HasValue)
-                {
-                    List = GameLists.Played;
-                }
             }
         }
 

@@ -16,9 +16,6 @@ namespace Gomer.Games
     public class GameDetailViewModel : ViewModelBase
     {
         private Repository<GameModel, Guid> _repository;
-        private GameLists _originalList;
-
-        public ObservableCollection<GameLists> Lists { get; private set; }
 
         #region INotifyPropertyChanged Properties
 
@@ -49,17 +46,11 @@ namespace Gomer.Games
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand RemoveCommand { get; private set; }
 
-        public GameDetailViewModel(Repository<GameModel, Guid> repository, GameLists originalList)
+        public GameDetailViewModel(Repository<GameModel, Guid> repository)
         {
             _repository = repository;
-            _originalList = originalList;
 
             Id = Guid.Empty;
-            Lists = new ObservableCollection<GameLists>();
-            foreach (var list in Enum.GetValues(typeof(GameLists)))
-            {
-                Lists.Add((GameLists)list);
-            }
 
             CancelCommand = new RelayCommand(OnCanceled);
             SaveCommand = new RelayCommand(SaveCommandImpl);
@@ -74,7 +65,6 @@ namespace Gomer.Games
             {
                 Game = new GameModel()
                 {
-                    List = _originalList,
                     AddedOn = DateTime.Today
                 };
                 return;
@@ -93,7 +83,6 @@ namespace Gomer.Games
             {
                 var args = new GameSavedEventArgs()
                 {
-                    OriginalList = _originalList,
                     Game = Game
                 };
 

@@ -9,7 +9,6 @@ namespace Gomer.Events
 {
     public class GameSavedEventArgs : EventArgs
     {
-        public GameLists OriginalList { get; set; }
         public GameModel Game { get; set; }
     }
 }

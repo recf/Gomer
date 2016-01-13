@@ -16,11 +16,6 @@
         d:DesignWidth="525"
         d:DesignHeight="350">
     <DockPanel>
-        <TabControl>
-            <TabItem Header="Pile" Content="{Binding PileGames}"/>
-            <TabItem Header="Played" Content="{Binding PlayedGames}"/>
-            <TabItem Header="Wishlist" Content="{Binding WishlistGames}"/>
-            <TabItem Header="Ignored" Content="{Binding IgnoredGames}"/>
-        </TabControl>
+        <ContentControl Content="{Binding PileGames}"/>
     </DockPanel>
 </Window>

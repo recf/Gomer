@@ -92,13 +92,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\DateToShortDateStringConverter.cs" />
-    <Compile Include="Events\GameListChangedEventArgs.cs" />
     <Compile Include="Events\GameSavedEventArgs.cs" />
     <Compile Include="Games\GameDetailView.xaml.cs">
       <DependentUpon>GameDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Games\GameDetailViewModel.cs" />
-    <Compile Include="Models\GameLists.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="DataTemplates.xaml">

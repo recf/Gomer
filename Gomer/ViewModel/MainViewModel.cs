@@ -42,36 +42,6 @@ namespace Gomer.ViewModel
             }
         }
 
-        private GameListViewModel _playedGames;
-        public GameListViewModel PlayedGames
-        {
-            get { return _playedGames; }
-            set
-            {
-                Set(() => PlayedGames, ref _playedGames, value);
-            }
-        }
-
-        private GameListViewModel _wishlistGames;
-        public GameListViewModel WishlistGames
-        {
-            get { return _wishlistGames; }
-            set
-            {
-                Set(() => WishlistGames, ref _wishlistGames, value);
-            }
-        }
-
-        private GameListViewModel _ignoredGames;
-        public GameListViewModel IgnoredGames
-        {
-            get { return _ignoredGames; }
-            set
-            {
-                Set(() => IgnoredGames, ref _ignoredGames, value);
-            }
-        }
-
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
@@ -96,36 +66,7 @@ namespace Gomer.ViewModel
                     model => model.Id);
             }
 
-            PileGames = new GameListViewModel(_repository, GameLists.Pile);
-            PlayedGames = new GameListViewModel(_repository, GameLists.Played);
-            WishlistGames = new GameListViewModel(_repository, GameLists.Wishlist);
-            IgnoredGames = new GameListViewModel(_repository, GameLists.Ignored);
-
-            PileGames.OtherListChanged += GameList_OtherListChanged;
-            PlayedGames.OtherListChanged += GameList_OtherListChanged;
-            WishlistGames.OtherListChanged += GameList_OtherListChanged;
-            IgnoredGames.OtherListChanged += GameList_OtherListChanged;
-        }
-
-        private void GameList_OtherListChanged(object sender, Events.GameListChangedEventArgs e)
-        {
-            switch (e.List)
-            {
-                case GameLists.Pile:
-                    PileGames.Refresh();
-                    break;
-                case GameLists.Played:
-                    PlayedGames.Refresh();
-                    break;
-                case GameLists.Wishlist:
-                    WishlistGames.Refresh();
-                    break;
-                case GameLists.Ignored:
-                    IgnoredGames.Refresh();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("e.List", string.Format("Unhandled GameList value {0}", e.List));
-            }
+            PileGames = new GameListViewModel(_repository);
         }
     }
 }

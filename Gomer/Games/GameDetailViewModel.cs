@@ -40,15 +40,21 @@ namespace Gomer.Games
             }
         }
 
+        public ObservableCollection<string> Platforms { get; private set; }
+        public ObservableCollection<string> Lists { get; private set; }
+
         #endregion
 
         public RelayCommand CancelCommand { get; private set; }
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand RemoveCommand { get; private set; }
 
-        public GameDetailViewModel(Repository<GameModel, Guid> repository)
+        public GameDetailViewModel(Repository<GameModel, Guid> repository, ISet<string> platforms, ISet<string> lists)
         {
             _repository = repository;
+
+            Platforms = new ObservableCollection<string>(platforms);
+            Lists = new ObservableCollection<string>(lists);
 
             Id = Guid.Empty;
 

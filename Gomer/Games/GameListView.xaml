@@ -9,50 +9,43 @@
              d:DataContext="{d:DesignInstance Type=games:GameListViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="300">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
+    <DockPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="0">
+        <WrapPanel DockPanel.Dock="Top" 
+                       Margin="10" HorizontalAlignment="Right">
+            <Button Content="Add" Command="{Binding AddCommand}"/>
+        </WrapPanel>
 
-            <WrapPanel Margin="10" HorizontalAlignment="Right">
-                <Button Content="Add" Command="{Binding AddCommand}"/>
-            </WrapPanel>
-
-            <DataGrid ItemsSource="{Binding Games}" 
-                      AutoGenerateColumns="False"
-                      IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="List" Binding="{Binding List}"/>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                    <DataGridTextColumn Header="Platform" Binding="{Binding Platform}"/>
-                    <DataGridTextColumn Header="Estimate Hrs." Binding="{Binding EstimatedHours}" />
-                    <DataGridTextColumn Header="Played Hrs." Binding="{Binding PlayedHours}"/>
-                    <DataGridTextColumn Header="Remaining Hrs." Binding="{Binding RemainingHours}" /> 
-                    <DataGridTextColumn Header="Added" Binding="{Binding AddedOn, Converter={StaticResource ToShortDate}}" />
-                    <DataGridTextColumn Header="Started" Binding="{Binding StartedOn, Converter={StaticResource ToShortDate}}" />
-                    <DataGridTextColumn Header="Finished" Binding="{Binding FinishedOn, Converter={StaticResource ToShortDate}}" />
-                    <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="Edit"
+        <DataGrid DockPanel.Dock="Left"
+                  ItemsSource="{Binding Games}" 
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  HorizontalAlignment="Stretch"
+                  VerticalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="List" Binding="{Binding List}"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Platform" Binding="{Binding Platform}"/>
+                <DataGridTextColumn Header="Estimate Hrs." Binding="{Binding EstimatedHours}" />
+                <DataGridTextColumn Header="Played Hrs." Binding="{Binding PlayedHours}"/>
+                <DataGridTextColumn Header="Remaining Hrs." Binding="{Binding RemainingHours}" />
+                <DataGridTextColumn Header="Added" Binding="{Binding AddedOn, Converter={StaticResource ToShortDate}}" />
+                <DataGridTextColumn Header="Started" Binding="{Binding StartedOn, Converter={StaticResource ToShortDate}}" />
+                <DataGridTextColumn Header="Finished" Binding="{Binding FinishedOn, Converter={StaticResource ToShortDate}}" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Edit"
                                         Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
                                         CommandParameter="{Binding}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" 
-                    Margin="5">
-            <ContentControl Content="{Binding SelectedGameDetails}"/>
-        </StackPanel>
-    </Grid>
+        <ScrollViewer DockPanel.Dock="Right" 
+                      VerticalScrollBarVisibility="Auto"
+                      Content="{Binding SelectedGameDetails}"/>
+    </DockPanel>
 </UserControl>

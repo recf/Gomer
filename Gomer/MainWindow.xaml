@@ -12,7 +12,9 @@
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         
         d:DesignWidth="525"
-        d:DesignHeight="350">
+        d:DesignHeight="350"
+        
+        Closing="MainWindow_OnClosing">
     <Window.InputBindings>
         <KeyBinding Gesture="Ctrl+O" Command="{Binding OpenCommand}"/>
         <KeyBinding Gesture="Ctrl+S" Command="{Binding SaveCommand}"/>

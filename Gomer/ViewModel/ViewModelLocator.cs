@@ -56,9 +56,11 @@ namespace Gomer.ViewModel
         private void ConfigureAutoMapper()
         {
             // Model -> DTO
+            Mapper.CreateMap<PileModel, PileDto>();
             Mapper.CreateMap<GameModel, GameDto>();
 
             // DTO -> Model
+            Mapper.CreateMap<PileDto, PileModel>();
             Mapper.CreateMap<GameDto, GameModel>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 

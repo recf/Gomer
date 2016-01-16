@@ -13,6 +13,7 @@ using GalaSoft.MvvmLight.Command;
 using Gomer.Dto;
 using Gomer.Models;
 using Gomer.Games;
+using Gomer.Piles;
 using Gomer.Services;
 
 namespace Gomer.ViewModel
@@ -76,13 +77,13 @@ namespace Gomer.ViewModel
             }
         }
 
-        private GameListViewModel _pileGames;
-        public GameListViewModel PileGames
+        private PileDetailViewModel _pileDetail;
+        public PileDetailViewModel PileDetail
         {
-            get { return _pileGames; }
+            get { return _pileDetail; }
             set
             {
-                Set(() => PileGames, ref _pileGames, value);
+                Set(() => PileDetail, ref _pileDetail, value);
             }
         }
 
@@ -116,17 +117,18 @@ namespace Gomer.ViewModel
 
         private void ShowPile(PileDto pile)
         {
-            if (PileGames != null)
+            if (PileDetail != null)
             {
-                PileGames.CollectionChanged -= PileGames_CollectionChanged;
+                PileDetail.DataChanged -= PileDetail_DataChanged;
             }
 
-            var gameModels = Mapper.Map<ICollection<GameModel>>(pile.Games);
-            PileGames = new GameListViewModel(gameModels);
-            PileGames.CollectionChanged += PileGames_CollectionChanged;
+            var model = Mapper.Map<PileModel>(pile);
+
+            PileDetail = new PileDetailViewModel(model);
+            PileDetail.DataChanged += PileDetail_DataChanged;
         }
 
-        void PileGames_CollectionChanged(object sender, EventArgs e)
+        void PileDetail_DataChanged(object sender, EventArgs e)
         {
             IsDirty = true;
         }
@@ -135,8 +137,7 @@ namespace Gomer.ViewModel
 
         private void SavePile(TrySavePile trySavePile)
         {
-            var pile = new PileDto();
-            pile.Games = Mapper.Map<ICollection<GameDto>>(PileGames.Games);
+            var pile = Mapper.Map<PileDto>(PileDetail.Pile);
 
             string fileName;
             if (trySavePile(pile, out fileName))

@@ -18,8 +18,8 @@ namespace Gomer.Dto
         [JsonProperty("platform", Required = Required.Always)]
         public string Platform { get; set; }
 
-        [JsonProperty("added_on")]
-        public DateTime AddedOn { get; set; }
+        [JsonProperty("added_on", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public DateTime? AddedOn { get; set; }
 
         [JsonProperty("started_on", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public DateTime? StartedOn { get; set; }

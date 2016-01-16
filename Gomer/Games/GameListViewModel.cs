@@ -12,6 +12,7 @@ using Gomer.Models;
 
 namespace Gomer.Games
 {
+    // TODO: Game list being in charge of the detail feels wrong. Push up to pile detail vm?
     public class GameListViewModel : ViewModelBase
     {
         private readonly ICollection<GameModel> _games;
@@ -61,13 +62,13 @@ namespace Gomer.Games
 
         #region Events
 
-        public event EventHandler CollectionChanged;
+        public event EventHandler DataChanged;
 
-        private void OnCollectionChanged()
+        private void OnDataChanged()
         {
-            if (CollectionChanged != null)
+            if (DataChanged != null)
             {
-                CollectionChanged(this, EventArgs.Empty);
+                DataChanged(this, EventArgs.Empty);
             }
         }
 
@@ -109,7 +110,7 @@ namespace Gomer.Games
 
             _games.Add(e.Game);
             
-            OnCollectionChanged();
+            OnDataChanged();
             Refresh();
         }
 
@@ -123,7 +124,7 @@ namespace Gomer.Games
                 _games.Remove(existing);
             }
 
-            OnCollectionChanged();
+            OnDataChanged();
             Refresh();
         }
 

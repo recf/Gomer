@@ -41,6 +41,6 @@
             </StatusBarItem>
         </StatusBar>
 
-        <ContentControl Content="{Binding PileGames}"/>
+        <ContentControl Content="{Binding PileDetail}"/>
     </DockPanel>
 </Window>

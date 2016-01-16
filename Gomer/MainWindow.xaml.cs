@@ -12,8 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Gomer.ViewModel;
 
-namespace Gomer.UI
+namespace Gomer
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

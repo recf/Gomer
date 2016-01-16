@@ -15,28 +15,16 @@ namespace Gomer.Games
 {
     public class GameDetailViewModel : ViewModelBase
     {
-        private Repository<GameModel, Guid> _repository;
-
         #region INotifyPropertyChanged Properties
-
-        private Guid _id;
-        public Guid Id
-        {
-            get { return _id; }
-            set
-            {
-                Set(() => Id, ref _id, value);
-                Refresh();
-            }
-        }
 
         private GameModel _game;
         public GameModel Game
         {
             get { return _game; }
-            private set
+            set
             {
-                Set(() => Game, ref _game, value);
+                var workingCopy = Mapper.Map<GameModel>(value);
+                Set(() => Game, ref _game, workingCopy);
             }
         }
 
@@ -46,53 +34,48 @@ namespace Gomer.Games
         #endregion
 
         public RelayCommand CancelCommand { get; private set; }
-        public RelayCommand SaveCommand { get; private set; }
+        public RelayCommand UpdateCommand { get; private set; }
         public RelayCommand RemoveCommand { get; private set; }
 
-        public GameDetailViewModel(Repository<GameModel, Guid> repository, ISet<string> platforms, ISet<string> lists)
+        public GameDetailViewModel(ISet<string> platforms, ISet<string> lists)
         {
-            _repository = repository;
-
             Platforms = new ObservableCollection<string>(platforms);
             Lists = new ObservableCollection<string>(lists);
 
-            Id = Guid.Empty;
-
             CancelCommand = new RelayCommand(OnCanceled);
-            SaveCommand = new RelayCommand(SaveCommandImpl);
+            UpdateCommand = new RelayCommand(SaveCommandImpl);
             RemoveCommand = new RelayCommand(RemoveCommandImpl);
-
-            Refresh();
-        }
-
-        private async void Refresh()
-        {
-            if (Id == Guid.Empty)
-            {
-                Game = new GameModel()
-                {
-                    AddedOn = DateTime.Today
-                };
-                return;
-            }
-
-            Game = await _repository.GetItemAsync(Id);
         }
 
         #region Events
 
-        public event EventHandler<GameSavedEventArgs> Saved;
+        public event EventHandler<GameEventArgs> Updated;
 
         private void OnSaved()
         {
-            if (Saved != null)
+            if (Updated != null)
             {
-                var args = new GameSavedEventArgs()
+                var args = new GameEventArgs()
                 {
                     Game = Game
                 };
 
-                Saved(this, args);
+                Updated(this, args);
+            }
+        }
+
+        public event EventHandler<GameEventArgs> Removed;
+
+        private void OnRemoved()
+        {
+            if (Removed != null)
+            {
+                var args = new GameEventArgs()
+                {
+                    Game = Game
+                };
+
+                Removed(this, args);
             }
         }
 
@@ -110,24 +93,14 @@ namespace Gomer.Games
 
         #region Command Implementations
 
-        private async void SaveCommandImpl()
+        private void SaveCommandImpl()
         {
-            if (Id == Guid.Empty)
-            {
-                Game.Id = Guid.NewGuid();
-                await _repository.AddItemAsync(Game);
-            }
-            else
-            {
-                await _repository.UpdateItemAsync(Game);
-            }
             OnSaved();
         }
 
-        private async void RemoveCommandImpl()
+        private void RemoveCommandImpl()
         {
-            await _repository.RemoveItemAsync(Game.Id);
-            OnSaved();
+            OnRemoved();
         }
 
         #endregion

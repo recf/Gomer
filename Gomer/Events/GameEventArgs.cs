@@ -7,7 +7,7 @@ using Gomer.Models;
 
 namespace Gomer.Events
 {
-    public class GameSavedEventArgs : EventArgs
+    public class GameEventArgs : EventArgs
     {
         public GameModel Game { get; set; }
     }

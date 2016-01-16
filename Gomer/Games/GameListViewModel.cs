@@ -15,11 +15,10 @@ namespace Gomer.Games
 {
     public class GameListViewModel : ViewModelBase
     {
+        private ICollection<GameModel> _games;
         private ISet<string> _platforms;
         private ISet<string> _lists;
-
-        private Repository<GameModel, Guid> _repository;
-
+        
         public ObservableCollection<GameModel> Games { get; private set; }
 
         private GameDetailViewModel _selectedGameDetails;
@@ -35,9 +34,9 @@ namespace Gomer.Games
         public RelayCommand AddCommand { get; set; }
         public RelayCommand<GameModel> EditCommand { get; set; }
 
-        public GameListViewModel(Repository<GameModel, Guid> repository)
+        public GameListViewModel(ICollection<GameModel> games)
         {
-            _repository = repository;
+            _games = games;
 
             Games = new ObservableCollection<GameModel>();
 
@@ -47,19 +46,17 @@ namespace Gomer.Games
             Refresh();
         }
 
-        public async void Refresh()
+        public void Refresh()
         {
             _platforms = new SortedSet<string>(StringComparer.CurrentCultureIgnoreCase);
             _lists = new SortedSet<string>(StringComparer.CurrentCultureIgnoreCase);
-
-            var games = await _repository.ListItemsAsync();
-
+            
             Games.Clear();
-            foreach (var item in games)
+            foreach (var game in _games)
             {
-                Games.Add(item);
-                _platforms.Add(item.Platform);
-                _lists.Add(item.List);
+                Games.Add(game);
+                _platforms.Add(game.Platform);
+                _lists.Add(game.List);
             }
         }
 
@@ -67,23 +64,44 @@ namespace Gomer.Games
 
         private void AddCommandImpl()
         {
-            SelectedGameDetails = new GameDetailViewModel(_repository, _platforms, _lists);
-            SelectedGameDetails.Saved += SelectedGameDetails_OnSaved;
+            SelectedGameDetails = new GameDetailViewModel(_platforms, _lists)
+            {
+                Game = new GameModel()
+            };
+            SelectedGameDetails.Updated += SelectedGameDetails_OnUpdated;
             SelectedGameDetails.Canceled += SelectedGameDetails_OnCanceled;
+            SelectedGameDetails.Removed += SelectedGameDetails_Removed;
         }
 
         private void EditCommandImpl(GameModel game)
         {
-            SelectedGameDetails = new GameDetailViewModel(_repository, _platforms, _lists);
-            SelectedGameDetails.Id = game.Id;
-            SelectedGameDetails.Saved += SelectedGameDetails_OnSaved;
+            SelectedGameDetails = new GameDetailViewModel(_platforms, _lists)
+            {
+                Game = game
+            };
+            SelectedGameDetails.Updated += SelectedGameDetails_OnUpdated;
             SelectedGameDetails.Canceled += SelectedGameDetails_OnCanceled;
+            SelectedGameDetails.Removed += SelectedGameDetails_Removed;
         }
 
-        private void SelectedGameDetails_OnSaved(object sender, GameSavedEventArgs e)
+        private void SelectedGameDetails_OnUpdated(object sender, GameEventArgs e)
         {
             SelectedGameDetails = null;
+
+            var existing = _games.FirstOrDefault(g => g.Id == e.Game.Id);
+            if (existing != null)
+            {
+                _games.Remove(existing);
+            }
+
+            _games.Add(e.Game);
+            
             Refresh();
+        }
+
+        void SelectedGameDetails_Removed(object sender, GameEventArgs e)
+        {
+
         }
 
         private void SelectedGameDetails_OnCanceled(object sender, EventArgs e)

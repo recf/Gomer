@@ -19,6 +19,7 @@ using GalaSoft.MvvmLight.Ioc;
 using Gomer.Dto;
 using Gomer.Games;
 using Gomer.Models;
+using Gomer.Services;
 using Microsoft.Practices.ServiceLocation;
 
 namespace Gomer.ViewModel
@@ -36,16 +37,16 @@ namespace Gomer.ViewModel
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            ////if (ViewModelBase.IsInDesignModeStatic)
-            ////{
-            ////    // Create design time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DesignDataService>();
-            ////}
-            ////else
-            ////{
-            ////    // Create run time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DataService>();
-            ////}
+            if (ViewModelBase.IsInDesignModeStatic)
+            {
+                // Create design time view services and models
+                //SimpleIoc.Default.Register<IDataService, DesignDataService>();
+            }
+            else
+            {
+                // Create run time view services and models
+                SimpleIoc.Default.Register<IDataService, DataService>();
+            }
 
             SimpleIoc.Default.Register<MainViewModel>();
 

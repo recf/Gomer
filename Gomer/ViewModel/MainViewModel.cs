@@ -6,12 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
 using AutoMapper;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Gomer.Dto;
 using Gomer.Models;
 using Gomer.Games;
+using Gomer.Services;
 using Recfab.Infrastructure;
 
 namespace Gomer.ViewModel
@@ -30,7 +32,7 @@ namespace Gomer.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private Repository<GameModel, Guid> _repository;
+        private IDataService _dataService;
 
         private GameListViewModel _pileGames;
         public GameListViewModel PileGames
@@ -41,32 +43,85 @@ namespace Gomer.ViewModel
                 Set(() => PileGames, ref _pileGames, value);
             }
         }
+        
+        private string _statusMessage;
+        public string StatusMessage
+        {
+            get { return _statusMessage; }
+            set
+            {
+                Set(() => StatusMessage, ref _statusMessage, value);
+            }
+        }
+
+        public RelayCommand OpenCommand { get; private set; }
+        public RelayCommand SaveCommand { get; private set; }
+        public RelayCommand SaveAsCommand { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel()
+        public MainViewModel(IDataService dataService)
         {
             if (IsInDesignMode)
             {
                 // Code runs in Blend --> create design time data.
-                _repository = new MemoryRepository<GameModel, Guid>(x => x.Id);
             }
             else
             {
                 // Code runs "for real"
                 var docsdir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                var path = Path.Combine(docsdir, "gomer.pile");
-                var innerRepo = new FileBackedRepository<GameDto, Guid>(path, x => x.Id);
-                _repository = new MappingRepository<GameModel, Guid, GameDto, Guid>(
-                    model => Mapper.Map<GameDto>(model),
-                    dto => Mapper.Map<GameModel>(dto),
-                    id => id,
-                    innerRepo,
-                    model => model.Id);
             }
 
-            PileGames = new GameListViewModel(_repository);
+            _dataService = dataService;
+
+            OpenCommand = new RelayCommand(OpenCommandImpl);
+            SaveCommand = new RelayCommand(SaveCommandImpl);
+            SaveAsCommand = new RelayCommand(SaveAsCommandImpl);
+
+            var pile = _dataService.GetNew();
+            ShowPile(pile);
         }
+
+        private void ShowPile(PileDto pile)
+        {
+            var gameModels = Mapper.Map<ICollection<GameModel>>(pile.Games);
+            PileGames = new GameListViewModel(gameModels);
+        }
+
+        #region Command Implementations
+        private void OpenCommandImpl()
+        {
+            PileDto pile;
+            if (_dataService.TryOpen(out pile))
+            {
+                ShowPile(pile);
+                StatusMessage = string.Format("Opened {0}.", DateTime.Now);
+            }
+        }
+
+        private void SaveCommandImpl()
+        {
+            var pile = new PileDto();
+            pile.Games = Mapper.Map<ICollection<GameDto>>(PileGames.Games);
+
+            if (_dataService.TrySave(pile))
+            {
+                StatusMessage = string.Format("Last saved {0}.", DateTime.Now);
+            }
+        }
+
+        private void SaveAsCommandImpl()
+        {
+            var pile = new PileDto();
+            pile.Games = Mapper.Map<ICollection<GameDto>>(PileGames.Games);
+
+            if (_dataService.TrySaveAs(pile))
+            {
+                StatusMessage = string.Format("Last saved {0}.", DateTime.Now);
+            }
+        }
+
+        #endregion
     }
 }

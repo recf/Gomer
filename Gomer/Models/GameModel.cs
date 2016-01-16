@@ -116,6 +116,7 @@ namespace Gomer.Models
         public GameModel()
         {
             Id = Guid.NewGuid();
+            AddedOn = DateTime.Today;
         }
     }
 }

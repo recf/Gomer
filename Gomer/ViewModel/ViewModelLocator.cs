@@ -50,7 +50,7 @@ namespace Gomer.ViewModel
 
             SimpleIoc.Default.Register<MainViewModel>();
 
-            AutoMapperConfiguration.AutoMapperConfiguration.Configure();
+            AutoMapperConfiguration.Configure();
         }
 
         public MainViewModel Main

@@ -8,6 +8,7 @@ using AutoMapper;
 using GalaSoft.MvvmLight;
 using Gomer.Dto;
 using Gomer.Games;
+using Gomer.Lists;
 using Gomer.Models;
 
 namespace Gomer.Piles
@@ -23,7 +24,25 @@ namespace Gomer.Piles
             {
                 Set(() => Pile, ref _pile, value);
 
+                ListsList = new ListListViewModel(Pile.Lists);
                 GamesList = new GameListViewModel(Pile.Games, Pile.Lists);
+            }
+        }
+
+        private ListListViewModel _listsList;
+        public ListListViewModel ListsList
+        {
+            get { return _listsList; }
+            set
+            {
+                if (_listsList != null)
+                {
+                    _listsList.DataChanged -= SubData_OnDataChanged;
+                }
+
+                Set(() => ListsList, ref _listsList, value);
+
+                _listsList.DataChanged += SubData_OnDataChanged;
             }
         }
 

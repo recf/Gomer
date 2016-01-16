@@ -19,9 +19,7 @@
         <DataGrid DockPanel.Dock="Left"
                   ItemsSource="{Binding Games}" 
                   AutoGenerateColumns="False"
-                  IsReadOnly="True"
-                  HorizontalAlignment="Stretch"
-                  VerticalScrollBarVisibility="Auto">
+                  IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="List" Binding="{Binding List.Name}"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>

@@ -2,10 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     
                     xmlns:piles="clr-namespace:Gomer.Piles"
+                    xmlns:lists="clr-namespace:Gomer.Lists"
                     xmlns:games="clr-namespace:Gomer.Games">
     
     <DataTemplate DataType="{x:Type piles:PileDetailViewModel}">
         <piles:PileDetailView/>
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type lists:ListListViewModel}">
+        <lists:ListListView/>
     </DataTemplate>
     
     <DataTemplate DataType="{x:Type games:GameListViewModel}">

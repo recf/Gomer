@@ -37,7 +37,7 @@ namespace Gomer.Services
                 {
                     new ListDto { Name = "Pile" },
                     new ListDto { Name = "Wishlist" },
-                    new ListDto { Name = "Ignored" }
+                    new ListDto { Name = "Hidden" }
                 }
             };
         }

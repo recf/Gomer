@@ -87,8 +87,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AutoMapperConfiguration\AutoMapperConfiguration.cs" />
-    <Compile Include="AutoMapperConfiguration\ServiceContainer.cs" />
+    <Compile Include="AutoMapperConfiguration.cs" />
     <Compile Include="Converters\DateToShortDateStringConverter.cs" />
     <Compile Include="Dto\ListDto.cs" />
     <Compile Include="Dto\PileDto.cs" />
@@ -97,6 +96,10 @@
       <DependentUpon>GameDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Games\GameDetailViewModel.cs" />
+    <Compile Include="Lists\ListListView.xaml.cs">
+      <DependentUpon>ListListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Lists\ListListViewModel.cs" />
     <Compile Include="Models\ListModel.cs" />
     <Compile Include="Models\PileModel.cs" />
     <Compile Include="Piles\PileDetailView.xaml.cs">
@@ -112,6 +115,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Games\GameDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Lists\ListListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

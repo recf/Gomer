@@ -3,7 +3,7 @@ using AutoMapper;
 using Gomer.Dto;
 using Gomer.Models;
 
-namespace Gomer.AutoMapperConfiguration
+namespace Gomer
 {
     public static class AutoMapperConfiguration
     {

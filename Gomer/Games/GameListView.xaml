@@ -12,7 +12,8 @@
     <DockPanel>
 
         <WrapPanel DockPanel.Dock="Top" 
-                       Margin="10" HorizontalAlignment="Right">
+                   Margin="10" 
+                   HorizontalAlignment="Right">
             <Button Content="Add" Command="{Binding AddCommand}"/>
         </WrapPanel>
 
@@ -34,8 +35,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="Edit"
-                                        Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
-                                        CommandParameter="{Binding}"/>
+                                    Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                    CommandParameter="{Binding}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -92,15 +92,25 @@
     <Compile Include="Dto\ListDto.cs" />
     <Compile Include="Dto\PileDto.cs" />
     <Compile Include="Events\GameEventArgs.cs" />
+    <Compile Include="Events\ModelEventArgs.cs" />
     <Compile Include="Games\GameDetailView.xaml.cs">
       <DependentUpon>GameDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Games\GameDetailViewModel.cs" />
+    <Compile Include="Lists\ListDetailView.xaml.cs">
+      <DependentUpon>ListDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Lists\ListDetailViewModel.cs" />
+    <Compile Include="Lists\ListIndexView.xaml.cs">
+      <DependentUpon>ListIndexView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Lists\ListIndexViewModel.cs" />
     <Compile Include="Lists\ListListView.xaml.cs">
       <DependentUpon>ListListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Lists\ListListViewModel.cs" />
     <Compile Include="Models\ListModel.cs" />
+    <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\PileModel.cs" />
     <Compile Include="Piles\PileDetailView.xaml.cs">
       <DependentUpon>PileDetailView.xaml</DependentUpon>
@@ -108,6 +118,9 @@
     <Compile Include="Piles\PileDetailViewModel.cs" />
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\IDataService.cs" />
+    <Compile Include="ViewModel\DetailViewModelBase.cs" />
+    <Compile Include="ViewModel\IndexViewModelBase.cs" />
+    <Compile Include="ViewModel\ListViewModelBase.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="DataTemplates.xaml">
@@ -115,6 +128,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Games\GameDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Lists\ListDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Lists\ListIndexView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

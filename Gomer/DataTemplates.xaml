@@ -3,14 +3,16 @@
                     
                     xmlns:piles="clr-namespace:Gomer.Piles"
                     xmlns:lists="clr-namespace:Gomer.Lists"
-                    xmlns:games="clr-namespace:Gomer.Games">
+                    xmlns:games="clr-namespace:Gomer.Games"
+                    xmlns:models="clr-namespace:Gomer.Models"
+                    xmlns:viewModel="clr-namespace:Gomer.ViewModel">
     
     <DataTemplate DataType="{x:Type piles:PileDetailViewModel}">
         <piles:PileDetailView/>
     </DataTemplate>
-    
-    <DataTemplate DataType="{x:Type lists:ListListViewModel}">
-        <lists:ListListView/>
+
+    <DataTemplate DataType="{x:Type lists:ListIndexViewModel}">
+        <lists:ListIndexView/>
     </DataTemplate>
     
     <DataTemplate DataType="{x:Type games:GameListViewModel}">

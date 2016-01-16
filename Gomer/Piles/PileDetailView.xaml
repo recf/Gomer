@@ -11,6 +11,6 @@
              d:DesignWidth="300">
     <TabControl>
         <TabItem Header="Games" Content="{Binding GamesList}"/>
-        <TabItem Header="Manage Lists" Content="{Binding ListsList}"/>
+        <TabItem Header="Manage Lists" Content="{Binding ListsIndex}"/>
     </TabControl>
 </UserControl>

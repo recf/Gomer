@@ -7,18 +7,8 @@ using GalaSoft.MvvmLight;
 
 namespace Gomer.Models
 {
-    public class ListModel : ObservableObject
+    public class ListModel : ModelBase
     {
-        private Guid _id;
-        public Guid Id
-        {
-            get { return _id; }
-            set
-            {
-                Set(() => Id, ref _id, value);
-            }
-        }
-
         private string _name;
         public string Name
         {
@@ -27,11 +17,6 @@ namespace Gomer.Models
             {
                 Set(() => Name, ref _name, value);
             }
-        }
-
-        public ListModel()
-        {
-            Id = Guid.NewGuid();
         }
     }
 }

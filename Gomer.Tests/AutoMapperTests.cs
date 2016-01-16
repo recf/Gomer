@@ -14,7 +14,7 @@ namespace Gomer.Tests
         [Test]
         public void TestAutoMapperConfiguration()
         {
-            AutoMapperConfiguration.AutoMapperConfiguration.Configure();
+            AutoMapperConfiguration.Configure();
 
             AutoMapper.Mapper.AssertConfigurationIsValid();
         }

@@ -17,7 +17,6 @@ namespace Gomer.Games
     {
         private ICollection<ListModel> _lists;
 
-        // TODO: This field seems superfluous. Just use Games?
         private readonly ICollection<GameModel> _games;
         
         public ObservableCollection<GameModel> Games { get; private set; }
@@ -72,20 +71,7 @@ namespace Gomer.Games
 
         #endregion
 
-        #region Command Implementations
-
-        private void AddCommandImpl()
-        {
-            SelectedGameDetails = new GameDetailViewModel(_lists)
-            {
-                Game = new GameModel()
-            };
-            SelectedGameDetails.Updated += SelectedGameDetails_OnUpdated;
-            SelectedGameDetails.Canceled += SelectedGameDetails_OnCanceled;
-            SelectedGameDetails.Removed += SelectedGameDetails_Removed;
-        }
-
-        private void EditCommandImpl(GameModel game)
+        private void Edit(GameModel game)
         {
             SelectedGameDetails = new GameDetailViewModel(_lists)
             {
@@ -94,6 +80,18 @@ namespace Gomer.Games
             SelectedGameDetails.Updated += SelectedGameDetails_OnUpdated;
             SelectedGameDetails.Canceled += SelectedGameDetails_OnCanceled;
             SelectedGameDetails.Removed += SelectedGameDetails_Removed;
+        }
+
+        #region Command Implementations
+
+        private void AddCommandImpl()
+        {
+            Edit(new GameModel());
+        }
+
+        private void EditCommandImpl(GameModel game)
+        {
+            Edit(game);
         }
 
         private void SelectedGameDetails_OnUpdated(object sender, GameEventArgs e)

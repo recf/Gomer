@@ -24,25 +24,30 @@ namespace Gomer.Piles
             {
                 Set(() => Pile, ref _pile, value);
 
-                ListsList = new ListListViewModel(Pile.Lists);
+                ListsIndex = new ListIndexViewModel()
+                {
+                    Models = Pile.Lists
+                };
+                ListsIndex.DataChanged += SubData_OnDataChanged;
+
                 GamesList = new GameListViewModel(Pile.Games, Pile.Lists);
             }
         }
 
-        private ListListViewModel _listsList;
-        public ListListViewModel ListsList
+        private ListIndexViewModel _listsIndex;
+        public ListIndexViewModel ListsIndex
         {
-            get { return _listsList; }
+            get { return _listsIndex; }
             set
             {
-                if (_listsList != null)
+                if (_listsIndex != null)
                 {
-                    _listsList.DataChanged -= SubData_OnDataChanged;
+                    _listsIndex.DataChanged -= SubData_OnDataChanged;
                 }
 
-                Set(() => ListsList, ref _listsList, value);
+                Set(() => ListsIndex, ref _listsIndex, value);
 
-                _listsList.DataChanged += SubData_OnDataChanged;
+                _listsIndex.DataChanged += SubData_OnDataChanged;
             }
         }
 

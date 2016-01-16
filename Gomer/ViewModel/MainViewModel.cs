@@ -32,14 +32,37 @@ namespace Gomer.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private IDataService _dataService;
-        
-        private string _title;
-        public string Title
+
+        private string _fileName;
+        public string FileName
         {
-            get { return _title; }
+            get { return _fileName; }
             set
             {
-                Set(() => Title, ref _title, value);
+                Set(() => FileName, ref _fileName, value);
+                RaisePropertyChanged(() => Title);
+            }
+        }
+
+        private bool _isDirty;
+        public bool IsDirty
+        {
+            get { return _isDirty; }
+            set
+            {
+                Set(() => IsDirty, ref _isDirty, value);
+                RaisePropertyChanged(() => Title);
+            }
+        }
+        
+        public string Title
+        {
+            get
+            {
+                var fileName = FileName ?? "New";
+                var dirtyMarker = IsDirty ? " *" : string.Empty;
+
+                return string.Format("{0}{1} - Gomer", fileName, dirtyMarker);
             }
         }
 
@@ -89,18 +112,23 @@ namespace Gomer.ViewModel
 
             var pile = _dataService.GetNew();
             ShowPile(pile);
-            UpdateTitle("New");
         }
 
         private void ShowPile(PileDto pile)
         {
+            if (PileGames != null)
+            {
+                PileGames.CollectionChanged -= PileGames_CollectionChanged;
+            }
+
             var gameModels = Mapper.Map<ICollection<GameModel>>(pile.Games);
             PileGames = new GameListViewModel(gameModels);
+            PileGames.CollectionChanged += PileGames_CollectionChanged;
         }
 
-        private void UpdateTitle(string fileName)
+        void PileGames_CollectionChanged(object sender, EventArgs e)
         {
-            Title = string.Format("{0} - Gomer", fileName);
+            IsDirty = true;
         }
 
         private delegate bool TrySavePile(PileDto pile, out string fileName);
@@ -113,7 +141,8 @@ namespace Gomer.ViewModel
             string fileName;
             if (trySavePile(pile, out fileName))
             {
-                UpdateTitle(fileName);
+                FileName = fileName;
+                IsDirty = false;
                 StatusMessage = string.Format("Last saved {0}.", DateTime.Now);
             }
         }
@@ -127,7 +156,8 @@ namespace Gomer.ViewModel
             if (_dataService.TryOpen(out pile, out fileName))
             {
                 ShowPile(pile);
-                UpdateTitle(fileName);
+                FileName = fileName;
+                IsDirty = false;
                 StatusMessage = string.Format("Opened {0}.", DateTime.Now);
             }
         }

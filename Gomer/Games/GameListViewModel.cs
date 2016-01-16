@@ -59,6 +59,20 @@ namespace Gomer.Games
             }
         }
 
+        #region Events
+
+        public event EventHandler CollectionChanged;
+
+        private void OnCollectionChanged()
+        {
+            if (CollectionChanged != null)
+            {
+                CollectionChanged(this, EventArgs.Empty);
+            }
+        }
+
+        #endregion
+
         #region Command Implementations
 
         private void AddCommandImpl()
@@ -95,12 +109,22 @@ namespace Gomer.Games
 
             _games.Add(e.Game);
             
+            OnCollectionChanged();
             Refresh();
         }
 
         void SelectedGameDetails_Removed(object sender, GameEventArgs e)
         {
+            SelectedGameDetails = null;
 
+            var existing = _games.FirstOrDefault(g => g.Id == e.Game.Id);
+            if (existing != null)
+            {
+                _games.Remove(existing);
+            }
+
+            OnCollectionChanged();
+            Refresh();
         }
 
         private void SelectedGameDetails_OnCanceled(object sender, EventArgs e)

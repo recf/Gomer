@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Gomer.Dto;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Gomer.Services
 {
@@ -22,6 +23,10 @@ namespace Gomer.Services
         {
             _serializer = new JsonSerializer();
             _serializer.Formatting = Formatting.Indented;
+            _serializer.Converters.Add(new IsoDateTimeConverter()
+            {
+                DateTimeFormat = "yyyy-MM-dd"
+            });
         }
 
         public PileDto GetNew()

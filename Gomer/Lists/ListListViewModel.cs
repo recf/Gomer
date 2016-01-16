@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Gomer.Events;
+using Gomer.Generic;
 using Gomer.Models;
 using Gomer.ViewModel;
 

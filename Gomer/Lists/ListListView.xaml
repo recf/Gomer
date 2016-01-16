@@ -9,26 +9,25 @@
              d:DataContext="{d:DesignInstance Type=lists:ListListViewModel}"
              d:DesignHeight="300" 
              d:DesignWidth="300">
-    <DockPanel>
-        
-        <DataGrid DockPanel.Dock="Left"
+
+
+    <DataGrid DockPanel.Dock="Left"
                   ItemsSource="{Binding Models}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
 
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Open"
-                                    Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
-                                    CommandParameter="{Binding}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-            
-    </DockPanel>
+            <DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Button Content="Open"
+                                Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                CommandParameter="{Binding}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid.Columns>
+    </DataGrid>
+
 </UserControl>

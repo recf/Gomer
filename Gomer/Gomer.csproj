@@ -97,13 +97,17 @@
       <DependentUpon>GameDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Games\GameDetailViewModel.cs" />
+    <Compile Include="Games\GameIndexViewModel.cs" />
+    <Compile Include="Generic\DetailViewModelBase.cs" />
+    <Compile Include="Generic\IndexView.xaml.cs">
+      <DependentUpon>IndexView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Generic\IndexViewModelBase.cs" />
+    <Compile Include="Generic\ListViewModelBase.cs" />
     <Compile Include="Lists\ListDetailView.xaml.cs">
       <DependentUpon>ListDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Lists\ListDetailViewModel.cs" />
-    <Compile Include="Lists\ListIndexView.xaml.cs">
-      <DependentUpon>ListIndexView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Lists\ListIndexViewModel.cs" />
     <Compile Include="Lists\ListListView.xaml.cs">
       <DependentUpon>ListListView.xaml</DependentUpon>
@@ -118,9 +122,6 @@
     <Compile Include="Piles\PileDetailViewModel.cs" />
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\IDataService.cs" />
-    <Compile Include="ViewModel\DetailViewModelBase.cs" />
-    <Compile Include="ViewModel\IndexViewModelBase.cs" />
-    <Compile Include="ViewModel\ListViewModelBase.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="DataTemplates.xaml">
@@ -131,11 +132,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Lists\ListDetailView.xaml">
+    <Page Include="Generic\IndexView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Lists\ListIndexView.xaml">
+    <Page Include="Lists\ListDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

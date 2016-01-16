@@ -14,30 +14,30 @@
             <StackPanel>
 
                 <Label Content="List"/>
-                <ComboBox SelectedItem="{Binding Game.List}"
+                <ComboBox SelectedItem="{Binding Model.List}"
                           ItemsSource="{Binding Lists}"
                           DisplayMemberPath="Name"/>
 
                 <Label Content="Name"/>
-                <TextBox Text="{Binding Game.Name}"/>
+                <TextBox Text="{Binding Model.Name}"/>
 
                 <Label Content="Platform"/>
-                <TextBox Text="{Binding Game.Platform}" />
+                <TextBox Text="{Binding Model.Platform}" />
 
                 <Label Content="Estimated Hours"/>
-                <TextBox Text="{Binding Game.EstimatedHours}"/>
+                <TextBox Text="{Binding Model.EstimatedHours}"/>
 
                 <Label Content="Played Hours"/>
-                <TextBox Text="{Binding Game.PlayedHours}"/>
+                <TextBox Text="{Binding Model.PlayedHours}"/>
 
                 <Label Content="Added On"/>
-                <DatePicker SelectedDate="{Binding Game.AddedOn}"/>
+                <DatePicker SelectedDate="{Binding Model.AddedOn}"/>
 
                 <Label Content="Started On"/>
-                <DatePicker SelectedDate="{Binding Game.StartedOn}"/>
+                <DatePicker SelectedDate="{Binding Model.StartedOn}"/>
 
                 <Label Content="Finished On"/>
-                <DatePicker SelectedDate="{Binding Game.FinishedOn}"/>
+                <DatePicker SelectedDate="{Binding Model.FinishedOn}"/>
 
                 <StackPanel Margin="5">
                     <Button Content="Ok" Command="{Binding UpdateCommand}"/>

@@ -3,18 +3,8 @@ using GalaSoft.MvvmLight;
 
 namespace Gomer.Models
 {
-    public class GameModel : ObservableObject
+    public class GameModel : ModelBase
     {
-        private Guid _id;
-        public Guid Id
-        {
-            get { return _id; }
-            set
-            {
-                Set(() => Id, ref _id, value);
-            }
-        }
-
         private string _name;
         public string Name
         {
@@ -116,7 +106,6 @@ namespace Gomer.Models
 
         public GameModel()
         {
-            Id = Guid.NewGuid();
             AddedOn = DateTime.Today;
         }
     }

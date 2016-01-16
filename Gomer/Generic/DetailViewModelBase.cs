@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Gomer.Events;
 
-namespace Gomer.ViewModel
+namespace Gomer.Generic
 {
     public class DetailViewModelBase<TModel> : ViewModelBase
         where TModel : new()

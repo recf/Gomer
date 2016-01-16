@@ -30,7 +30,12 @@ namespace Gomer.Piles
                 };
                 ListsIndex.DataChanged += SubData_OnDataChanged;
 
-                GamesList = new GameListViewModel(Pile.Games, Pile.Lists);
+                GamesIndex = new GameIndexViewModel()
+                {
+                    Models = Pile.Games,
+
+                    Lists = Pile.Lists
+                };
             }
         }
 
@@ -51,20 +56,20 @@ namespace Gomer.Piles
             }
         }
 
-        private GameListViewModel _gamesList;
-        public GameListViewModel GamesList
+        private GameIndexViewModel _gamesIndex;
+        public GameIndexViewModel GamesIndex
         {
-            get { return _gamesList; }
+            get { return _gamesIndex; }
             set
             {
-                if (_gamesList != null)
+                if (_gamesIndex != null)
                 {
-                    _gamesList.DataChanged -= SubData_OnDataChanged;
+                    _gamesIndex.DataChanged -= SubData_OnDataChanged;
                 }
 
-                Set(() => GamesList, ref _gamesList, value);
+                Set(() => GamesIndex, ref _gamesIndex, value);
 
-                _gamesList.DataChanged += SubData_OnDataChanged;
+                _gamesIndex.DataChanged += SubData_OnDataChanged;
             }
         }
         

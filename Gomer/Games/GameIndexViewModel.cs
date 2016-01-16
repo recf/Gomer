@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using Gomer.Events;
 using Gomer.Generic;
 using Gomer.Models;
 using Gomer.ViewModel;
 
 namespace Gomer.Games
 {
-    public class GameDetailViewModel : DetailViewModelBase<GameModel>
+    public class GameIndexViewModel : IndexViewModelBase<GameModel, GameListViewModel, GameDetailViewModel>
     {
         private ICollection<ListModel> _lists;
         public ICollection<ListModel> Lists
@@ -24,6 +19,11 @@ namespace Gomer.Games
             {
                 Set(() => Lists, ref _lists, value);
             }
+        }
+
+        public override void InitializeSelectedDetail(GameDetailViewModel selectedDetail)
+        {
+            selectedDetail.Lists = Lists;
         }
     }
 }

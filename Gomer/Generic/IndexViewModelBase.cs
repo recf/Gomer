@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using AutoMapper;
 using GalaSoft.MvvmLight;
@@ -8,7 +7,7 @@ using GalaSoft.MvvmLight.Command;
 using Gomer.Events;
 using Gomer.Models;
 
-namespace Gomer.ViewModel
+namespace Gomer.Generic
 {
     public abstract class IndexViewModelBase<TModel, TModelList, TModelDetail> : ViewModelBase
         where TModel : ModelBase, new()
@@ -23,13 +22,13 @@ namespace Gomer.ViewModel
             set
             {
                 Set(() => Models, ref _models, value);
-                List = new ListViewModelBase<TModel>();
+                List = new TModelList();
                 List.Reset(Models);
             }
         }
 
-        private ListViewModelBase<TModel> _list;
-        public ListViewModelBase<TModel> List
+        private TModelList _list;
+        public TModelList List
         {
             get { return _list; }
             set
@@ -48,8 +47,8 @@ namespace Gomer.ViewModel
             get { return SelectedDetail != null; }
         }
 
-        private DetailViewModelBase<TModel> _selectedDetail;
-        public DetailViewModelBase<TModel> SelectedDetail
+        private TModelDetail _selectedDetail;
+        public TModelDetail SelectedDetail
         {
             get { return _selectedDetail; }
             set
@@ -63,21 +62,28 @@ namespace Gomer.ViewModel
 
                 Set(() => SelectedDetail, ref _selectedDetail, value);
                 RaisePropertyChanged(() => HasSelectedDetail);
+                NewCommand.RaiseCanExecuteChanged();
 
                 if (_selectedDetail != null)
                 {
                     SelectedDetail.Canceled += SelectedDetail_OnCanceled;
                     SelectedDetail.Updated += SelectedDetail_OnUpdated;
                     SelectedDetail.Removed += SelectedDetail_OnRemoved;
+
+                    InitializeSelectedDetail(SelectedDetail);
                 }
             }
+        }
+
+        public virtual void InitializeSelectedDetail(TModelDetail selectedDetail)
+        {
         }
 
         public RelayCommand NewCommand { get; set; }
 
         protected IndexViewModelBase()
         {
-            NewCommand = new RelayCommand(NewCommandImpl);
+            NewCommand = new RelayCommand(NewCommandImpl, () => !HasSelectedDetail);
         }
 
         #region Events

@@ -115,16 +115,16 @@ namespace Gomer.ViewModel
             ShowPile(pile);
         }
 
-        private void ShowPile(PileDto pile)
+        private void ShowPile(PileDto pileDto)
         {
             if (PileDetail != null)
             {
                 PileDetail.DataChanged -= PileDetail_DataChanged;
             }
 
-            var model = Mapper.Map<PileModel>(pile);
+            var pile = Mapper.Map<PileModel>(pileDto);
 
-            PileDetail = new PileDetailViewModel(model);
+            PileDetail = new PileDetailViewModel(pile);
             PileDetail.DataChanged += PileDetail_DataChanged;
         }
 

@@ -15,13 +15,15 @@ namespace Gomer.Games
     // TODO: Game list being in charge of the detail feels wrong. Push up to pile detail vm?
     public class GameListViewModel : ViewModelBase
     {
+        private ICollection<ListModel> _lists;
+
+        // TODO: This field seems superfluous. Just use Games?
         private readonly ICollection<GameModel> _games;
-        private ISet<string> _platforms;
-        private ISet<string> _lists;
         
         public ObservableCollection<GameModel> Games { get; private set; }
 
         private GameDetailViewModel _selectedGameDetails;
+
         public GameDetailViewModel SelectedGameDetails
         {
             get { return _selectedGameDetails; }
@@ -34,8 +36,9 @@ namespace Gomer.Games
         public RelayCommand AddCommand { get; set; }
         public RelayCommand<GameModel> EditCommand { get; set; }
 
-        public GameListViewModel(ICollection<GameModel> games)
+        public GameListViewModel(ICollection<GameModel> games, ICollection<ListModel> lists)
         {
+            _lists = lists;
             _games = games;
 
             Games = new ObservableCollection<GameModel>();
@@ -48,15 +51,10 @@ namespace Gomer.Games
 
         public void Refresh()
         {
-            _platforms = new SortedSet<string>(StringComparer.CurrentCultureIgnoreCase);
-            _lists = new SortedSet<string>(StringComparer.CurrentCultureIgnoreCase);
-            
             Games.Clear();
             foreach (var game in _games)
             {
                 Games.Add(game);
-                _platforms.Add(game.Platform);
-                _lists.Add(game.List);
             }
         }
 
@@ -78,7 +76,7 @@ namespace Gomer.Games
 
         private void AddCommandImpl()
         {
-            SelectedGameDetails = new GameDetailViewModel(_platforms, _lists)
+            SelectedGameDetails = new GameDetailViewModel(_lists)
             {
                 Game = new GameModel()
             };
@@ -89,7 +87,7 @@ namespace Gomer.Games
 
         private void EditCommandImpl(GameModel game)
         {
-            SelectedGameDetails = new GameDetailViewModel(_platforms, _lists)
+            SelectedGameDetails = new GameDetailViewModel(_lists)
             {
                 Game = game
             };

@@ -87,13 +87,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AutoMapperConfiguration\AutoMapperConfiguration.cs" />
+    <Compile Include="AutoMapperConfiguration\ServiceContainer.cs" />
     <Compile Include="Converters\DateToShortDateStringConverter.cs" />
+    <Compile Include="Dto\ListDto.cs" />
     <Compile Include="Dto\PileDto.cs" />
     <Compile Include="Events\GameEventArgs.cs" />
     <Compile Include="Games\GameDetailView.xaml.cs">
       <DependentUpon>GameDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Games\GameDetailViewModel.cs" />
+    <Compile Include="Models\ListModel.cs" />
     <Compile Include="Models\PileModel.cs" />
     <Compile Include="Piles\PileDetailView.xaml.cs">
       <DependentUpon>PileDetailView.xaml</DependentUpon>

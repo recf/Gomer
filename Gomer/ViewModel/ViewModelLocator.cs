@@ -50,21 +50,7 @@ namespace Gomer.ViewModel
 
             SimpleIoc.Default.Register<MainViewModel>();
 
-            ConfigureAutoMapper();
-        }
-
-        private void ConfigureAutoMapper()
-        {
-            // Model -> DTO
-            Mapper.CreateMap<PileModel, PileDto>();
-            Mapper.CreateMap<GameModel, GameDto>();
-
-            // DTO -> Model
-            Mapper.CreateMap<PileDto, PileModel>();
-            Mapper.CreateMap<GameDto, GameModel>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore());
-
-            Mapper.AssertConfigurationIsValid();
+            AutoMapperConfiguration.AutoMapperConfiguration.Configure();
         }
 
         public MainViewModel Main

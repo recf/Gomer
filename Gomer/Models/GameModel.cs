@@ -25,6 +25,16 @@ namespace Gomer.Models
             }
         }
 
+        private ListModel _list;
+        public ListModel List
+        {
+            get { return _list; }
+            set
+            {
+                Set(() => List, ref _list, value);
+            }
+        }
+
         private string _platform;
         public string Platform
         {
@@ -35,15 +45,6 @@ namespace Gomer.Models
             }
         }
 
-        private string _list;
-        public string List
-        {
-            get { return _list; }
-            set
-            {
-                Set(() => List, ref _list, value);
-            }
-        }
 
         private DateTime _addedOn;
         public DateTime AddedOn

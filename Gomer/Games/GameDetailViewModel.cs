@@ -27,8 +27,7 @@ namespace Gomer.Games
             }
         }
 
-        public ObservableCollection<string> Platforms { get; private set; }
-        public ObservableCollection<string> Lists { get; private set; }
+        public ObservableCollection<ListModel> Lists { get; private set; }
 
         #endregion
 
@@ -36,10 +35,9 @@ namespace Gomer.Games
         public RelayCommand UpdateCommand { get; private set; }
         public RelayCommand RemoveCommand { get; private set; }
 
-        public GameDetailViewModel(ISet<string> platforms, ISet<string> lists)
+        public GameDetailViewModel(IEnumerable<ListModel> lists)
         {
-            Platforms = new ObservableCollection<string>(platforms);
-            Lists = new ObservableCollection<string>(lists);
+            Lists = new ObservableCollection<ListModel>(lists.OrderBy(l => l.Name));
 
             CancelCommand = new RelayCommand(OnCanceled);
             UpdateCommand = new RelayCommand(SaveCommandImpl);

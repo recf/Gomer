@@ -23,7 +23,7 @@
                   HorizontalAlignment="Stretch"
                   VerticalScrollBarVisibility="Auto">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="List" Binding="{Binding List}"/>
+                <DataGridTextColumn Header="List" Binding="{Binding List.Name}"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Platform" Binding="{Binding Platform}"/>
                 <DataGridTextColumn Header="Estimate Hrs." Binding="{Binding EstimatedHours}" />

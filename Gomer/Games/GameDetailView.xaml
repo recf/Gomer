@@ -12,6 +12,12 @@
     <StackPanel>
         <GroupBox Header="Details">
             <StackPanel>
+
+                <Label Content="List"/>
+                <ComboBox SelectedItem="{Binding Game.List}"
+                          ItemsSource="{Binding Lists}"
+                          DisplayMemberPath="Name"/>
+
                 <Label Content="Name"/>
                 <TextBox Text="{Binding Game.Name}"/>
 
@@ -32,9 +38,6 @@
 
                 <Label Content="Finished On"/>
                 <DatePicker SelectedDate="{Binding Game.FinishedOn}"/>
-
-                <Label Content="List"/>
-                <TextBox Text="{Binding Game.List}" />
 
                 <StackPanel Margin="5">
                     <Button Content="Ok" Command="{Binding UpdateCommand}"/>

@@ -23,7 +23,7 @@ namespace Gomer.Piles
             {
                 Set(() => Pile, ref _pile, value);
 
-                GamesList = new GameListViewModel(Pile.Games);
+                GamesList = new GameListViewModel(Pile.Games, Pile.Lists);
             }
         }
 

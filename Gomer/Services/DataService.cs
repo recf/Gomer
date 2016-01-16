@@ -31,7 +31,15 @@ namespace Gomer.Services
 
         public PileDto GetNew()
         {
-            return new PileDto();
+            return new PileDto()
+            {
+                Lists = new List<ListDto>
+                {
+                    new ListDto { Name = "Pile" },
+                    new ListDto { Name = "Wishlist" },
+                    new ListDto { Name = "Ignored" }
+                }
+            };
         }
 
         public bool TryOpen(out PileDto pile, out string fileName)

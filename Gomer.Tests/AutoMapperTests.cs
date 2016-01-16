@@ -14,7 +14,7 @@ namespace Gomer.Tests
         [Test]
         public void TestAutoMapperConfiguration()
         {
-            var locator = new ViewModelLocator();
+            AutoMapperConfiguration.AutoMapperConfiguration.Configure();
 
             AutoMapper.Mapper.AssertConfigurationIsValid();
         }

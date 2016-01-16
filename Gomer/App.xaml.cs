@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using AutoMapper;
-using Gomer.Dto;
-using Gomer.Models;
-using Gomer.Games;
-using Recfab.Infrastructure;
+﻿using System.Windows;
 
-namespace Gomer.UI
+namespace Gomer
 {
     /// <summary>
     /// Interaction logic for App.xaml

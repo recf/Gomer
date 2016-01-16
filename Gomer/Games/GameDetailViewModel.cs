@@ -9,7 +9,6 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Gomer.Events;
 using Gomer.Models;
-using Recfab.Infrastructure;
 
 namespace Gomer.Games
 {

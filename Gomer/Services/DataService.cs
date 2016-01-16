@@ -29,7 +29,7 @@ namespace Gomer.Services
             return new PileDto();
         }
 
-        public bool TryOpen(out PileDto pile)
+        public bool TryOpen(out PileDto pile, out string fileName)
         {
             var dialog = new OpenFileDialog
             {
@@ -39,11 +39,13 @@ namespace Gomer.Services
 
             if (dialog.ShowDialog() != DialogResult.OK)
             {
+                fileName = null;
                 pile = null;
                 return false;
             }
 
             _lastFileName = dialog.FileName;
+            fileName = _lastFileName;
             
             using (var sr = new StreamReader(_lastFileName))
             using (var reader = new JsonTextReader(sr))
@@ -53,12 +55,14 @@ namespace Gomer.Services
             }
         }
 
-        public bool TrySave(PileDto pile)
+        public bool TrySave(PileDto pile, out string fileName)
         {
             if (_lastFileName == null)
             {
-                return TrySaveAs(pile);
+                return TrySaveAs(pile, out fileName);
             }
+
+            fileName = _lastFileName;
 
             using (var sw = new StreamWriter(_lastFileName))
             using (var writer = new JsonTextWriter(sw))
@@ -69,7 +73,7 @@ namespace Gomer.Services
             return true;
         }
 
-        public bool TrySaveAs(PileDto pile)
+        public bool TrySaveAs(PileDto pile, out string fileName)
         {
             var dialog = new SaveFileDialog()
             {
@@ -79,17 +83,19 @@ namespace Gomer.Services
 
             if (dialog.ShowDialog() != DialogResult.OK)
             {
+                fileName = null;
                 return false;
             }
 
             _lastFileName = dialog.FileName;
+            fileName = _lastFileName;
             
             using (var sw = new StreamWriter(_lastFileName))
             using (var writer = new JsonTextWriter(sw))
             {
                 _serializer.Serialize(writer, pile);
             }
-
+            
             return true;
         }
     }

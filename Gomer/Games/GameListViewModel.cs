@@ -9,13 +9,12 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Gomer.Events;
 using Gomer.Models;
-using Recfab.Infrastructure;
 
 namespace Gomer.Games
 {
     public class GameListViewModel : ViewModelBase
     {
-        private ICollection<GameModel> _games;
+        private readonly ICollection<GameModel> _games;
         private ISet<string> _platforms;
         private ISet<string> _lists;
         

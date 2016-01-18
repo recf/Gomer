@@ -10,7 +10,7 @@ using Gomer.Models;
 namespace Gomer.Generic
 {
     public abstract class IndexViewModelBase<TModel, TModelList, TModelDetail> : ViewModelBase
-        where TModel : ModelBase, new()
+        where TModel : ModelBase<TModel>, new()
         where TModelList : ListViewModelBase<TModel>, new()
         where TModelDetail: DetailViewModelBase<TModel>, new()
     {

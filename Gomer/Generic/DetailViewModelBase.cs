@@ -3,11 +3,12 @@ using AutoMapper;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Gomer.Events;
+using Gomer.Models;
 
 namespace Gomer.Generic
 {
     public class DetailViewModelBase<TModel> : ViewModelBase
-        where TModel : new()
+        where TModel : ModelBase<TModel>, new()
     {
         private TModel _model;
         public TModel Model
@@ -15,9 +16,7 @@ namespace Gomer.Generic
             get { return _model; }
             set
             {
-                var workingCopy = new TModel();
-
-                Mapper.Map(value, workingCopy);
+                var workingCopy = value.Clone();
 
                 Set(() => Model, ref _model, workingCopy);
             }

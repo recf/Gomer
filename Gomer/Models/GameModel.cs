@@ -3,7 +3,7 @@ using GalaSoft.MvvmLight;
 
 namespace Gomer.Models
 {
-    public class GameModel : ModelBase
+    public class GameModel : ModelBase<GameModel>
     {
         private string _name;
         public string Name

@@ -9,10 +9,6 @@ namespace Gomer
     {
         public static void Configure()
         {
-            // Model -> Self
-            Mapper.CreateMap<ListModel, ListModel>();
-            Mapper.CreateMap<GameModel, GameModel>();
-
             // Model -> DTO
             Mapper.CreateMap<PileModel, PileDto>();
             Mapper.CreateMap<ListModel, ListDto>();

@@ -7,7 +7,7 @@ using GalaSoft.MvvmLight;
 
 namespace Gomer.Models
 {
-    public class ListModel : ModelBase
+    public class ListModel : ModelBase<ListModel>
     {
         private string _name;
         public string Name

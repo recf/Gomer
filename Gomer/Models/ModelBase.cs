@@ -7,7 +7,7 @@ using GalaSoft.MvvmLight;
 
 namespace Gomer.Models
 {
-    public class ModelBase : ObservableObject
+    public class ModelBase<TSelf> : ObservableObject
     {
         private Guid _id;
         public Guid Id
@@ -22,6 +22,11 @@ namespace Gomer.Models
         public ModelBase()
         {
             Id = Guid.NewGuid();
+        }
+
+        protected internal TSelf Clone()
+        {
+            return (TSelf) MemberwiseClone();
         }
     }
 }

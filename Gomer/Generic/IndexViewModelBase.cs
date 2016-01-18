@@ -130,13 +130,11 @@ namespace Gomer.Generic
             var existing = Models.FirstOrDefault(m => m.Id == e.Model.Id);
             if (existing != null)
             {
-                Mapper.Map(e.Model, existing);
+                Models.Remove(existing);
             }
-            else
-            {
-                Models.Add(e.Model);
-                List.Reset(Models);
-            }
+            
+            Models.Add(e.Model);
+            List.Reset(Models);
 
             SelectedDetail = null;
             OnDataChanged();

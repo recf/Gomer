@@ -11,6 +11,7 @@ namespace Gomer
         {
             // Model -> Self
             Mapper.CreateMap<ListModel, ListModel>();
+            Mapper.CreateMap<GameModel, GameModel>();
 
             // Model -> DTO
             Mapper.CreateMap<PileModel, PileDto>();

@@ -32,9 +32,19 @@
                 <MenuItem Header="Save As..." 
                           Command="{Binding SaveAsCommand}"
                           InputGestureText="Ctrl+Shift+S"/>
+                <Separator/>
+                <MenuItem Header="Open Recent" ItemsSource="{Binding RecentFiles}">
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="{x:Type MenuItem}">
+                            <Setter Property="Header" Value="{Binding}"/>
+                            <Setter Property="Command" Value="{Binding DataContext.OpenRecentCommand, RelativeSource={RelativeSource AncestorType=MenuItem}}"/>
+                            <Setter Property="CommandParameter" Value="{Binding}"/>
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                </MenuItem>
             </MenuItem>
         </Menu>
-        
+
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <TextBlock Text="{Binding StatusMessage}"/>

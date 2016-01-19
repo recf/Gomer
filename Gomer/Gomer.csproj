@@ -120,7 +120,9 @@
       <DependentUpon>PileDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Piles\PileDetailViewModel.cs" />
+    <Compile Include="Services\ConfirmationService.cs" />
     <Compile Include="Services\DataService.cs" />
+    <Compile Include="Services\IConfirmationService.cs" />
     <Compile Include="Services\IDataService.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

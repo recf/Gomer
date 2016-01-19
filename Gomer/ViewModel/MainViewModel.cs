@@ -32,7 +32,10 @@ namespace Gomer.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private IDataService _dataService;
+        private readonly IDataService _dataService;
+        private readonly IConfirmationService _confirmationService;
+
+        public ObservableCollection<string> RecentFiles { get; private set; }
 
         private string _fileName;
         public string FileName
@@ -88,13 +91,14 @@ namespace Gomer.ViewModel
         }
 
         public RelayCommand OpenCommand { get; private set; }
+        public RelayCommand<string> OpenRecentCommand { get; private set; }
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand SaveAsCommand { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel(IDataService dataService)
+        public MainViewModel(IDataService dataService, IConfirmationService confirmationService)
         {
             if (IsInDesignMode)
             {
@@ -106,16 +110,20 @@ namespace Gomer.ViewModel
             }
 
             _dataService = dataService;
+            _confirmationService = confirmationService;
+
+            RecentFiles = _dataService.RecentFiles;
 
             OpenCommand = new RelayCommand(OpenCommandImpl);
+            OpenRecentCommand = new RelayCommand<string>(OpenRecentCommandImpl);
             SaveCommand = new RelayCommand(SaveCommandImpl);
             SaveAsCommand = new RelayCommand(SaveAsCommandImpl);
 
             var pile = _dataService.GetNew();
-            ShowPile(pile);
+            ShowPile(pile, null);
         }
 
-        private void ShowPile(PileDto pileDto)
+        private void ShowPile(PileDto pileDto, string fileName)
         {
             if (PileDetail != null)
             {
@@ -126,9 +134,21 @@ namespace Gomer.ViewModel
 
             PileDetail = new PileDetailViewModel(pile);
             PileDetail.DataChanged += PileDetail_DataChanged;
+            
+            IsDirty = false;
+
+            if (string.IsNullOrEmpty(fileName))
+            {
+                FileName = "New";
+            }
+            else
+            {
+                FileName = fileName;
+                StatusMessage = string.Format("Opened {0}.", DateTime.Now);
+            }
         }
 
-        void PileDetail_DataChanged(object sender, EventArgs e)
+        private void PileDetail_DataChanged(object sender, EventArgs e)
         {
             IsDirty = true;
         }
@@ -148,19 +168,45 @@ namespace Gomer.ViewModel
             }
         }
 
+        public bool ConfirmCloseFile()
+        {
+            if (!IsDirty)
+            {
+                return true;
+            }
+
+            return _confirmationService.Confirm(
+                    "Data has changed since you last saved. Unsaved work will be lost. Do you want to continue?",
+                    "Unsaved changes");
+        }
+
         #region Command Implementations
 
         private void OpenCommandImpl()
         {
+            if (!ConfirmCloseFile())
+            {
+                return;
+            }
+
             PileDto pile;
             string fileName;
             if (_dataService.TryOpen(out pile, out fileName))
             {
-                ShowPile(pile);
-                FileName = fileName;
-                IsDirty = false;
-                StatusMessage = string.Format("Opened {0}.", DateTime.Now);
+                ShowPile(pile, fileName);
             }
+        }
+        
+        private void OpenRecentCommandImpl(string fileName)
+        {
+            if (!ConfirmCloseFile())
+            {
+                return;
+            }
+
+            var pile = _dataService.OpenFile(fileName);
+
+            ShowPile(pile, fileName);
         }
 
         private void SaveCommandImpl()

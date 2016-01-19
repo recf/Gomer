@@ -65,12 +65,15 @@ namespace Gomer.Services
             {
                 var pile = _serializer.Deserialize<PileDto>(reader);
 
-                if (!RecentFiles.Contains(fileName))
+                if (RecentFiles.Contains(fileName))
                 {
-                    RecentFiles.Add(fileName);
-                    Properties.Settings.Default.RecentFiles.Add(fileName);
-                    Properties.Settings.Default.Save();
+                    RecentFiles.Remove(fileName);
+                    Properties.Settings.Default.RecentFiles.Remove(fileName);
                 }
+
+                RecentFiles.Insert(0, fileName);
+                Properties.Settings.Default.RecentFiles.Insert(0, fileName);
+                Properties.Settings.Default.Save();
 
                 return pile;
             }

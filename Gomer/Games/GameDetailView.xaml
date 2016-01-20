@@ -14,8 +14,8 @@
             <StackPanel>
 
                 <Label Content="List"/>
-                <ComboBox ItemsSource="{Binding Lists}"
-                          SelectedItem="{Binding Model.List}"
+                <ComboBox SelectedItem="{Binding Model.List}"
+                          ItemsSource="{Binding Lists}"
                           DisplayMemberPath="Name"/>
 
                 <Label Content="Name"/>

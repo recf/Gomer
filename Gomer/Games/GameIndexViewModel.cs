@@ -25,5 +25,11 @@ namespace Gomer.Games
         {
             selectedDetail.Lists = Lists;
         }
+
+        public override void InitializeList(GameListViewModel list)
+        {
+            list.Lists = Lists;
+            list.FilterList = Lists.FirstOrDefault();
+        }
     }
 }

@@ -9,12 +9,15 @@ using Gomer.Models;
 
 namespace Gomer.Generic
 {
+    // TODO: remove new() constraint, pass list and detail view into ctor params?
+    // Having models be a property leads to potential order-of-operations issues when there is meta data
+    // That means no new() constraint, because you can't define more specific ctor constraints than 
+    // "empty constructor".
     public abstract class IndexViewModelBase<TModel, TModelList, TModelDetail> : ViewModelBase
         where TModel : ModelBase<TModel>, new()
         where TModelList : ListViewModelBase<TModel>, new()
         where TModelDetail: DetailViewModelBase<TModel>, new()
     {
-
         private ICollection<TModel> _models;
         public ICollection<TModel> Models
         {
@@ -39,6 +42,8 @@ namespace Gomer.Generic
                 }
                 Set(() => List, ref _list, value);
                 List.Open += List_OnOpen;
+
+                InitializeList(List);
             }
         }
 
@@ -73,6 +78,10 @@ namespace Gomer.Generic
                     InitializeSelectedDetail(SelectedDetail);
                 }
             }
+        }
+
+        public virtual void InitializeList(TModelList list)
+        {
         }
 
         public virtual void InitializeSelectedDetail(TModelDetail selectedDetail)

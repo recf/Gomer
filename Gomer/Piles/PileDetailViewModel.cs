@@ -32,9 +32,9 @@ namespace Gomer.Piles
 
                 GamesIndex = new GameIndexViewModel()
                 {
-                    Models = Pile.Games,
+                    Lists = Pile.Lists,
 
-                    Lists = Pile.Lists
+                    Models = Pile.Games
                 };
             }
         }

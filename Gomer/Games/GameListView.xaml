@@ -10,30 +10,41 @@
              d:DesignHeight="300"
              d:DesignWidth="300">
 
+    <DockPanel>
+        <GroupBox DockPanel.Dock="Top" Header="Filter">
+            <WrapPanel Orientation="Vertical">
+                <Label Content="List"/>
+                <ComboBox SelectedItem="{Binding FilterList}" 
+                          ItemsSource="{Binding Lists}"
+                          DisplayMemberPath="Name"/>
+            </WrapPanel>
+        </GroupBox>
 
-    <DataGrid DockPanel.Dock="Left"
-                  ItemsSource="{Binding Models}" 
+        <DataGrid DockPanel.Dock="Bottom"
+                  ItemsSource="{Binding ModelsView}"
+                  d:Data="{d:DesignInstance}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True">
-        <DataGrid.Columns>
-            <DataGridTextColumn Header="List" Binding="{Binding List.Name}"/>
-            <DataGridTextColumn Header="Name" Binding="{Binding Name}" SortDirection="Ascending"/>
-            <DataGridTextColumn Header="Platform" Binding="{Binding Platform}"/>
-            <DataGridTextColumn Header="Estimate Hrs." Binding="{Binding EstimatedHours}" />
-            <DataGridTextColumn Header="Played Hrs." Binding="{Binding PlayedHours}"/>
-            <DataGridTextColumn Header="Remaining Hrs." Binding="{Binding RemainingHours}" />
-            <DataGridTextColumn Header="Added" Binding="{Binding AddedOn, Converter={StaticResource ToShortDate}}" />
-            <DataGridTextColumn Header="Started" Binding="{Binding StartedOn, Converter={StaticResource ToShortDate}}" />
-            <DataGridTextColumn Header="Finished" Binding="{Binding FinishedOn, Converter={StaticResource ToShortDate}}" />
-            <DataGridTemplateColumn>
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <Button Content="Open"
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="FilterList" Binding="{Binding List.Name}"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" SortDirection="Ascending"/>
+                <DataGridTextColumn Header="Platform" Binding="{Binding Platform}"/>
+                <DataGridTextColumn Header="Estimate Hrs." Binding="{Binding EstimatedHours}" />
+                <DataGridTextColumn Header="Played Hrs." Binding="{Binding PlayedHours}"/>
+                <DataGridTextColumn Header="Remaining Hrs." Binding="{Binding RemainingHours}" />
+                <DataGridTextColumn Header="Added" Binding="{Binding AddedOn, Converter={StaticResource ToShortDate}}" />
+                <DataGridTextColumn Header="Started" Binding="{Binding StartedOn, Converter={StaticResource ToShortDate}}" />
+                <DataGridTextColumn Header="Finished" Binding="{Binding FinishedOn, Converter={StaticResource ToShortDate}}" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Open"
                                 Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
                                 CommandParameter="{Binding}"/>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-        </DataGrid.Columns>
-    </DataGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
 </UserControl>

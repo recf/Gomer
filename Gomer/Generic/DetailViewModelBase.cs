@@ -16,7 +16,8 @@ namespace Gomer.Generic
             get { return _model; }
             set
             {
-                var workingCopy = value.Clone();
+                var workingCopy = new TModel();
+                workingCopy.SetFrom(value);
 
                 Set(() => Model, ref _model, workingCopy);
             }

@@ -128,13 +128,14 @@ namespace Gomer.Generic
         private void SelectedDetail_OnUpdated(object sender, ModelEventArgs<TModel> e)
         {
             var existing = Models.FirstOrDefault(m => m.Id == e.Model.Id);
-            if (existing != null)
+            if (existing== null)
             {
-                Models.Remove(existing);
+                Models.Add(e.Model);
             }
-            
-            Models.Add(e.Model);
-            List.Reset(Models);
+            else
+            {
+                existing.SetFrom(e.Model);
+            }
 
             SelectedDetail = null;
             OnDataChanged();

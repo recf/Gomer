@@ -34,8 +34,7 @@ namespace Gomer.Models
                 Set(() => Platform, ref _platform, value);
             }
         }
-
-
+        
         private DateTime _addedOn;
         public DateTime AddedOn
         {
@@ -107,6 +106,20 @@ namespace Gomer.Models
         public GameModel()
         {
             AddedOn = DateTime.Today;
+        }
+
+        public override void SetFrom(GameModel other)
+        {
+            Id = other.Id;
+            Name = other.Name;
+
+            List = other.List;
+            Platform = other.Platform;
+            AddedOn = other.AddedOn;
+            StartedOn = other.StartedOn;
+            FinishedOn = other.FinishedOn;
+            EstimatedHours = other.EstimatedHours;
+            PlayedHours = other.PlayedHours;
         }
     }
 }

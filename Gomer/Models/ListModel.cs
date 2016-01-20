@@ -18,5 +18,11 @@ namespace Gomer.Models
                 Set(() => Name, ref _name, value);
             }
         }
+
+        public override void SetFrom(ListModel other)
+        {
+            Id = other.Id;
+            Name = other.Name;
+        }
     }
 }

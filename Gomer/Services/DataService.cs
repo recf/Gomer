@@ -65,13 +65,7 @@ namespace Gomer.Services
             {
                 var pile = _serializer.Deserialize<PileDto>(reader);
 
-                if (RecentFiles.Contains(fileName))
-                {
-                    RecentFiles.Remove(fileName);
-                    Properties.Settings.Default.RecentFiles.Remove(fileName);
-                }
-
-                RecentFiles.Insert(0, fileName);
+                EnsureRecentFile(fileName);
                 Properties.Settings.Default.RecentFiles.Insert(0, fileName);
                 Properties.Settings.Default.Save();
 
@@ -94,9 +88,7 @@ namespace Gomer.Services
                 return false;
             }
 
-            _lastFileName = dialog.FileName;
-            fileName = _lastFileName;
-
+            fileName = dialog.FileName;
             pile = OpenFile(dialog.FileName);
             return true;
         }
@@ -110,11 +102,7 @@ namespace Gomer.Services
 
             fileName = _lastFileName;
 
-            using (var sw = new StreamWriter(_lastFileName))
-            using (var writer = new JsonTextWriter(sw))
-            {
-                _serializer.Serialize(writer, pile);
-            }
+            SaveFile(pile, fileName);
 
             return true;
         }
@@ -133,16 +121,34 @@ namespace Gomer.Services
                 return false;
             }
 
-            _lastFileName = dialog.FileName;
-            fileName = _lastFileName;
+            fileName = dialog.FileName;
 
-            using (var sw = new StreamWriter(_lastFileName))
-            using (var writer = new JsonTextWriter(sw))
-            {
-                _serializer.Serialize(writer, pile);
-            }
+            SaveFile(pile, fileName);
 
             return true;
+        }
+
+        private void EnsureRecentFile(string fileName)
+        {
+            if (RecentFiles.Contains(fileName))
+            {
+                RecentFiles.Remove(fileName);
+                Properties.Settings.Default.RecentFiles.Remove(fileName);
+            }
+
+            RecentFiles.Insert(0, fileName);
+        }
+
+        private void SaveFile(PileDto pile, string fileName)
+        {
+            _lastFileName = fileName;
+
+            using (var sw = new StreamWriter(fileName))
+            using (var writer = new JsonTextWriter(sw))
+            {
+                EnsureRecentFile(fileName);
+                _serializer.Serialize(writer, pile);
+            }
         }
     }
 }

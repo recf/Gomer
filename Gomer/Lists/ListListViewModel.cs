@@ -15,5 +15,9 @@ namespace Gomer.Lists
 {
     public class ListListViewModel : ListViewModelBase<ListModel>
     {
+        public ListListViewModel(ObservableCollection<ListModel> models) : base(models)
+        {
+            
+        }
     }
 }

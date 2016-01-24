@@ -21,6 +21,7 @@
 
         <ScrollViewer DockPanel.Dock="Right" 
                       VerticalScrollBarVisibility="Auto"
+                      IsEnabled="{Binding SelectedDetail.Model, Converter={StaticResource IsNotNullConverter}}"
                       Content="{Binding SelectedDetail}"/>
 
     </DockPanel>

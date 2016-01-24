@@ -12,6 +12,8 @@
                     <vm:ViewModelLocator x:Key="Locator" />
                     <BooleanToVisibilityConverter x:Key="BoolToVis"/>
                     <converters:DateToShortDateStringConverter x:Key="ToShortDate"/>
+                    <converters:IsNullConverter x:Key="IsNullConverter"/>
+                    <converters:IsNotNullConverter x:Key="IsNotNullConverter"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

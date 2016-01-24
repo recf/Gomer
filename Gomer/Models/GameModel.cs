@@ -35,8 +35,8 @@ namespace Gomer.Models
             }
         }
         
-        private DateTime _addedOn;
-        public DateTime AddedOn
+        private DateTime? _addedOn;
+        public DateTime? AddedOn
         {
             get { return _addedOn; }
             set

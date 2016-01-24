@@ -16,10 +16,16 @@ namespace Gomer.Generic
             get { return _model; }
             set
             {
-                var workingCopy = new TModel();
-                workingCopy.SetFrom(value);
+                TModel workingCopy = null;
+
+                if (value != null)
+                {
+                    workingCopy = new TModel();
+                    workingCopy.SetFrom(value);
+                }
 
                 Set(() => Model, ref _model, workingCopy);
+                OnModelChanged();
             }
         }
         
@@ -35,6 +41,21 @@ namespace Gomer.Generic
         }
         
         #region Events
+
+        public event EventHandler<ModelEventArgs<TModel>> ModelChanged;
+
+        private void OnModelChanged()
+        {
+            if (ModelChanged != null)
+            {
+                var args = new ModelEventArgs<TModel>()
+                {
+                    Model = Model
+                };
+
+                ModelChanged(this, args);
+            }
+        }
 
         public event EventHandler<ModelEventArgs<TModel>> Updated;
 

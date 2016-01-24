@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,15 +22,11 @@ namespace Gomer.Games
             }
         }
 
-        public override void InitializeSelectedDetail(GameDetailViewModel selectedDetail)
+        public GameIndexViewModel(ObservableCollection<GameModel> models, ICollection<ListModel> lists) :
+            base(models,
+            new GameListViewModel(models, lists),
+            new GameDetailViewModel(lists))
         {
-            selectedDetail.Lists = Lists;
-        }
-
-        public override void InitializeList(GameListViewModel list)
-        {
-            list.Lists = Lists;
-            list.FilterList = Lists.FirstOrDefault();
         }
     }
 }

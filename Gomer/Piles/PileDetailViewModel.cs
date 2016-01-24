@@ -13,6 +13,7 @@ using Gomer.Models;
 
 namespace Gomer.Piles
 {
+    // TODO: Derive from DetailViewModelBase
     public class PileDetailViewModel : ViewModelBase
     {
         private PileModel _pile;
@@ -24,18 +25,10 @@ namespace Gomer.Piles
             {
                 Set(() => Pile, ref _pile, value);
 
-                ListsIndex = new ListIndexViewModel()
-                {
-                    Models = Pile.Lists
-                };
+                ListsIndex = new ListIndexViewModel(Pile.Lists);
                 ListsIndex.DataChanged += SubData_OnDataChanged;
 
-                GamesIndex = new GameIndexViewModel()
-                {
-                    Lists = Pile.Lists,
-
-                    Models = Pile.Games
-                };
+                GamesIndex = new GameIndexViewModel(Pile.Games, Pile.Lists);
             }
         }
 

@@ -25,5 +25,10 @@ namespace Gomer.Games
                 Set(() => Lists, ref _lists, value);
             }
         }
+
+        public GameDetailViewModel(ICollection<ListModel> lists)
+        {
+            Lists = lists;
+        }
     }
 }

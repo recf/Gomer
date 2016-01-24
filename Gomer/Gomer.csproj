@@ -89,6 +89,8 @@
     </ApplicationDefinition>
     <Compile Include="AutoMapperConfiguration.cs" />
     <Compile Include="Converters\DateToShortDateStringConverter.cs" />
+    <Compile Include="Converters\IsNotNullConverter.cs" />
+    <Compile Include="Converters\IsNullConverter.cs" />
     <Compile Include="Dto\ListDto.cs" />
     <Compile Include="Dto\PileDto.cs" />
     <Compile Include="Events\GameEventArgs.cs" />

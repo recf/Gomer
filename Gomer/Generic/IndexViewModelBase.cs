@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using AutoMapper;
 using GalaSoft.MvvmLight;
@@ -9,26 +10,12 @@ using Gomer.Models;
 
 namespace Gomer.Generic
 {
-    // TODO: remove new() constraint, pass list and detail view into ctor params?
-    // Having models be a property leads to potential order-of-operations issues when there is meta data
-    // That means no new() constraint, because you can't define more specific ctor constraints than 
-    // "empty constructor".
     public abstract class IndexViewModelBase<TModel, TModelList, TModelDetail> : ViewModelBase
         where TModel : ModelBase<TModel>, new()
-        where TModelList : ListViewModelBase<TModel>, new()
-        where TModelDetail: DetailViewModelBase<TModel>, new()
+        where TModelList : ListViewModelBase<TModel>
+        where TModelDetail: DetailViewModelBase<TModel>
     {
-        private ICollection<TModel> _models;
-        public ICollection<TModel> Models
-        {
-            get { return _models; }
-            set
-            {
-                Set(() => Models, ref _models, value);
-                List = new TModelList();
-                List.Reset(Models);
-            }
-        }
+        public ObservableCollection<TModel> Models { get; private set; }
 
         private TModelList _list;
         public TModelList List
@@ -42,14 +29,7 @@ namespace Gomer.Generic
                 }
                 Set(() => List, ref _list, value);
                 List.Open += List_OnOpen;
-
-                InitializeList(List);
             }
-        }
-
-        public bool HasSelectedDetail
-        {
-            get { return SelectedDetail != null; }
         }
 
         private TModelDetail _selectedDetail;
@@ -60,39 +40,33 @@ namespace Gomer.Generic
             {
                 if (_selectedDetail != null)
                 {
+                    SelectedDetail.ModelChanged -= SelectedDetail_ModelChanged;
                     SelectedDetail.Canceled -= SelectedDetail_OnCanceled;
                     SelectedDetail.Updated -= SelectedDetail_OnUpdated;
                     SelectedDetail.Removed -= SelectedDetail_OnRemoved;
                 }
 
                 Set(() => SelectedDetail, ref _selectedDetail, value);
-                RaisePropertyChanged(() => HasSelectedDetail);
-                NewCommand.RaiseCanExecuteChanged();
 
                 if (_selectedDetail != null)
                 {
+                    SelectedDetail.ModelChanged += SelectedDetail_ModelChanged;
                     SelectedDetail.Canceled += SelectedDetail_OnCanceled;
                     SelectedDetail.Updated += SelectedDetail_OnUpdated;
                     SelectedDetail.Removed += SelectedDetail_OnRemoved;
-
-                    InitializeSelectedDetail(SelectedDetail);
                 }
             }
         }
 
-        public virtual void InitializeList(TModelList list)
-        {
-        }
-
-        public virtual void InitializeSelectedDetail(TModelDetail selectedDetail)
-        {
-        }
-
         public RelayCommand NewCommand { get; set; }
 
-        protected IndexViewModelBase()
+        protected IndexViewModelBase(ObservableCollection<TModel> models, TModelList list, TModelDetail detail)
         {
-            NewCommand = new RelayCommand(NewCommandImpl, () => !HasSelectedDetail);
+            Models = models;
+            List = list;
+            SelectedDetail = detail;
+
+            NewCommand = new RelayCommand(NewCommandImpl, () => SelectedDetail.Model == null);
         }
 
         #region Events
@@ -116,10 +90,7 @@ namespace Gomer.Generic
 
         private void Open(TModel model)
         {
-            SelectedDetail = new TModelDetail()
-            {
-                Model = model
-            };
+            SelectedDetail.Model = model;
         }
 
         #region Event Handlers
@@ -129,9 +100,18 @@ namespace Gomer.Generic
             Open(e.Model);
         }
 
+        #endregion
+
+        #region Detail Event Handlers
+
+        void SelectedDetail_ModelChanged(object sender, ModelEventArgs<TModel> e)
+        {
+            NewCommand.RaiseCanExecuteChanged();
+        }
+
         private void SelectedDetail_OnCanceled(object sender, EventArgs e)
         {
-            SelectedDetail = null;
+            SelectedDetail.Model = null;
         }
 
         private void SelectedDetail_OnUpdated(object sender, ModelEventArgs<TModel> e)
@@ -146,7 +126,7 @@ namespace Gomer.Generic
                 existing.SetFrom(e.Model);
             }
 
-            SelectedDetail = null;
+            SelectedDetail.Model = null;
             OnDataChanged();
         }
 
@@ -158,8 +138,7 @@ namespace Gomer.Generic
                 Models.Remove(existing);
             }
 
-            SelectedDetail = null;
-            List.Reset(Models);
+            SelectedDetail.Model = null;
             OnDataChanged();
         }
 

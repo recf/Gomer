@@ -13,20 +13,11 @@ namespace Gomer.Generic
 
         public RelayCommand<TModel> OpenCommand { get; set; }
 
-        public ListViewModelBase()
+        public ListViewModelBase(ObservableCollection<TModel> models)
         {
-            Models = new ObservableCollection<TModel>();
+            Models = models;
 
             OpenCommand = new RelayCommand<TModel>(OpenCommandImpl);
-        }
-
-        public void Reset(ICollection<TModel> models)
-        {
-            Models.Clear();
-            foreach (var model in models)
-            {
-                Models.Add(model);
-            }
         }
 
         #region Events

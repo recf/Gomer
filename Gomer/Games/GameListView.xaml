@@ -21,8 +21,7 @@
         </GroupBox>
 
         <DataGrid DockPanel.Dock="Bottom"
-                  ItemsSource="{Binding ModelsView}"
-                  d:Data="{d:DesignInstance}"
+                  ItemsSource="{Binding Models}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True">
             <DataGrid.Columns>

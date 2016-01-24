@@ -18,9 +18,6 @@ namespace Gomer.Games
 {
     public class GameListViewModel : ListViewModelBase<GameModel>
     {
-        // TODO: Does this belong here, or in the view?
-        public ICollectionView ModelsView { get; private set; }
-
         private ListModel _filterList;
         public ListModel FilterList
         {
@@ -28,7 +25,6 @@ namespace Gomer.Games
             set
             {
                 Set(() => FilterList, ref _filterList, value);
-                ModelsView.Refresh();
             }
         }
         
@@ -39,11 +35,14 @@ namespace Gomer.Games
             set
             {
                 Set(() => Lists, ref _lists, value);
-
-                // TODO: This probably belongs either in the view, or in the base VM.
-                ModelsView = CollectionViewSource.GetDefaultView(Models);
-                ModelsView.Filter = Filter;
             }
+        }
+
+        public GameListViewModel(ObservableCollection<GameModel> models, ICollection<ListModel> lists)
+            : base(models)
+        {
+            Lists = lists;
+            FilterList = lists.FirstOrDefault();
         }
 
         public bool Filter(object item)

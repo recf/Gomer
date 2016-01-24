@@ -6,10 +6,9 @@
              xmlns:games="clr-namespace:Gomer.Games"
              mc:Ignorable="d"
              
-             d:DataContext="{d:DesignInstance Type=games:GameListViewModel}"
+             d:DataContext="{d:DesignInstance Type=games:GameListViewModel, IsDesignTimeCreatable=False}"
              d:DesignHeight="300"
              d:DesignWidth="300">
-
     <DockPanel>
         <GroupBox DockPanel.Dock="Top" Header="Filter">
             <WrapPanel Orientation="Vertical">
@@ -21,12 +20,12 @@
         </GroupBox>
 
         <DataGrid DockPanel.Dock="Bottom"
-                  ItemsSource="{Binding Models}"
+                  ItemsSource="{Binding FilteredModels}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="FilterList" Binding="{Binding List.Name}"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" SortDirection="Ascending"/>
+                <DataGridTextColumn Header="List" Binding="{Binding List.Name}"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="Platform" Binding="{Binding Platform}"/>
                 <DataGridTextColumn Header="Estimate Hrs." Binding="{Binding EstimatedHours}" />
                 <DataGridTextColumn Header="Played Hrs." Binding="{Binding PlayedHours}"/>

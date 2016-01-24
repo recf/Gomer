@@ -26,6 +26,19 @@ namespace Gomer.Games
             }
         }
 
+        public override GameModel Model
+        {
+            get { return base.Model; }
+            set
+            {
+                base.Model = value;
+                if (Model.List == null)
+                {
+                    Model.List = Lists.FirstOrDefault();
+                }
+            } 
+        }
+
         public GameDetailViewModel(ICollection<ListModel> lists)
         {
             Lists = lists;

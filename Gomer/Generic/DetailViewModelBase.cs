@@ -11,7 +11,7 @@ namespace Gomer.Generic
         where TModel : ModelBase<TModel>, new()
     {
         private TModel _model;
-        public TModel Model
+        public virtual TModel Model
         {
             get { return _model; }
             set

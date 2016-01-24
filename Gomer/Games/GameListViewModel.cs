@@ -25,6 +25,7 @@ namespace Gomer.Games
             set
             {
                 Set(() => FilterList, ref _filterList, value);
+                ApplyFilter();
             }
         }
         
@@ -45,11 +46,9 @@ namespace Gomer.Games
             FilterList = lists.FirstOrDefault();
         }
 
-        public bool Filter(object item)
+        public override bool Filter(GameModel model)
         {
-            var game = (GameModel)item;
-
-            return game.List == FilterList; 
+            return model.List == FilterList; 
         }
     }
 }

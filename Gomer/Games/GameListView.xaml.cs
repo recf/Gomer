@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Gomer.Models;
 
 namespace Gomer.Games
 {
@@ -23,6 +24,14 @@ namespace Gomer.Games
         public GameListView()
         {
             InitializeComponent();
+        }
+
+        private void ModelsView_OnFilter(object sender, FilterEventArgs e)
+        {
+            var vm = (GameListViewModel) DataContext;
+            var model = (GameModel) e.Item;
+
+            e.Accepted = vm.Filter(model);
         }
     }
 }

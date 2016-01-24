@@ -127,6 +127,8 @@ namespace Gomer.Generic
             }
 
             SelectedDetail.Model = null;
+            List.ApplyFilter();
+
             OnDataChanged();
         }
 
@@ -139,6 +141,8 @@ namespace Gomer.Generic
             }
 
             SelectedDetail.Model = null;
+            List.ApplyFilter();
+
             OnDataChanged();
         }
 

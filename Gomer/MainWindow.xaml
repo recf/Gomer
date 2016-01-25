@@ -36,7 +36,7 @@
                 <MenuItem Header="Open Recent" ItemsSource="{Binding RecentFiles}">
                     <MenuItem.ItemContainerStyle>
                         <Style TargetType="{x:Type MenuItem}">
-                            <Setter Property="Header" Value="{Binding}"/>
+                            <Setter Property="Header" Value="{Binding Converter={StaticResource EscapeMenuItemConverter}}"/>
                             <Setter Property="Command" Value="{Binding DataContext.OpenRecentCommand, RelativeSource={RelativeSource AncestorType=MenuItem}}"/>
                             <Setter Property="CommandParameter" Value="{Binding}"/>
                         </Style>

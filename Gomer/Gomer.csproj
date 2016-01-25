@@ -89,6 +89,7 @@
     </ApplicationDefinition>
     <Compile Include="AutoMapperConfiguration.cs" />
     <Compile Include="Converters\DateToShortDateStringConverter.cs" />
+    <Compile Include="Converters\EscapeMenuItemConverter.cs" />
     <Compile Include="Converters\IsNotNullConverter.cs" />
     <Compile Include="Converters\IsNullConverter.cs" />
     <Compile Include="Dto\PlatformDto.cs" />

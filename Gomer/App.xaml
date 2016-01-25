@@ -10,8 +10,11 @@
                 <ResourceDictionary Source="DataTemplates.xaml" />
                 <ResourceDictionary>
                     <vm:ViewModelLocator x:Key="Locator" />
+                    
                     <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+                    
                     <converters:DateToShortDateStringConverter x:Key="ToShortDate"/>
+                    <converters:EscapeMenuItemConverter x:Key="EscapeMenuItemConverter"/>
                     <converters:IsNullConverter x:Key="IsNullConverter"/>
                     <converters:IsNotNullConverter x:Key="IsNotNullConverter"/>
                 </ResourceDictionary>

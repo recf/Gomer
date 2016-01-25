@@ -11,12 +11,15 @@ namespace Gomer.Models
     public class PileModel : ObservableObject
     {
         public ObservableCollection<ListModel> Lists { get; private set; }
+        public ObservableCollection<PlatformModel> Platforms { get; private set; }
 
         public ObservableCollection<GameModel> Games { get; private set; }
 
         public PileModel()
         {
             Lists = new ObservableCollection<ListModel>();
+            Platforms = new ObservableCollection<PlatformModel>();
+
             Games = new ObservableCollection<GameModel>();
         }
     }

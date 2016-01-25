@@ -46,6 +46,10 @@ namespace Gomer.Games
             FilterList = lists.FirstOrDefault();
         }
 
+        public GameListViewModel() : this(new ObservableCollection<GameModel>(), new List<ListModel>())
+        {
+        }
+
         public override bool Filter(GameModel model)
         {
             return model.List == FilterList; 

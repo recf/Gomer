@@ -16,15 +16,8 @@ namespace Gomer.Games
 {
     public class GameDetailViewModel : DetailViewModelBase<GameModel>
     {
-        private ICollection<ListModel> _lists;
-        public ICollection<ListModel> Lists
-        {
-            get { return _lists; }
-            set
-            {
-                Set(() => Lists, ref _lists, value);
-            }
-        }
+        public ObservableCollection<ListModel> Lists { get; private set; }
+        public ObservableCollection<PlatformModel> Platforms { get; private set; }
 
         public override GameModel Model
         {
@@ -32,16 +25,20 @@ namespace Gomer.Games
             set
             {
                 base.Model = value;
-                if (Model.List == null)
+                if (Model != null)
                 {
                     Model.List = Lists.FirstOrDefault();
+                    Model.Platform = Platforms.FirstOrDefault();
                 }
             } 
         }
 
-        public GameDetailViewModel(ICollection<ListModel> lists)
+        public GameDetailViewModel(
+            ObservableCollection<ListModel> lists, 
+            ObservableCollection<PlatformModel> platforms)
         {
             Lists = lists;
+            Platforms = platforms;
         }
     }
 }

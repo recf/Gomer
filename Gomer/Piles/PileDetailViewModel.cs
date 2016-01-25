@@ -10,6 +10,7 @@ using Gomer.Dto;
 using Gomer.Games;
 using Gomer.Lists;
 using Gomer.Models;
+using Gomer.Platforms;
 
 namespace Gomer.Piles
 {
@@ -26,9 +27,9 @@ namespace Gomer.Piles
                 Set(() => Pile, ref _pile, value);
 
                 ListsIndex = new ListIndexViewModel(Pile.Lists);
-                ListsIndex.DataChanged += SubData_OnDataChanged;
+                PlatformsIndex = new PlatformIndexViewModel(Pile.Platforms);
 
-                GamesIndex = new GameIndexViewModel(Pile.Games, Pile.Lists);
+                GamesIndex = new GameIndexViewModel(Pile.Games, Pile.Lists, Pile.Platforms);
             }
         }
 
@@ -49,6 +50,24 @@ namespace Gomer.Piles
             }
         }
 
+
+        private PlatformIndexViewModel _platformsIndex;
+        public PlatformIndexViewModel PlatformsIndex
+        {
+            get { return _platformsIndex; }
+            set
+            {
+                if (_platformsIndex != null)
+                {
+                    _platformsIndex.DataChanged -= SubData_OnDataChanged;
+                }
+
+                Set(() => PlatformsIndex, ref _platformsIndex, value);
+
+                _platformsIndex.DataChanged += SubData_OnDataChanged;
+            }
+        }
+
         private GameIndexViewModel _gamesIndex;
         public GameIndexViewModel GamesIndex
         {
@@ -65,7 +84,7 @@ namespace Gomer.Piles
                 _gamesIndex.DataChanged += SubData_OnDataChanged;
             }
         }
-        
+
         public PileDetailViewModel(PileModel pile)
         {
             Pile = pile;

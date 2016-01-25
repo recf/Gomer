@@ -22,7 +22,9 @@
                 <TextBox Text="{Binding Model.Name}"/>
 
                 <Label Content="Platform"/>
-                <TextBox Text="{Binding Model.Platform}" />
+                <ComboBox SelectedItem="{Binding Model.Platform}"
+                          ItemsSource="{Binding Platforms}"
+                          DisplayMemberPath="Name"/>
 
                 <Label Content="Estimated Hours"/>
                 <TextBox Text="{Binding Model.EstimatedHours}"/>

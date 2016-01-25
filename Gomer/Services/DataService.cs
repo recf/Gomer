@@ -51,8 +51,17 @@ namespace Gomer.Services
                 Lists = new List<ListDto>
                 {
                     new ListDto { Name = "Pile" },
+                    new ListDto { Name = "Subscription" },
                     new ListDto { Name = "Wishlist" },
-                    new ListDto { Name = "Hidden" }
+                    new ListDto { Name = "Ignored" }
+                },
+
+                Platforms = new List<PlatformDto>()
+                {
+                    new PlatformDto { Name="Playstation 4" },
+                    new PlatformDto { Name="Xbox One" },
+                    new PlatformDto { Name="Wii U" },
+                    new PlatformDto { Name="PC" },
                 }
             };
         }

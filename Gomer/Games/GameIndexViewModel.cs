@@ -12,20 +12,13 @@ namespace Gomer.Games
 {
     public class GameIndexViewModel : IndexViewModelBase<GameModel, GameListViewModel, GameDetailViewModel>
     {
-        private ICollection<ListModel> _lists;
-        public ICollection<ListModel> Lists
-        {
-            get { return _lists; }
-            set
-            {
-                Set(() => Lists, ref _lists, value);
-            }
-        }
-
-        public GameIndexViewModel(ObservableCollection<GameModel> models, ICollection<ListModel> lists) :
-            base(models,
-            new GameListViewModel(models, lists),
-            new GameDetailViewModel(lists))
+        public GameIndexViewModel(
+            ObservableCollection<GameModel> models,
+            ObservableCollection<ListModel> lists,
+            ObservableCollection<PlatformModel> platforms)
+            : base(models, 
+            new GameListViewModel(models, lists), 
+            new GameDetailViewModel(lists, platforms))
         {
         }
     }

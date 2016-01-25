@@ -11,16 +11,23 @@ namespace Gomer
         {
             // Model -> DTO
             Mapper.CreateMap<PileModel, PileDto>();
+
             Mapper.CreateMap<ListModel, ListDto>();
+            Mapper.CreateMap<PlatformModel, PlatformDto>();
+
             Mapper.CreateMap<GameModel, GameDto>();
 
             // DTO -> Model
             Mapper.CreateMap<ListDto, ListModel>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
+            Mapper.CreateMap<PlatformDto, PlatformModel>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+
             Mapper.CreateMap<GameDto, GameModel>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.List, opt => opt.Ignore());
+                .ForMember(dest => dest.List, opt => opt.Ignore())
+                .ForMember(dest => dest.Platform, opt => opt.Ignore());
 
             Mapper.CreateMap<PileDto, PileModel>()
                 .ForMember(dest => dest.Games, opt => opt.Ignore())
@@ -30,6 +37,8 @@ namespace Gomer
                     {
                         var game = Mapper.Map<GameModel>(gameDto);
                         game.List = dest.Lists.FirstOrDefault(l => l.Name == gameDto.ListName);
+                        game.Platform = dest.Platforms.FirstOrDefault(p => p.Name == gameDto.PlatformName);
+
                         dest.Games.Add(game);
                     }
                 });

@@ -91,6 +91,7 @@
     <Compile Include="Converters\DateToShortDateStringConverter.cs" />
     <Compile Include="Converters\IsNotNullConverter.cs" />
     <Compile Include="Converters\IsNullConverter.cs" />
+    <Compile Include="Dto\PlatformDto.cs" />
     <Compile Include="Dto\ListDto.cs" />
     <Compile Include="Dto\PileDto.cs" />
     <Compile Include="Events\GameEventArgs.cs" />
@@ -118,10 +119,20 @@
     <Compile Include="Models\ListModel.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\PileModel.cs" />
+    <Compile Include="Models\PlatformModel.cs" />
     <Compile Include="Piles\PileDetailView.xaml.cs">
       <DependentUpon>PileDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Piles\PileDetailViewModel.cs" />
+    <Compile Include="Platforms\PlatformDetailView.xaml.cs">
+      <DependentUpon>PlatformDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Platforms\PlatformDetailViewModel.cs" />
+    <Compile Include="Platforms\PlatformIndexViewModel.cs" />
+    <Compile Include="Platforms\PlatformListView.xaml.cs">
+      <DependentUpon>PlatformListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Platforms\PlatformListViewModel.cs" />
     <Compile Include="Services\ConfirmationService.cs" />
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\IConfirmationService.cs" />
@@ -167,6 +178,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Piles\PileDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Platforms\PlatformDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Platforms\PlatformListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

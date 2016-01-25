@@ -9,14 +9,14 @@ namespace Gomer.Dto
     [JsonObject(MemberSerialization.OptIn)]
     public class GameDto
     {
-        [JsonProperty("list_name", Required = Required.Always)]
-        public string ListName { get; set; }
-
         [JsonProperty("name", Required = Required.Always)]
         public string Name { get; set; }
 
-        [JsonProperty("platform", Required = Required.Always)]
-        public string Platform { get; set; }
+        [JsonProperty("list_name", Required = Required.Always)]
+        public string ListName { get; set; }
+
+        [JsonProperty("platform_name", Required = Required.Always)]
+        public string PlatformName { get; set; }
 
         [JsonProperty("added_on", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public DateTime? AddedOn { get; set; }

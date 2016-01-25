@@ -6,7 +6,7 @@
              xmlns:games="clr-namespace:Gomer.Games"
              mc:Ignorable="d"
              
-             d:DataContext="{d:DesignInstance Type=games:GameListViewModel, IsDesignTimeCreatable=False}"
+             d:DataContext="{d:DesignInstance Type=games:GameListViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="300">
     <DockPanel>
@@ -26,7 +26,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="List" Binding="{Binding List.Name}"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Platform" Binding="{Binding Platform}"/>
+                <DataGridTextColumn Header="Platform" Binding="{Binding Platform.Name}"/>
                 <DataGridTextColumn Header="Estimate Hrs." Binding="{Binding EstimatedHours}" />
                 <DataGridTextColumn Header="Played Hrs." Binding="{Binding PlayedHours}"/>
                 <DataGridTextColumn Header="Remaining Hrs." Binding="{Binding RemainingHours}" />

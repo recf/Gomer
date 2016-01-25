@@ -25,8 +25,8 @@ namespace Gomer.Models
             }
         }
 
-        private string _platform;
-        public string Platform
+        private PlatformModel _platform;
+        public PlatformModel Platform
         {
             get { return _platform; }
             set

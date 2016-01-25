@@ -1,7 +1,6 @@
 ﻿<Application x:Class="Gomer.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vm="clr-namespace:Gomer.ViewModel"
              xmlns:converters="clr-namespace:Gomer.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
@@ -9,7 +8,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="DataTemplates.xaml" />
                 <ResourceDictionary>
-                    <vm:ViewModelLocator x:Key="Locator" />
                     
                     <BooleanToVisibilityConverter x:Key="BoolToVis"/>
                     

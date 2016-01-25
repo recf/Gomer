@@ -4,13 +4,13 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+
+
 using Gomer.Events;
 
 namespace Gomer.Generic
 {
-    public class ListViewModelBase<TModel> : ViewModelBase
+    public class ListViewModelBase<TModel> : BindableBase
     {
         public ObservableCollection<TModel> Models { get; private set; }
 

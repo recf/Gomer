@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using GalaSoft.MvvmLight;
+
 using Gomer.Dto;
 using Gomer.Games;
 using Gomer.Lists;
@@ -15,7 +15,7 @@ using Gomer.Platforms;
 namespace Gomer.Piles
 {
     // TODO: Derive from DetailViewModelBase
-    public class PileDetailViewModel : ViewModelBase
+    public class PileDetailViewModel : BindableBase
     {
         private PileModel _pile;
 
@@ -24,7 +24,7 @@ namespace Gomer.Piles
             get { return _pile; }
             set
             {
-                Set(() => Pile, ref _pile, value);
+                SetProperty(ref _pile, value);
 
                 ListsIndex = new ListIndexViewModel(Pile.Lists);
                 PlatformsIndex = new PlatformIndexViewModel(Pile.Platforms);
@@ -44,7 +44,7 @@ namespace Gomer.Piles
                     _listsIndex.DataChanged -= SubData_OnDataChanged;
                 }
 
-                Set(() => ListsIndex, ref _listsIndex, value);
+                SetProperty(ref _listsIndex, value);
 
                 _listsIndex.DataChanged += SubData_OnDataChanged;
             }
@@ -62,7 +62,7 @@ namespace Gomer.Piles
                     _platformsIndex.DataChanged -= SubData_OnDataChanged;
                 }
 
-                Set(() => PlatformsIndex, ref _platformsIndex, value);
+                SetProperty(ref _platformsIndex, value);
 
                 _platformsIndex.DataChanged += SubData_OnDataChanged;
             }
@@ -79,7 +79,7 @@ namespace Gomer.Piles
                     _gamesIndex.DataChanged -= SubData_OnDataChanged;
                 }
 
-                Set(() => GamesIndex, ref _gamesIndex, value);
+                SetProperty(ref _gamesIndex, value);
 
                 _gamesIndex.DataChanged += SubData_OnDataChanged;
             }

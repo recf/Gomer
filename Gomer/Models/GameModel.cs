@@ -1,37 +1,41 @@
 ﻿using System;
-using GalaSoft.MvvmLight;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace Gomer.Models
 {
     public class GameModel : ModelBase<GameModel>
     {
         private string _name;
+        [Required]
         public string Name
         {
             get { return _name; }
             set
             {
-                Set(() => Name, ref _name, value);
+                SetProperty(ref _name, value);
             }
         }
 
         private ListModel _list;
+        [Required]
         public ListModel List
         {
             get { return _list; }
             set
             {
-                Set(() => List, ref _list, value);
+                SetProperty(ref _list, value);
             }
         }
 
         private PlatformModel _platform;
+        [Required]
         public PlatformModel Platform
         {
             get { return _platform; }
             set
             {
-                Set(() => Platform, ref _platform, value);
+                SetProperty(ref _platform, value);
             }
         }
         
@@ -41,7 +45,7 @@ namespace Gomer.Models
             get { return _addedOn; }
             set
             {
-                Set(() => AddedOn, ref _addedOn, value);
+                SetProperty(ref _addedOn, value);
             }
         }
 
@@ -51,7 +55,7 @@ namespace Gomer.Models
             get { return _startedOn; }
             set
             {
-                Set(() => StartedOn, ref _startedOn, value);
+                SetProperty(ref _startedOn, value);
             }
         }
 
@@ -61,7 +65,7 @@ namespace Gomer.Models
             get { return _finishedOn; }
             set
             {
-                Set(() => FinishedOn, ref _finishedOn, value);
+                SetProperty(ref _finishedOn, value);
             }
         }
 
@@ -71,8 +75,8 @@ namespace Gomer.Models
             get { return _estimatedHours; }
             set
             {
-                Set(() => EstimatedHours, ref _estimatedHours, value);
-                RaisePropertyChanged(() => RemainingHours);
+                SetProperty(ref _estimatedHours, value);
+                OnPropertyChanged("RemainingHours");
             }
         }
 
@@ -82,8 +86,8 @@ namespace Gomer.Models
             get { return _playedHours; }
             set
             {
-                Set(() => PlayedHours, ref _playedHours, value);
-                RaisePropertyChanged(() => RemainingHours);
+                SetProperty(ref _playedHours, value);
+                OnPropertyChanged("RemainingHours");
             }
         }
 

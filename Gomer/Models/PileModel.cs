@@ -4,11 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
+
 
 namespace Gomer.Models
 {
-    public class PileModel : ObservableObject
+    public class PileModel : BindableBase
     {
         public ObservableCollection<ListModel> Lists { get; private set; }
         public ObservableCollection<PlatformModel> Platforms { get; private set; }

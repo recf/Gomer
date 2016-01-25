@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Gomer.ViewModel;
+using Gomer.Services;
 
 namespace Gomer
 {
@@ -25,11 +25,15 @@ namespace Gomer
         public MainWindow()
         {
             InitializeComponent();
+
+            AutoMapperConfiguration.Configure();
+
+            DataContext = new MainWindowViewModel(new DataService(), new ConfirmationService());
         }
 
         private void MainWindow_OnClosing(object sender, CancelEventArgs e)
         {
-            var vm = (MainViewModel) DataContext;
+            var vm = (MainWindowViewModel) DataContext;
 
             e.Cancel = !vm.ConfirmCloseFile();
         }

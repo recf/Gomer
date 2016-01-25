@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
 
 namespace Gomer.Models
 {
-    public abstract class ModelBase<TSelf> : ObservableObject
+    public abstract class ModelBase<TSelf> : ValidatableBindableBase
     {
         private Guid _id;
         public Guid Id
@@ -15,7 +14,7 @@ namespace Gomer.Models
             get { return _id; }
             set
             {
-                Set(() => Id, ref _id, value);
+                SetProperty(ref _id, value);
             }
         }
 

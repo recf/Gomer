@@ -1,13 +1,11 @@
 ﻿using System;
-using AutoMapper;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using System.ComponentModel;
 using Gomer.Events;
 using Gomer.Models;
 
 namespace Gomer.Generic
 {
-    public class DetailViewModelBase<TModel> : ViewModelBase
+    public class DetailViewModelBase<TModel> : BindableBase
         where TModel : ModelBase<TModel>, new()
     {
         private TModel _model;
@@ -16,19 +14,26 @@ namespace Gomer.Generic
             get { return _model; }
             set
             {
+                if (_model != null)
+                {
+                    _model.ErrorsChanged -= Model_ErrorsChanged;
+                }
+
                 TModel workingCopy = null;
 
                 if (value != null)
                 {
                     workingCopy = new TModel();
                     workingCopy.SetFrom(value);
+
+                    workingCopy.ErrorsChanged += Model_ErrorsChanged;
                 }
 
-                Set(() => Model, ref _model, workingCopy);
+                SetProperty(ref _model, workingCopy);
                 OnModelChanged();
             }
         }
-        
+
         public RelayCommand CancelCommand { get; private set; }
         public RelayCommand UpdateCommand { get; private set; }
         public RelayCommand RemoveCommand { get; private set; }
@@ -36,10 +41,10 @@ namespace Gomer.Generic
         public DetailViewModelBase()
         {
             CancelCommand = new RelayCommand(OnCanceled);
-            UpdateCommand = new RelayCommand(UpdateCommandImpl);
+            UpdateCommand = new RelayCommand(UpdateCommandImpl, () => Model != null && !Model.HasErrors);
             RemoveCommand = new RelayCommand(RemoveCommandImpl);
         }
-        
+
         #region Events
 
         public event EventHandler<ModelEventArgs<TModel>> ModelChanged;
@@ -98,7 +103,7 @@ namespace Gomer.Generic
         }
 
         #endregion
-
+        
         private void UpdateCommandImpl()
         {
             OnUpdated();
@@ -107,6 +112,11 @@ namespace Gomer.Generic
         private void RemoveCommandImpl()
         {
             OnRemoved();
+        }
+        
+        private void Model_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
+        {
+            UpdateCommand.RaiseCanExecuteChanged();
         }
     }
 }

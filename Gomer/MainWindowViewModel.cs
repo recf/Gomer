@@ -1,36 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Input;
 using AutoMapper;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using Gomer.Dto;
 using Gomer.Models;
-using Gomer.Games;
 using Gomer.Piles;
 using Gomer.Services;
 
-namespace Gomer.ViewModel
+namespace Gomer
 {
-    /// <summary>
-    /// This class contains properties that the main View can data bind to.
-    /// <para>
-    /// Use the <strong>mvvminpc</strong> snippet to add bindable properties to this ViewModel.
-    /// </para>
-    /// <para>
-    /// You can also use Blend to data bind with the tool's support.
-    /// </para>
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm
-    /// </para>
-    /// </summary>
-    public class MainViewModel : ViewModelBase
+    public class MainWindowViewModel : BindableBase
     {
         private readonly IDataService _dataService;
         private readonly IConfirmationService _confirmationService;
@@ -43,8 +21,8 @@ namespace Gomer.ViewModel
             get { return _fileName; }
             set
             {
-                Set(() => FileName, ref _fileName, value);
-                RaisePropertyChanged(() => Title);
+                SetProperty(ref _fileName, value);
+                OnPropertyChanged("Title");
             }
         }
 
@@ -54,8 +32,8 @@ namespace Gomer.ViewModel
             get { return _isDirty; }
             set
             {
-                Set(() => IsDirty, ref _isDirty, value);
-                RaisePropertyChanged(() => Title);
+                SetProperty(ref _isDirty, value);
+                OnPropertyChanged("Title");
             }
         }
         
@@ -76,7 +54,7 @@ namespace Gomer.ViewModel
             get { return _statusMessage; }
             set
             {
-                Set(() => StatusMessage, ref _statusMessage, value);
+                SetProperty(ref _statusMessage, value);
             }
         }
 
@@ -86,7 +64,7 @@ namespace Gomer.ViewModel
             get { return _pileDetail; }
             set
             {
-                Set(() => PileDetail, ref _pileDetail, value);
+                SetProperty(ref _pileDetail, value);
             }
         }
 
@@ -96,19 +74,10 @@ namespace Gomer.ViewModel
         public RelayCommand SaveAsCommand { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the MainViewModel class.
+        /// Initializes a new instance of the MainWindowViewModel class.
         /// </summary>
-        public MainViewModel(IDataService dataService, IConfirmationService confirmationService)
+        public MainWindowViewModel(IDataService dataService, IConfirmationService confirmationService)
         {
-            if (IsInDesignMode)
-            {
-                // Code runs in Blend --> create design time data.
-            }
-            else
-            {
-                // Code runs "for real"
-            }
-
             _dataService = dataService;
             _confirmationService = confirmationService;
 

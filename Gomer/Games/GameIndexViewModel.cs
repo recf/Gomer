@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Gomer.Generic;
 using Gomer.Models;
-using Gomer.ViewModel;
 
 namespace Gomer.Games
 {

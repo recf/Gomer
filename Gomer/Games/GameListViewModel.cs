@@ -7,12 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Forms;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+
+
 using Gomer.Events;
 using Gomer.Generic;
 using Gomer.Models;
-using Gomer.ViewModel;
 
 namespace Gomer.Games
 {
@@ -24,7 +23,7 @@ namespace Gomer.Games
             get { return _filterList; }
             set
             {
-                Set(() => FilterList, ref _filterList, value);
+                SetProperty(ref _filterList, value);
                 ApplyFilter();
             }
         }
@@ -35,7 +34,7 @@ namespace Gomer.Games
             get { return _lists; }
             set
             {
-                Set(() => Lists, ref _lists, value);
+                SetProperty(ref _lists, value);
             }
         }
 

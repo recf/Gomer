@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using AutoMapper;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+
+
 using Gomer.Events;
 using Gomer.Models;
 
 namespace Gomer.Generic
 {
-    public abstract class IndexViewModelBase<TModel, TModelList, TModelDetail> : ViewModelBase
+    public abstract class IndexViewModelBase<TModel, TModelList, TModelDetail> : BindableBase
         where TModel : ModelBase<TModel>, new()
         where TModelList : ListViewModelBase<TModel>
         where TModelDetail: DetailViewModelBase<TModel>
@@ -27,7 +27,7 @@ namespace Gomer.Generic
                 {
                     _list.Open -= List_OnOpen;
                 }
-                Set(() => List, ref _list, value);
+                SetProperty(ref _list, value);
                 List.Open += List_OnOpen;
             }
         }
@@ -46,7 +46,7 @@ namespace Gomer.Generic
                     SelectedDetail.Removed -= SelectedDetail_OnRemoved;
                 }
 
-                Set(() => SelectedDetail, ref _selectedDetail, value);
+                SetProperty(ref _selectedDetail, value);
 
                 if (_selectedDetail != null)
                 {

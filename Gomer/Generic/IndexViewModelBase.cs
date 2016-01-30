@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using AutoMapper;
-
-
+using Gomer.DataAccess;
 using Gomer.Events;
 using Gomer.Models;
 
 namespace Gomer.Generic
 {
-    public abstract class IndexViewModelBase<TModel, TModelList, TModelDetail> : BindableBase
+    public abstract class IndexViewModelBase<TRepository, TModel, TModelList, TModelDetail> : BindableBase
+        where TRepository : IRepository<TModel>
         where TModel : ModelBase<TModel>, new()
-        where TModelList : ListViewModelBase<TModel>
+        where TModelList : ListViewModelBase<TRepository, TModel>
         where TModelDetail: DetailViewModelBase<TModel>
     {
-        public ObservableCollection<TModel> Models { get; private set; }
+        protected TRepository Repository { get; private set; }
 
         private TModelList _list;
         public TModelList List
@@ -60,13 +60,19 @@ namespace Gomer.Generic
 
         public RelayCommand NewCommand { get; set; }
 
-        protected IndexViewModelBase(ObservableCollection<TModel> models, TModelList list, TModelDetail detail)
+        protected IndexViewModelBase(TRepository repository, TModelList list, TModelDetail detail)
         {
-            Models = models;
+            Repository = repository;
             List = list;
             SelectedDetail = detail;
 
             NewCommand = new RelayCommand(NewCommandImpl, () => SelectedDetail.Model == null);
+        }
+        
+        public virtual void Refresh()
+        {
+            List.Refresh();
+            SelectedDetail.RefreshLookupData();
         }
 
         #region Events
@@ -116,10 +122,10 @@ namespace Gomer.Generic
 
         private void SelectedDetail_OnUpdated(object sender, ModelEventArgs<TModel> e)
         {
-            var existing = Models.FirstOrDefault(m => m.Id == e.Model.Id);
-            if (existing== null)
+            var existing = Repository.Get(e.Model.Id);
+            if (existing == null)
             {
-                Models.Add(e.Model);
+                Repository.Add(e.Model);
             }
             else
             {
@@ -127,21 +133,21 @@ namespace Gomer.Generic
             }
 
             SelectedDetail.Model = null;
-            List.ApplyFilter();
+            List.RefreshData();
 
             OnDataChanged();
         }
 
         private void SelectedDetail_OnRemoved(object sender, ModelEventArgs<TModel> e)
         {
-            var existing = Models.FirstOrDefault(m => m.Id == e.Model.Id);
+            var existing = Repository.Get(e.Model.Id);
             if (existing != null)
             {
-                Models.Remove(existing);
+                Repository.Remove(existing);
             }
 
             SelectedDetail.Model = null;
-            List.ApplyFilter();
+            List.RefreshData();
 
             OnDataChanged();
         }

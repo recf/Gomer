@@ -1,17 +1,13 @@
 ﻿using System.Collections.ObjectModel;
+using Gomer.DataAccess;
 using Gomer.Generic;
 using Gomer.Models;
 
 namespace Gomer.Areas.Platforms
 {
-    public class PlatformListViewModel : ListViewModelBase<PlatformModel>
+    public class PlatformListViewModel : ListViewModelBase<IPlatformRepository, PlatformModel>
     {
-        public PlatformListViewModel(ObservableCollection<PlatformModel> models) : base(models)
-        {
-        }
-
-        public PlatformListViewModel()
-            : this(new ObservableCollection<PlatformModel>())
+        public PlatformListViewModel(IPlatformRepository repository) : base(repository)
         {
         }
     }

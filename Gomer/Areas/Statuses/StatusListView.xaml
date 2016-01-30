@@ -16,7 +16,7 @@
                   IsReadOnly="True">
         <DataGrid.Columns>
             <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-            <DataGridCheckBoxColumn Header="Alwyas include in Stats" Binding="{Binding AlwaysIncludeInStats}"/>
+            <DataGridCheckBoxColumn Header="Always include in Stats" Binding="{Binding AlwaysIncludeInStats}"/>
 
             <DataGridTemplateColumn>
                 <DataGridTemplateColumn.CellTemplate>

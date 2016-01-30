@@ -5,13 +5,18 @@ namespace Gomer.DataAccess
 {
     public interface IDataService
     {
+        IListRepository Lists { get; }
+        IPlatformRepository Platforms { get; }
+        IStatusRepository Statuses { get; }
+        IGameRepository Games { get; }
+
         ObservableCollection<string> RecentFiles { get; }
-        PileModel OpenFile(string fileName);
+        void OpenFile(string fileName);
 
-        PileModel GetNew();
-        bool TryOpen(out PileModel pile, out string fileName);
+        void PopulateDefaultData();
+        bool TryOpen(out string fileName);
 
-        bool TrySave(PileModel pile, out string fileName);
-        bool TrySaveAs(PileModel pile, out string fileName);
+        bool TrySave(out string fileName);
+        bool TrySaveAs(out string fileName);
     }
 }

@@ -1,13 +1,14 @@
 ﻿using System.Collections.ObjectModel;
+using Gomer.DataAccess;
 using Gomer.Generic;
 using Gomer.Models;
 
 namespace Gomer.Areas.Statuses
 {
-    public class StatusIndexViewModel : IndexViewModelBase<StatusModel, StatusListViewModel, StatusDetailViewModel>
+    public class StatusIndexViewModel : IndexViewModelBase<IStatusRepository, StatusModel, StatusListViewModel, StatusDetailViewModel>
     {
-        public StatusIndexViewModel(ObservableCollection<StatusModel> models) : 
-            base(models, new StatusListViewModel(models), new StatusDetailViewModel())
+        public StatusIndexViewModel(IStatusRepository repository) :
+            base(repository, new StatusListViewModel(repository), new StatusDetailViewModel())
         {
         }
     }

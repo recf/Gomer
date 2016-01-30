@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using AutoMapper;
 using Gomer.DataAccess.Dto;
@@ -21,8 +22,22 @@ namespace Gomer.DataAccess.Implementation
 
         public ObservableCollection<string> RecentFiles { get; private set; }
 
+        private readonly IDataContext _context;
+        public IListRepository Lists { get; private set; }
+        public IPlatformRepository Platforms { get; private set; }
+        public IStatusRepository Statuses { get; private set; }
+        public IGameRepository Games { get; private set; }
+
         public DataService()
         {
+            // Repositories
+            _context = new DataContext();
+            Lists = new ListRepository(_context);
+            Platforms = new PlatformRepository(_context);
+            Statuses = new StatusRepository(_context);
+            Games = new GameRepository(_context);
+
+            // Serializer
             _serializer = new JsonSerializer();
             _serializer.Formatting = Formatting.Indented;
             _serializer.Converters.Add(new IsoDateTimeConverter()
@@ -30,6 +45,7 @@ namespace Gomer.DataAccess.Implementation
                 DateTimeFormat = "yyyy-MM-dd"
             });
 
+            // Recent Files
             RecentFiles = new ObservableCollection<string>();
             if (Properties.Settings.Default.RecentFiles == null)
             {
@@ -42,41 +58,25 @@ namespace Gomer.DataAccess.Implementation
             }
         }
 
-        public PileModel GetNew()
+        public void PopulateDefaultData()
         {
-            var pileDto = new PileDto()
-            {
-                Lists = new List<ListDto>
-                {
-                    new ListDto { Name = "Pile", IncludeInStats = true },
-                    new ListDto { Name = "Subscription" },
-                    new ListDto { Name = "Wishlist" },
-                    new ListDto { Name = "Ignored" }
-                },
+            Lists.Add(new ListModel { Name = "Pile", IncludeInStats = true });
+            Lists.Add(new ListModel { Name = "Subscription" });
+            Lists.Add(new ListModel { Name = "Wishlist" });
+            Lists.Add(new ListModel { Name = "Ignored" });
 
-                Platforms = new List<PlatformDto>()
-                {
-                    new PlatformDto { Name = "Playstation 4" },
-                    new PlatformDto { Name = "Xbox One" },
-                    new PlatformDto { Name = "Wii U" },
-                    new PlatformDto { Name = "PC" },
-                },
+            Platforms.Add(new PlatformModel { Name = "Playstation 4" });
+            Platforms.Add(new PlatformModel { Name = "Xbox One" });
+            Platforms.Add(new PlatformModel { Name = "Wii U" });
+            Platforms.Add(new PlatformModel { Name = "PC" });
 
-                Statuses = new List<StatusDto>()
-                {
-                    new StatusDto { Name = "Not Started", Order = 1 },
-                    new StatusDto { Name = "In Progress", Order = 2 },
-                    new StatusDto { Name = "Finished", Order = 3, AlwaysIncludeInStats = true },
-                    new StatusDto { Name = "Retired", Order = 4 },
-                },
-            };
-
-            var pile = Mapper.Map<PileModel>(pileDto);
-
-            return pile;
+            Statuses.Add(new StatusModel { Name = "Not Started", Order = 1 });
+            Statuses.Add(new StatusModel { Name = "In Progress", Order = 2 });
+            Statuses.Add(new StatusModel { Name = "Finished", Order = 3, AlwaysIncludeInStats = true });
+            Statuses.Add(new StatusModel { Name = "Retired", Order = 4 });
         }
 
-        public PileModel OpenFile(string fileName)
+        public void OpenFile(string fileName)
         {
             _lastFileName = fileName;
             using (var sr = new StreamReader(_lastFileName))
@@ -88,13 +88,43 @@ namespace Gomer.DataAccess.Implementation
                 Properties.Settings.Default.RecentFiles.Insert(0, fileName);
                 Properties.Settings.Default.Save();
 
-                var pile = Mapper.Map<PileModel>(pileDto);
+                _context.Lists.Clear();
+                _context.Platforms.Clear();
+                _context.Statuses.Clear();
+                _context.Games.Clear();
 
-                return pile;
+                foreach (var dto in pileDto.Lists)
+                {
+                    var model = Mapper.Map<ListModel>(dto);
+                    Lists.Add(model);
+                }
+
+                foreach (var dto in pileDto.Platforms)
+                {
+                    var model = Mapper.Map<PlatformModel>(dto);
+                    Platforms.Add(model);
+                }
+
+                foreach (var dto in pileDto.Statuses)
+                {
+                    var model = Mapper.Map<StatusModel>(dto);
+                    Statuses.Add(model);
+                }
+
+                foreach (var dto in pileDto.Games)
+                {
+                    var model = Mapper.Map<GameModel>(dto);
+
+                    model.List = Lists.Find(l => l.Name == dto.ListName).First();
+                    model.Platform = Platforms.Find(p => p.Name == dto.PlatformName).First();
+                    model.Status = Statuses.Find(s => s.Name == dto.StatusName).First();
+
+                    Games.Add(model);
+                }
             }
         }
 
-        public bool TryOpen(out PileModel pile, out string fileName)
+        public bool TryOpen(out string fileName)
         {
             var dialog = new OpenFileDialog
             {
@@ -105,30 +135,29 @@ namespace Gomer.DataAccess.Implementation
             if (dialog.ShowDialog() != DialogResult.OK)
             {
                 fileName = null;
-                pile = null;
                 return false;
             }
 
             fileName = dialog.FileName;
-            pile = OpenFile(dialog.FileName);
+            OpenFile(dialog.FileName);
             return true;
         }
 
-        public bool TrySave(PileModel pile, out string fileName)
+        public bool TrySave(out string fileName)
         {
             if (_lastFileName == null)
             {
-                return TrySaveAs(pile, out fileName);
+                return TrySaveAs(out fileName);
             }
 
             fileName = _lastFileName;
 
-            SaveFile(pile, fileName);
+            SaveFile(fileName);
 
             return true;
         }
 
-        public bool TrySaveAs(PileModel pile, out string fileName)
+        public bool TrySaveAs(out string fileName)
         {
             var dialog = new SaveFileDialog()
             {
@@ -144,7 +173,7 @@ namespace Gomer.DataAccess.Implementation
 
             fileName = dialog.FileName;
 
-            SaveFile(pile, fileName);
+            SaveFile(fileName);
 
             return true;
         }
@@ -160,9 +189,17 @@ namespace Gomer.DataAccess.Implementation
             RecentFiles.Insert(0, fileName);
         }
 
-        private void SaveFile(PileModel pile, string fileName)
+        private void SaveFile(string fileName)
         {
-            var pileDto = Mapper.Map<PileDto>(pile);
+            var pileDto = new PileDto
+            {
+                Lists = Mapper.Map<ICollection<ListDto>>(Lists.GetAll()),
+                Platforms = Mapper.Map<ICollection<PlatformDto>>(Platforms.GetAll()),
+                Statuses = Mapper.Map<ICollection<StatusDto>>(Statuses.GetAll()),
+
+                Games = Mapper.Map<ICollection<GameDto>>(Games.GetAll())
+            };
+
             _lastFileName = fileName;
 
             using (var sw = new StreamWriter(fileName))

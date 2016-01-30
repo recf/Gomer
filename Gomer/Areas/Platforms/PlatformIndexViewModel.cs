@@ -1,14 +1,15 @@
 ﻿using System.Collections.ObjectModel;
+using Gomer.DataAccess;
 using Gomer.Generic;
 using Gomer.Models;
 
 namespace Gomer.Areas.Platforms
 {
-    public class PlatformIndexViewModel: IndexViewModelBase<PlatformModel, PlatformListViewModel, PlatformDetailViewModel>
+    public class PlatformIndexViewModel: IndexViewModelBase<IPlatformRepository, PlatformModel, PlatformListViewModel, PlatformDetailViewModel>
     {
-        public PlatformIndexViewModel(ObservableCollection<PlatformModel> models) : 
-            base(models, 
-            new PlatformListViewModel(models), 
+        public PlatformIndexViewModel(IPlatformRepository repository) : 
+            base(repository, 
+            new PlatformListViewModel(repository), 
             new PlatformDetailViewModel())
         {
         }

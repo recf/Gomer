@@ -1,18 +1,19 @@
 ﻿using System.Collections.ObjectModel;
+using Gomer.DataAccess;
 using Gomer.Generic;
 using Gomer.Models;
 
 namespace Gomer.Areas.Games
 {
-    public class GameIndexViewModel : IndexViewModelBase<GameModel, GameListViewModel, GameDetailViewModel>
+    public class GameIndexViewModel : IndexViewModelBase<IGameRepository, GameModel, GameListViewModel, GameDetailViewModel>
     {
         public GameIndexViewModel(
-            ObservableCollection<GameModel> models,
-            ObservableCollection<ListModel> lists,
-            ObservableCollection<PlatformModel> platforms,
-            ObservableCollection<StatusModel> statuses)
-            : base(models, 
-            new GameListViewModel(models, lists), 
+            IGameRepository repository,
+            IListRepository lists,
+            IPlatformRepository platforms,
+            IStatusRepository statuses)
+            : base(repository,
+            new GameListViewModel(repository, lists), 
             new GameDetailViewModel(lists, platforms, statuses))
         {
         }

@@ -87,19 +87,20 @@ namespace Gomer
             SaveCommand = new RelayCommand(SaveCommandImpl);
             SaveAsCommand = new RelayCommand(SaveAsCommandImpl);
 
-            var pile = _dataService.GetNew();
-            ShowPile(pile, null);
+            _dataService.PopulateDefaultData();
+            ShowPile(null);
         }
         
-        private void ShowPile(PileModel pile, string fileName)
+        private void ShowPile(string fileName)
         {
             if (PileDetail != null)
             {
                 PileDetail.DataChanged -= PileDetail_DataChanged;
             }
 
-            PileDetail = new PileDetailViewModel(pile);
+            PileDetail = new PileDetailViewModel(_dataService);
             PileDetail.DataChanged += PileDetail_DataChanged;
+            PileDetail.Refresh();
             
             IsDirty = false;
 
@@ -119,12 +120,12 @@ namespace Gomer
             IsDirty = true;
         }
 
-        private delegate bool TrySavePile(PileModel pile, out string fileName);
+        private delegate bool TrySavePile(out string fileName);
 
         private void SavePile(TrySavePile trySavePile)
         {
             string fileName;
-            if (trySavePile(PileDetail.Pile, out fileName))
+            if (trySavePile(out fileName))
             {
                 FileName = fileName;
                 IsDirty = false;
@@ -153,11 +154,10 @@ namespace Gomer
                 return;
             }
 
-            PileModel pile;
             string fileName;
-            if (_dataService.TryOpen(out pile, out fileName))
+            if (_dataService.TryOpen(out fileName))
             {
-                ShowPile(pile, fileName);
+                ShowPile(fileName);
             }
         }
         
@@ -168,9 +168,9 @@ namespace Gomer
                 return;
             }
 
-            var pile = _dataService.OpenFile(fileName);
+            _dataService.OpenFile(fileName);
 
-            ShowPile(pile, fileName);
+            ShowPile(fileName);
         }
 
         private void SaveCommandImpl()

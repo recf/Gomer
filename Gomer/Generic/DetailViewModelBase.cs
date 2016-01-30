@@ -118,5 +118,9 @@ namespace Gomer.Generic
         {
             UpdateCommand.RaiseCanExecuteChanged();
         }
+
+        public virtual void RefreshLookupData()
+        {
+        }
     }
 }

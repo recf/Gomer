@@ -20,7 +20,7 @@
         </GroupBox>
 
         <DataGrid DockPanel.Dock="Bottom"
-                  ItemsSource="{Binding FilteredModels}"
+                  ItemsSource="{Binding Models}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True">
             <DataGrid.Columns>

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace Gomer.Dto
+namespace Gomer.DataAccess.Dto
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class GameDto

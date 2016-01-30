@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Gomer.Dto;
 using Gomer.Models;
 
-namespace Gomer.Services
+namespace Gomer.DataAccess
 {
     public interface IDataService
     {

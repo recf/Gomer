@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 
-using Gomer.Dto;
+using Gomer.DataAccess.Dto;
 using Gomer.Games;
 using Gomer.Lists;
 using Gomer.Models;

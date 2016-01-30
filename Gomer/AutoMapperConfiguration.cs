@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
-using Gomer.Dto;
+using Gomer.DataAccess.Dto;
 using Gomer.Models;
 
 namespace Gomer

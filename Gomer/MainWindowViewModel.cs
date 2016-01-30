@@ -1,7 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
-using AutoMapper;
-using Gomer.Dto;
+using Gomer.DataAccess;
 using Gomer.Models;
 using Gomer.Piles;
 using Gomer.Services;

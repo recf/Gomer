@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Gomer.Core;
-using Gomer.Dto;
+using Gomer.DataAccess.Dto;
 
 namespace Gomer
 {

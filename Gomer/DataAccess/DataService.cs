@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using AutoMapper;
-using Gomer.Dto;
+using Gomer.DataAccess.Dto;
 using Gomer.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Gomer.Services
+namespace Gomer.DataAccess
 {
     public class DataService : IDataService
     {

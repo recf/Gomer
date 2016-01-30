@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace Gomer.Tests
 {
-
+    [TestFixture]
     public class SequenceTests
     {
         [Test]

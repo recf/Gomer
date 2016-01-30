@@ -8,8 +8,8 @@ namespace Gomer.Models
 {
     public abstract class ModelBase<TSelf> : ValidatableBindableBase
     {
-        private Guid _id;
-        public Guid Id
+        private int _id;
+        public int Id
         {
             get { return _id; }
             set
@@ -17,10 +17,15 @@ namespace Gomer.Models
                 SetProperty(ref _id, value);
             }
         }
+        
+        public bool IsNew
+        {
+            get { return Id == 0; }
+        }
 
         protected ModelBase()
         {
-            Id = Guid.NewGuid();
+            Id = 0;
         }
 
         public abstract void SetFrom(TSelf other);

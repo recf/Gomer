@@ -13,6 +13,6 @@ namespace Gomer.DataAccess
         IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
 
         void Add(TEntity model);
-        void Remove(TEntity model);
+        bool Remove(TEntity model);
     }
 }

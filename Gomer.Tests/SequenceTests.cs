@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Gomer.DataAccess;
+using Gomer.DataAccess.Implementation;
 using NUnit.Framework;
 
 namespace Gomer.Tests

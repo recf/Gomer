@@ -9,7 +9,7 @@ using Gomer.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Gomer.DataAccess
+namespace Gomer.DataAccess.Implementation
 {
     public class DataService : IDataService
     {

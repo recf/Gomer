@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using Gomer.DataAccess;
+using Gomer.DataAccess.Implementation;
 using Gomer.Services;
 
 namespace Gomer

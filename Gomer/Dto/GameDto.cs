@@ -18,6 +18,9 @@ namespace Gomer.Dto
         [JsonProperty("platform_name", Required = Required.Always)]
         public string PlatformName { get; set; }
 
+        [JsonProperty("status_name", Required = Required.Always)]
+        public string StatusName { get; set; }
+
         [JsonProperty("added_on", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public DateTime? AddedOn { get; set; }
 

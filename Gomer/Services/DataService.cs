@@ -50,7 +50,7 @@ namespace Gomer.Services
             {
                 Lists = new List<ListDto>
                 {
-                    new ListDto { Name = "Pile" },
+                    new ListDto { Name = "Pile", IncludeInStats = true },
                     new ListDto { Name = "Subscription" },
                     new ListDto { Name = "Wishlist" },
                     new ListDto { Name = "Ignored" }
@@ -58,11 +58,19 @@ namespace Gomer.Services
 
                 Platforms = new List<PlatformDto>()
                 {
-                    new PlatformDto { Name="Playstation 4" },
-                    new PlatformDto { Name="Xbox One" },
-                    new PlatformDto { Name="Wii U" },
-                    new PlatformDto { Name="PC" },
-                }
+                    new PlatformDto { Name = "Playstation 4" },
+                    new PlatformDto { Name = "Xbox One" },
+                    new PlatformDto { Name = "Wii U" },
+                    new PlatformDto { Name = "PC" },
+                },
+
+                Statuses = new List<StatusDto>()
+                {
+                    new StatusDto { Name = "Not Started", Order = 1 },
+                    new StatusDto { Name = "In Progress", Order = 2 },
+                    new StatusDto { Name = "Finished", Order = 3, AlwaysIncludeInStats = true },
+                    new StatusDto { Name = "Retired", Order = 4 },
+                },
             };
         }
 

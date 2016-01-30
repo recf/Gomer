@@ -77,6 +77,7 @@
     <Compile Include="Dto\PlatformDto.cs" />
     <Compile Include="Dto\ListDto.cs" />
     <Compile Include="Dto\PileDto.cs" />
+    <Compile Include="Dto\StatusDto.cs" />
     <Compile Include="Events\GameEventArgs.cs" />
     <Compile Include="Events\ModelEventArgs.cs" />
     <Compile Include="Games\GameDetailView.xaml.cs">
@@ -104,6 +105,7 @@
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\PileModel.cs" />
     <Compile Include="Models\PlatformModel.cs" />
+    <Compile Include="Models\StatusModel.cs" />
     <Compile Include="Piles\PileDetailView.xaml.cs">
       <DependentUpon>PileDetailView.xaml</DependentUpon>
     </Compile>
@@ -122,6 +124,15 @@
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\IConfirmationService.cs" />
     <Compile Include="Services\IDataService.cs" />
+    <Compile Include="Statuses\StatusDetailView.xaml.cs">
+      <DependentUpon>StatusDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statuses\StatusDetailViewModel.cs" />
+    <Compile Include="Statuses\StatusIndexViewModel.cs" />
+    <Compile Include="Statuses\StatusListView.xaml.cs">
+      <DependentUpon>StatusListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statuses\StatusListViewModel.cs" />
     <Compile Include="ValidatableBindableBase.cs" />
     <Page Include="DataTemplates.xaml">
       <SubType>Designer</SubType>
@@ -170,6 +181,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Platforms\PlatformListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statuses\StatusDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statuses\StatusListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

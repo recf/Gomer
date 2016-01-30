@@ -27,6 +27,7 @@
                 <DataGridTextColumn Header="List" Binding="{Binding List.Name}"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="Platform" Binding="{Binding Platform.Name}"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status.Name}"/>
                 <DataGridTextColumn Header="Estimate Hrs." Binding="{Binding EstimatedHours}" />
                 <DataGridTextColumn Header="Played Hrs." Binding="{Binding PlayedHours}"/>
                 <DataGridTextColumn Header="Remaining Hrs." Binding="{Binding RemainingHours}" />

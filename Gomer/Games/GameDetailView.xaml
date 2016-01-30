@@ -25,6 +25,11 @@
                 <ComboBox SelectedItem="{Binding Model.Platform}"
                           ItemsSource="{Binding Platforms}"
                           DisplayMemberPath="Name"/>
+                
+                <Label Content="Status"/>
+                <ComboBox SelectedItem="{Binding Model.Status}"
+                          ItemsSource="{Binding Statuses}"
+                          DisplayMemberPath="Name"/>
 
                 <Label Content="Estimated Hours"/>
                 <TextBox Text="{Binding Model.EstimatedHours}"/>

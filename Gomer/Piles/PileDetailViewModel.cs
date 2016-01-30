@@ -11,6 +11,7 @@ using Gomer.Games;
 using Gomer.Lists;
 using Gomer.Models;
 using Gomer.Platforms;
+using Gomer.Statuses;
 
 namespace Gomer.Piles
 {
@@ -28,8 +29,9 @@ namespace Gomer.Piles
 
                 ListsIndex = new ListIndexViewModel(Pile.Lists);
                 PlatformsIndex = new PlatformIndexViewModel(Pile.Platforms);
+                StatusesIndex = new StatusIndexViewModel(Pile.Statuses);
 
-                GamesIndex = new GameIndexViewModel(Pile.Games, Pile.Lists, Pile.Platforms);
+                GamesIndex = new GameIndexViewModel(Pile.Games, Pile.Lists, Pile.Platforms, Pile.Statuses);
             }
         }
 
@@ -50,7 +52,6 @@ namespace Gomer.Piles
             }
         }
 
-
         private PlatformIndexViewModel _platformsIndex;
         public PlatformIndexViewModel PlatformsIndex
         {
@@ -65,6 +66,23 @@ namespace Gomer.Piles
                 SetProperty(ref _platformsIndex, value);
 
                 _platformsIndex.DataChanged += SubData_OnDataChanged;
+            }
+        }
+
+        private StatusIndexViewModel _statusesIndex;
+        public StatusIndexViewModel StatusesIndex
+        {
+            get { return _statusesIndex; }
+            set
+            {
+                if (_statusesIndex != null)
+                {
+                    _statusesIndex.DataChanged -= SubData_OnDataChanged;
+                }
+
+                SetProperty(ref _statusesIndex, value);
+
+                _statusesIndex.DataChanged += SubData_OnDataChanged;
             }
         }
 
@@ -106,6 +124,7 @@ namespace Gomer.Piles
 
         private void SubData_OnDataChanged(object sender, EventArgs e)
         {
+            // TODO: Rebuild Index (Game Counts, Sorting)
             OnDataChanged();
         }
     }

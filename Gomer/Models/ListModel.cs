@@ -20,10 +20,18 @@ namespace Gomer.Models
             }
         }
 
+        private bool _includeInStats;
+        public bool IncludeInStats
+        {
+            get { return _includeInStats; }
+            set { SetProperty(ref _includeInStats, value); }
+        }
+
         public override void SetFrom(ListModel other)
         {
             Id = other.Id;
             Name = other.Name;
+            IncludeInStats = other.IncludeInStats;
         }
     }
 }

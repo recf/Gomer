@@ -16,6 +16,9 @@ namespace Gomer.Dto
         [JsonProperty("platforms", Required = Required.Always)]
         public ICollection<PlatformDto> Platforms { get; set; }
 
+        [JsonProperty("statuses", Required = Required.Always)]
+        public ICollection<StatusDto> Statuses { get; set; }
+
         [JsonProperty("games", Required = Required.Always)]
         public ICollection<GameDto> Games { get; set; }
 
@@ -23,6 +26,8 @@ namespace Gomer.Dto
         {
             Lists = new List<ListDto>();
             Platforms = new List<PlatformDto>();
+            Statuses = new List<StatusDto>();
+
             Games = new List<GameDto>();
         }
     }

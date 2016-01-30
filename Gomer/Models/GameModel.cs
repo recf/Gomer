@@ -38,7 +38,15 @@ namespace Gomer.Models
                 SetProperty(ref _platform, value);
             }
         }
-        
+
+        private StatusModel _status;
+        [Required]
+        public StatusModel Status
+        {
+            get { return _status; }
+            set { SetProperty(ref _status, value); }
+        }
+
         private DateTime? _addedOn;
         public DateTime? AddedOn
         {
@@ -119,6 +127,8 @@ namespace Gomer.Models
 
             List = other.List;
             Platform = other.Platform;
+            Status = other.Status;
+
             AddedOn = other.AddedOn;
             StartedOn = other.StartedOn;
             FinishedOn = other.FinishedOn;

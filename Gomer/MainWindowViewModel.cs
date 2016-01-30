@@ -2,7 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using Gomer.DataAccess;
 using Gomer.Models;
-using Gomer.Piles;
+using Gomer.Areas.Piles;
 using Gomer.Services;
 
 namespace Gomer

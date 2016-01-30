@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Gomer.Areas.Games.GameListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:games="clr-namespace:Gomer.Areas.Games"
+             mc:Ignorable="d"
+             
+             d:DataContext="{d:DesignInstance Type=games:GameListViewModel}"
+             d:DesignHeight="300"
+             d:DesignWidth="300">
+    <DockPanel>
+        <GroupBox DockPanel.Dock="Top" Header="Filter">
+            <WrapPanel Orientation="Vertical">
+                <Label Content="List"/>
+                <ComboBox SelectedItem="{Binding FilterList}" 
+                          ItemsSource="{Binding Lists}"
+                          DisplayMemberPath="Name"/>
+            </WrapPanel>
+        </GroupBox>
+
+        <DataGrid DockPanel.Dock="Bottom"
+                  ItemsSource="{Binding FilteredModels}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="List" Binding="{Binding List.Name}"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Platform" Binding="{Binding Platform.Name}"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status.Name}"/>
+                <DataGridTextColumn Header="Estimate Hrs." Binding="{Binding EstimatedHours}" />
+                <DataGridTextColumn Header="Played Hrs." Binding="{Binding PlayedHours}"/>
+                <DataGridTextColumn Header="Remaining Hrs." Binding="{Binding RemainingHours}" />
+                <DataGridTextColumn Header="Added" Binding="{Binding AddedOn, Converter={StaticResource ToShortDate}}" />
+                <DataGridTextColumn Header="Started" Binding="{Binding StartedOn, Converter={StaticResource ToShortDate}}" />
+                <DataGridTextColumn Header="Finished" Binding="{Binding FinishedOn, Converter={StaticResource ToShortDate}}" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Open"
+                                Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                CommandParameter="{Binding}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

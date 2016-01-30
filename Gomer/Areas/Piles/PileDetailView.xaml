@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="Gomer.Areas.Piles.PileDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:piles="clr-namespace:Gomer.Areas.Piles"
+             mc:Ignorable="d" 
+             
+             d:DataContext="{d:DesignInstance Type=piles:PileDetailViewModel}"
+             d:DesignHeight="300" 
+             d:DesignWidth="300">
+    <TabControl>
+        <TabItem Header="Games" Content="{Binding GamesIndex}"/>
+        <TabItem Header="Manage Lists" Content="{Binding ListsIndex}"/>
+        <TabItem Header="Manage Platforms" Content="{Binding PlatformsIndex}"/>
+        <TabItem Header="Manage Statuses" Content="{Binding StatusesIndex}"/>
+    </TabControl>
+</UserControl>

@@ -1,12 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     
-                    xmlns:piles="clr-namespace:Gomer.Piles"
-                    xmlns:lists="clr-namespace:Gomer.Lists"
-                    xmlns:games="clr-namespace:Gomer.Games"
+                    xmlns:piles="clr-namespace:Gomer.Areas.Piles"
+                    xmlns:lists="clr-namespace:Gomer.Areas.Lists"
+                    xmlns:games="clr-namespace:Gomer.Areas.Games"
                     xmlns:generic="clr-namespace:Gomer.Generic"
-                    xmlns:platforms="clr-namespace:Gomer.Platforms"
-                    xmlns:statuses="clr-namespace:Gomer.Statuses">
+                    xmlns:platforms="clr-namespace:Gomer.Areas.Platforms"
+                    xmlns:statuses="clr-namespace:Gomer.Areas.Statuses">
     
     <DataTemplate DataType="{x:Type piles:PileDetailViewModel}">
         <piles:PileDetailView/>

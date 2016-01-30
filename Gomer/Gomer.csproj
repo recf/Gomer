@@ -81,6 +81,8 @@
     <Compile Include="DataAccess\Dto\PlatformDto.cs" />
     <Compile Include="DataAccess\Dto\StatusDto.cs" />
     <Compile Include="DataAccess\IDataService.cs" />
+    <Compile Include="DataAccess\IRepository.cs" />
+    <Compile Include="DataAccess\Sequence.cs" />
     <Compile Include="Events\GameEventArgs.cs" />
     <Compile Include="Events\ModelEventArgs.cs" />
     <Compile Include="Games\GameDetailView.xaml.cs">

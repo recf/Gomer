@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="AutoMapperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SequenceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

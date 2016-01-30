@@ -7,7 +7,7 @@ namespace Gomer.DataAccess
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        TEntity Get(uint id);
+        TEntity Get(int id);
 
         IEnumerable<TEntity> GetAll();
         IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);

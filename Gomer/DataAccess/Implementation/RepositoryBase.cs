@@ -22,7 +22,7 @@ namespace Gomer.DataAccess.Implementation
             Sequence = new Sequence();
         }
 
-        public TModel Get(uint id)
+        public TModel Get(int id)
         {
             return Set.FirstOrDefault(x => x.Id == id);
         }

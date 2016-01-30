@@ -91,15 +91,13 @@ namespace Gomer
             var pile = _dataService.GetNew();
             ShowPile(pile, null);
         }
-
-        private void ShowPile(PileDto pileDto, string fileName)
+        
+        private void ShowPile(PileModel pile, string fileName)
         {
             if (PileDetail != null)
             {
                 PileDetail.DataChanged -= PileDetail_DataChanged;
             }
-
-            var pile = Mapper.Map<PileModel>(pileDto);
 
             PileDetail = new PileDetailViewModel(pile);
             PileDetail.DataChanged += PileDetail_DataChanged;
@@ -122,14 +120,12 @@ namespace Gomer
             IsDirty = true;
         }
 
-        private delegate bool TrySavePile(PileDto pile, out string fileName);
+        private delegate bool TrySavePile(PileModel pile, out string fileName);
 
         private void SavePile(TrySavePile trySavePile)
         {
-            var pile = Mapper.Map<PileDto>(PileDetail.Pile);
-
             string fileName;
-            if (trySavePile(pile, out fileName))
+            if (trySavePile(PileDetail.Pile, out fileName))
             {
                 FileName = fileName;
                 IsDirty = false;
@@ -158,7 +154,7 @@ namespace Gomer
                 return;
             }
 
-            PileDto pile;
+            PileModel pile;
             string fileName;
             if (_dataService.TryOpen(out pile, out fileName))
             {

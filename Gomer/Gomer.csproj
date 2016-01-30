@@ -123,6 +123,7 @@
     <Compile Include="Services\ConfirmationService.cs" />
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\IConfirmationService.cs" />
+    <Compile Include="Services\IDataContext.cs" />
     <Compile Include="Services\IDataService.cs" />
     <Compile Include="Statuses\StatusDetailView.xaml.cs">
       <DependentUpon>StatusDetailView.xaml</DependentUpon>

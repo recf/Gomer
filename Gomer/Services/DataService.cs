@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AutoMapper;
 using Gomer.Dto;
+using Gomer.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -44,9 +46,9 @@ namespace Gomer.Services
             }
         }
 
-        public PileDto GetNew()
+        public PileModel GetNew()
         {
-            return new PileDto()
+            var pileDto = new PileDto()
             {
                 Lists = new List<ListDto>
                 {
@@ -72,25 +74,31 @@ namespace Gomer.Services
                     new StatusDto { Name = "Retired", Order = 4 },
                 },
             };
+
+            var pile = Mapper.Map<PileModel>(pileDto);
+
+            return pile;
         }
 
-        public PileDto OpenFile(string fileName)
+        public PileModel OpenFile(string fileName)
         {
             _lastFileName = fileName;
             using (var sr = new StreamReader(_lastFileName))
             using (var reader = new JsonTextReader(sr))
             {
-                var pile = _serializer.Deserialize<PileDto>(reader);
+                var pileDto = _serializer.Deserialize<PileDto>(reader);
 
                 EnsureRecentFile(fileName);
                 Properties.Settings.Default.RecentFiles.Insert(0, fileName);
                 Properties.Settings.Default.Save();
 
+                var pile = Mapper.Map<PileModel>(pileDto);
+
                 return pile;
             }
         }
 
-        public bool TryOpen(out PileDto pile, out string fileName)
+        public bool TryOpen(out PileModel pile, out string fileName)
         {
             var dialog = new OpenFileDialog
             {
@@ -110,7 +118,7 @@ namespace Gomer.Services
             return true;
         }
 
-        public bool TrySave(PileDto pile, out string fileName)
+        public bool TrySave(PileModel pile, out string fileName)
         {
             if (_lastFileName == null)
             {
@@ -124,7 +132,7 @@ namespace Gomer.Services
             return true;
         }
 
-        public bool TrySaveAs(PileDto pile, out string fileName)
+        public bool TrySaveAs(PileModel pile, out string fileName)
         {
             var dialog = new SaveFileDialog()
             {
@@ -156,15 +164,16 @@ namespace Gomer.Services
             RecentFiles.Insert(0, fileName);
         }
 
-        private void SaveFile(PileDto pile, string fileName)
+        private void SaveFile(PileModel pile, string fileName)
         {
+            var pileDto = Mapper.Map<PileDto>(pile);
             _lastFileName = fileName;
 
             using (var sw = new StreamWriter(fileName))
             using (var writer = new JsonTextWriter(sw))
             {
                 EnsureRecentFile(fileName);
-                _serializer.Serialize(writer, pile);
+                _serializer.Serialize(writer, pileDto);
             }
         }
     }

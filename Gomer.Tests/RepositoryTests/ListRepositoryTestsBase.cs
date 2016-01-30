@@ -43,7 +43,7 @@ namespace Gomer.Tests.RepositoryTests
             return context.Lists;
         }
 
-        protected override ListModel GetNewModel()
+        protected override ListModel GetNewModel(IDataContext context)
         {
             return new ListModel { Name = "Test" };
         }

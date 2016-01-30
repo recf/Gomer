@@ -85,7 +85,9 @@
     <Compile Include="DataAccess\IListRepository.cs" />
     <Compile Include="DataAccess\Implementation\DataContext.cs" />
     <Compile Include="DataAccess\Implementation\DataService.cs" />
+    <Compile Include="DataAccess\Implementation\GameRepository.cs" />
     <Compile Include="DataAccess\Implementation\ListRepository.cs" />
+    <Compile Include="DataAccess\Implementation\PlatformRepository.cs" />
     <Compile Include="DataAccess\Implementation\RepositoryBase.cs" />
     <Compile Include="DataAccess\Implementation\Sequence.cs" />
     <Compile Include="DataAccess\Implementation\StatusRepository.cs" />

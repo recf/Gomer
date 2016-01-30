@@ -18,7 +18,7 @@ namespace Gomer.Tests.RepositoryTests
 
         protected abstract ISet<TModel> Set(IDataContext context);
 
-        protected abstract TModel GetNewModel();
+        protected abstract TModel GetNewModel(IDataContext context);
 
         protected abstract Expression<Func<TModel, bool>> GetKnownItemPredicate();
         
@@ -28,7 +28,7 @@ namespace Gomer.Tests.RepositoryTests
             var context = GetContext(false);
             var repo = GetRepository(context);
 
-            var model = GetNewModel();
+            var model = GetNewModel(context);
 
             Assert.That(model.Id, Is.EqualTo(0));
 
@@ -46,7 +46,7 @@ namespace Gomer.Tests.RepositoryTests
 
             var repo = GetRepository(context);
 
-            var model = GetNewModel();
+            var model = GetNewModel(context);
 
             Assert.That(model.Id, Is.EqualTo(0));
 
@@ -153,7 +153,7 @@ namespace Gomer.Tests.RepositoryTests
             var context = GetContext(false);
             var repo = GetRepository(context);
 
-            var toRemove = GetNewModel();
+            var toRemove = GetNewModel(context);
             toRemove.Id = 1;
 
             var actual = repo.Remove(toRemove);

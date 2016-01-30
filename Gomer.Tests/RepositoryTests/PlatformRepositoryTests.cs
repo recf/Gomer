@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace Gomer.Tests.RepositoryTests
 {
     [TestFixture]
-    public class StatusRepositoryTests : RepositoryTestsBase<IStatusRepository, StatusModel>
+    public class PlatformRepositoryTests : RepositoryTestsBase<IPlatformRepository, PlatformModel>
     {
         protected override IDataContext GetContext(bool includeDataUnderTest)
         {
@@ -20,16 +20,14 @@ namespace Gomer.Tests.RepositoryTests
 
             if (includeDataUnderTest)
             {
-                context.Statuses.Add(new StatusModel
+                context.Platforms.Add(new PlatformModel
                 {
                     Id = 1,
-                    Order = 2,
                     Name = "Foo"
                 });
-                context.Statuses.Add(new StatusModel
+                context.Platforms.Add(new PlatformModel
                 {
                     Id = 2,
-                    Order = 1,
                     Name = "Bar"
                 });
             }
@@ -37,22 +35,22 @@ namespace Gomer.Tests.RepositoryTests
             return context;
         }
 
-        protected override IStatusRepository GetRepository(IDataContext context)
+        protected override IPlatformRepository GetRepository(IDataContext context)
         {
-            return new StatusRepository(context);
+            return new PlatformRepository(context);
         }
 
-        protected override ISet<StatusModel> Set(IDataContext context)
+        protected override ISet<PlatformModel> Set(IDataContext context)
         {
-            return context.Statuses;
+            return context.Platforms;
         }
 
-        protected override StatusModel GetNewModel(IDataContext context)
+        protected override PlatformModel GetNewModel(IDataContext context)
         {
-            return new StatusModel();
+            return new PlatformModel { Name = "Test" };
         }
 
-        protected override Expression<Func<StatusModel, bool>> GetKnownItemPredicate()
+        protected override Expression<Func<PlatformModel, bool>> GetKnownItemPredicate()
         {
             return x => x.Name == "Foo";
         }

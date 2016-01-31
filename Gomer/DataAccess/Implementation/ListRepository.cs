@@ -17,7 +17,16 @@ namespace Gomer.DataAccess.Implementation
 
         protected override IEnumerable<ListModel> DefaultSort(IEnumerable<ListModel> models)
         {
-            return models.OrderBy(x => x.Name);
+            return models.OrderByDescending(x => x.IncludeInStats)
+                .ThenByDescending(x => x.GameCount)
+                .ThenBy(x => x.Name);
+        }
+
+        protected override ListModel PopulateSecondaryData(ListModel model)
+        {
+            model.GameCount = Context.Games.Count(x => x.List == model);
+
+            return model;
         }
     }
 }

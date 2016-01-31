@@ -27,11 +27,20 @@ namespace Gomer.Models
             set { SetProperty(ref _includeInStats, value); }
         }
 
+        private int _gameCount;
+        public int GameCount
+        {
+            get { return _gameCount; }
+            set { SetProperty(ref _gameCount, value); }
+        }
+
         public override void SetFrom(ListModel other)
         {
             Id = other.Id;
             Name = other.Name;
             IncludeInStats = other.IncludeInStats;
+
+            GameCount = other.GameCount;
         }
     }
 }

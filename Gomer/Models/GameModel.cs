@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 
@@ -28,16 +29,7 @@ namespace Gomer.Models
             }
         }
 
-        private PlatformModel _platform;
-        [Required]
-        public PlatformModel Platform
-        {
-            get { return _platform; }
-            set
-            {
-                SetProperty(ref _platform, value);
-            }
-        }
+        public ObservableCollection<PlatformModel> Platforms { get; private set; }
 
         private StatusModel _status;
         [Required]
@@ -109,7 +101,7 @@ namespace Gomer.Models
                 }
 
                 var est = EstimatedHours.Value;
-                var played = PlayedHours.HasValue ? PlayedHours.Value : 0;
+                var played = PlayedHours ?? 0;
 
                 return est - played;
             }
@@ -117,6 +109,7 @@ namespace Gomer.Models
 
         public GameModel()
         {
+            Platforms = new ObservableCollection<PlatformModel>();
             AddedOn = DateTime.Today;
         }
 
@@ -126,8 +119,14 @@ namespace Gomer.Models
             Name = other.Name;
 
             List = other.List;
-            Platform = other.Platform;
             Status = other.Status;
+
+
+            Platforms.Clear();
+            foreach (var platform in other.Platforms)
+            {
+                Platforms.Add(platform);
+            }
 
             AddedOn = other.AddedOn;
             StartedOn = other.StartedOn;

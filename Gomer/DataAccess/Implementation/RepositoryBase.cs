@@ -14,6 +14,8 @@ namespace Gomer.DataAccess.Implementation
 
         protected IDataContext Context { get; private set; }
 
+        protected abstract TModel PopulateSecondaryData(TModel model);
+
         protected Sequence Sequence { get; private set; }
 
         protected RepositoryBase(IDataContext context)
@@ -24,17 +26,23 @@ namespace Gomer.DataAccess.Implementation
 
         public TModel Get(int id)
         {
-            return Set.FirstOrDefault(x => x.Id == id);
+            var model = Set.FirstOrDefault(x => x.Id == id);
+            if (model == null)
+            {
+                return null;
+            }
+
+            return PopulateSecondaryData(model);
         }
 
         public IEnumerable<TModel> GetAll()
         {
-            return DefaultSort(Set);
+            return DefaultSort(Set.Select(PopulateSecondaryData));
         }
 
         public IEnumerable<TModel> Find(Expression<Func<TModel, bool>> predicate)
         {
-            return DefaultSort(Set.Where(predicate.Compile()));
+            return DefaultSort(Set.Select(PopulateSecondaryData).Where(predicate.Compile()));
         }
 
         public void Add(TModel model)

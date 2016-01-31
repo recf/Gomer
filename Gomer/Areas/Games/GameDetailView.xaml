@@ -21,11 +21,45 @@
                 <Label Content="Name"/>
                 <TextBox Text="{Binding Model.Name}"/>
 
-                <Label Content="Platform"/>
-                <ComboBox SelectedItem="{Binding Model.Platform}"
-                          ItemsSource="{Binding Platforms}"
-                          DisplayMemberPath="Name"/>
-                
+                <GroupBox Header="Platforms">
+                    <StackPanel>
+                        <ItemsControl ItemsSource="{Binding Model.Platforms}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}"/>
+
+                                        <Button Grid.Row="0" Grid.Column="1" 
+                                                Content="Remove" 
+                                                Command="{Binding DataContext.RemovePlatformCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type StackPanel}}}" 
+                                                CommandParameter="{Binding}"/>
+                                    </Grid>
+
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Separator/>
+
+                        <WrapPanel>
+
+                            <ComboBox SelectedItem="{Binding PlatformSelectedForAdd}"
+                                      ItemsSource="{Binding Platforms}"
+                                      DisplayMemberPath="Name"/>
+                            <Button Content="Add" Command="{Binding AddPlatformCommand}" CommandParameter="{Binding PlatformSelectedForAdd}"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </GroupBox>
+
                 <Label Content="Status"/>
                 <ComboBox SelectedItem="{Binding Model.Status}"
                           ItemsSource="{Binding Statuses}"

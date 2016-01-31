@@ -55,22 +55,26 @@ namespace Gomer.Tests.RepositoryTests
 
             if (includeDataUnderTest)
             {
-                context.Games.Add(new GameModel
+                var game1 = new GameModel
                 {
                     Id = 1,
                     Name = "Test",
                     List = context.Lists.First(),
-                    Platform = context.Platforms.First(),
                     Status = context.Statuses.First()
-                });
-                context.Games.Add(new GameModel
+                };
+                game1.Platforms.Add(context.Platforms.First());
+
+                var game2 = new GameModel
                 {
                     Id = 2,
                     Name = "Test 2",
                     List = context.Lists.First(),
-                    Platform = context.Platforms.First(x => x.Name == "Platform 2"),
                     Status = context.Statuses.First()
-                });
+                };
+                game2.Platforms.Add(context.Platforms.First(x => x.Name == "Platform 2"));
+
+                context.Games.Add(game1);
+                context.Games.Add(game2);
             }
 
             return context;

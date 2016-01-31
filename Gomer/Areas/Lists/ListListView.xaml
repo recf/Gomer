@@ -18,6 +18,7 @@
         <DataGrid.Columns>
             <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
             <DataGridCheckBoxColumn Header="Include in Stats" Binding="{Binding IncludeInStats}"/>
+            <DataGridTextColumn Header="# Games" Binding="{Binding GameCount}"/>
 
             <DataGridTemplateColumn>
                 <DataGridTemplateColumn.CellTemplate>

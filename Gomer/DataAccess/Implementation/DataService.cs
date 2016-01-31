@@ -116,8 +116,13 @@ namespace Gomer.DataAccess.Implementation
                     var model = Mapper.Map<GameModel>(dto);
 
                     model.List = Lists.Find(l => l.Name == dto.ListName).First();
-                    model.Platform = Platforms.Find(p => p.Name == dto.PlatformName).First();
                     model.Status = Statuses.Find(s => s.Name == dto.StatusName).First();
+
+                    foreach (var platformName in dto.PlatformNames)
+                    {
+                        var platform = Platforms.Find(p => p.Name == platformName).First();
+                        model.Platforms.Add(platform);
+                    }
 
                     Games.Add(model);
                 }

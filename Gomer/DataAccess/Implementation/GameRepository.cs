@@ -19,5 +19,10 @@ namespace Gomer.DataAccess.Implementation
         {
             return models.OrderBy(x => x.Name);
         }
+
+        protected override GameModel PopulateSecondaryData(GameModel model)
+        {
+            return model;
+        }
     }
 }

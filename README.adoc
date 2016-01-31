@@ -28,12 +28,10 @@ zip file somewhere on your system and double-click gomer.exe.
 * `Psake` task to patch the version in appveyor.yml
 * Look into Awestruct for generating gh-pages. That's what asciidoctor.org uses.
 * Localization
-* Better test coverage (i.e. any)
-* The ability to make custom lists of games. It's nice to sort by platform or by status, but I wanted to make lists like, "Games to finish before I start Xenoblade", or even just, "Atlus RPGs".
 ** Hide lists
 ** whether to include in stats
 * Set multiple platforms per game
-* Custom status markers. "Beaten" and "Unfinished" are nice, but I never cared about "Completed" and "Null" didn't do what I want. What about "New Game+" or "Replay" or "Screw This Game"? That would also help the problem of not having a status for games you've given up on that's not just deleted.
+* Status Dates
 * Playthrough information: Status, Start Date, Finish Date, Note
 * A flag for whether I own a game on disc/cartridge or digitally.
 * The ability to assign multiple platforms to a game but track it as a single game. Like, if I have Shovel Knight on both Wii U and 3DS, and I beat it on one of those, mark it as beaten on both.

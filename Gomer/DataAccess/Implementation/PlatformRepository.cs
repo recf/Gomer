@@ -22,5 +22,10 @@ namespace Gomer.DataAccess.Implementation
         {
             return models.OrderBy(x => x.Name);
         }
+
+        protected override PlatformModel PopulateSecondaryData(PlatformModel model)
+        {
+            return model;
+        }
     }
 }

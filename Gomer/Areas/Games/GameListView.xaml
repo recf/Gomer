@@ -26,7 +26,23 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="List" Binding="{Binding List.Name}"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Platform" Binding="{Binding Platform.Name}"/>
+                
+                <DataGridTemplateColumn Header="Platforms">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            
+                            <ItemsControl ItemsSource="{Binding Platforms}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
                 <DataGridTextColumn Header="Status" Binding="{Binding Status.Name}"/>
                 <DataGridTextColumn Header="Estimate Hrs." Binding="{Binding EstimatedHours}" />
                 <DataGridTextColumn Header="Played Hrs." Binding="{Binding PlayedHours}"/>

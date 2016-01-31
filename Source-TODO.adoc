@@ -1,0 +1,2 @@
+* link:./Gomer/Areas/Piles/PileDetailViewModel.cs[]
+** link:./Gomer/Areas/Piles/PileDetailViewModel.cs#L11[11] Move in MainViewModel?

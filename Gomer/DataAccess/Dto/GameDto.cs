@@ -12,8 +12,8 @@ namespace Gomer.DataAccess.Dto
         [JsonProperty("list_name", Required = Required.Always)]
         public string ListName { get; set; }
 
-        [JsonProperty("platform_name", Required = Required.Always)]
-        public string PlatformName { get; set; }
+        [JsonProperty("platform_names", Required = Required.Always)]
+        public string[] PlatformNames { get; set; }
 
         [JsonProperty("status_name", Required = Required.Always)]
         public string StatusName { get; set; }

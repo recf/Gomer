@@ -113,12 +113,15 @@ namespace Gomer.Areas.Piles
 
         private void LookupData_OnDataChanged(object sender, EventArgs e)
         {
+            GamesIndex.List.RefreshLookupData();
+            GamesIndex.SelectedDetail.RefreshLookupData();
+
             OnDataChanged();
         }
 
         private void GameData_OnDataChanged(object sender, EventArgs e)
         {
-            GamesIndex.List.Refresh();
+            GamesIndex.List.RefreshData();
             OnDataChanged();
         }
     }

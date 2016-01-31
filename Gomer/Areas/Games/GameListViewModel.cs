@@ -37,9 +37,22 @@ namespace Gomer.Areas.Games
             return model.List == FilterList; 
         }
 
+        public override void RefreshData()
+        {
+            Models.Clear();
+
+            var models = Repository.Find(x => x.List == FilterList);
+
+            foreach (var model in models)
+            {
+                Models.Add(model);
+            }
+        }
+
         public override void RefreshLookupData()
         {
-            base.RefreshLookupData();
+            // Save filter
+            var filterList = FilterList;
 
             Lists.Clear();
             foreach (var model in _listRepository.GetAll())
@@ -47,10 +60,8 @@ namespace Gomer.Areas.Games
                 Lists.Add(model);
             }
 
-            if (FilterList == null)
-            {
-                FilterList = Lists.First();
-            }
+            // Restore Filter
+            FilterList = filterList ?? Lists.First();
         }
     }
 }

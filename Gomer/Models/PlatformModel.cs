@@ -20,10 +20,19 @@ namespace Gomer.Models
             }
         }
 
+        private int _gameCount;
+        public int GameCount
+        {
+            get { return _gameCount; }
+            set { SetProperty(ref _gameCount, value); }
+        }
+
         public override void SetFrom(PlatformModel other)
         {
             Id = other.Id;
             Name = other.Name;
+
+            GameCount = other.GameCount;
         }
     }
 }

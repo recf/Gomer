@@ -20,11 +20,13 @@ namespace Gomer.DataAccess.Implementation
 
         protected override IEnumerable<PlatformModel> DefaultSort(IEnumerable<PlatformModel> models)
         {
-            return models.OrderBy(x => x.Name);
+            return models.OrderByDescending(x => x.GameCount).ThenBy(x => x.Name);
         }
 
         protected override PlatformModel PopulateSecondaryData(PlatformModel model)
         {
+            model.GameCount = Context.Games.Count(x => x.Platforms.Contains(model));
+
             return model;
         }
     }

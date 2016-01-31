@@ -20,11 +20,13 @@ namespace Gomer.DataAccess.Implementation
 
         protected override IEnumerable<StatusModel> DefaultSort(IEnumerable<StatusModel> models)
         {
-            return models.OrderBy(x => x.Order);
+            return models.OrderBy(x => x.Order).ThenBy(x => x.Name);
         }
 
         protected override StatusModel PopulateSecondaryData(StatusModel model)
         {
+            model.GameCount = Context.Games.Count(x => x.Status == model);
+
             return model;
         }
     }

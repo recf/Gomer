@@ -11,6 +11,9 @@
              d:DesignWidth="300">
     <StackPanel>
 
+        <Label Content="Order"/>
+        <TextBox Text="{Binding Model.Order}"/>
+
         <Label Content="Name"/>
         <TextBox Text="{Binding Model.Name}"/>
 

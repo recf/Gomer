@@ -16,6 +16,8 @@
                   IsReadOnly="True">
         <DataGrid.Columns>
             <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+            <DataGridTextColumn Header="# Games" Binding="{Binding GameCount}"/>
+
 
             <DataGridTemplateColumn>
                 <DataGridTemplateColumn.CellTemplate>

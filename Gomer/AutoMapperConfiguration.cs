@@ -23,10 +23,12 @@ namespace Gomer
                 .ForMember(dest => dest.GameCount, opt => opt.Ignore());
 
             Mapper.CreateMap<PlatformDto, PlatformModel>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore());
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.GameCount, opt => opt.Ignore());
 
             Mapper.CreateMap<StatusDto, StatusModel>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore());
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.GameCount, opt => opt.Ignore());
 
             Mapper.CreateMap<GameDto, GameModel>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())

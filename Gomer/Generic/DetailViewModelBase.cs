@@ -42,7 +42,12 @@ namespace Gomer.Generic
         {
             CancelCommand = new RelayCommand(OnCanceled);
             UpdateCommand = new RelayCommand(UpdateCommandImpl, () => Model != null && !Model.HasErrors);
-            RemoveCommand = new RelayCommand(RemoveCommandImpl);
+            RemoveCommand = new RelayCommand(RemoveCommandImpl, CanRemove);
+        }
+
+        protected virtual bool CanRemove()
+        {
+            return Model != null && !Model.IsNew;
         }
 
         #region Events
@@ -51,6 +56,7 @@ namespace Gomer.Generic
 
         private void OnModelChanged()
         {
+            RemoveCommand.RaiseCanExecuteChanged();
             if (ModelChanged != null)
             {
                 var args = new ModelEventArgs<TModel>()

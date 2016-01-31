@@ -15,8 +15,10 @@
                   AutoGenerateColumns="False"
                   IsReadOnly="True">
         <DataGrid.Columns>
+            <DataGridTextColumn Header="Order" Binding="{Binding Order}"/>
             <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
             <DataGridCheckBoxColumn Header="Always include in Stats" Binding="{Binding AlwaysIncludeInStats}"/>
+            <DataGridTextColumn Header="# Games" Binding="{Binding GameCount}"/>
 
             <DataGridTemplateColumn>
                 <DataGridTemplateColumn.CellTemplate>

@@ -43,7 +43,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 
-                <DataGridTextColumn Header="Status" Binding="{Binding Status.Name}"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status.Name}" SortMemberPath="Status.Order"/>
                 <DataGridTextColumn Header="Estimate Hrs." Binding="{Binding EstimatedHours}" />
                 <DataGridTextColumn Header="Played Hrs." Binding="{Binding PlayedHours}"/>
                 <DataGridTextColumn Header="Remaining Hrs." Binding="{Binding RemainingHours}" />

@@ -145,7 +145,6 @@
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Models\ListModel.cs" />
     <Compile Include="Models\ModelBase.cs" />
-    <Compile Include="Models\PileModel.cs" />
     <Compile Include="Models\PlatformModel.cs" />
     <Compile Include="Models\StatusModel.cs" />
     <Compile Include="RelayCommand.cs" />

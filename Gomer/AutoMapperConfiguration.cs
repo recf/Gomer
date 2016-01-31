@@ -10,8 +10,6 @@ namespace Gomer
         public static void Configure()
         {
             // Model -> DTO
-            Mapper.CreateMap<PileModel, PileDto>();
-
             Mapper.CreateMap<ListModel, ListDto>();
             Mapper.CreateMap<PlatformModel, PlatformDto>();
             Mapper.CreateMap<StatusModel, StatusDto>();
@@ -33,21 +31,6 @@ namespace Gomer
                 .ForMember(dest => dest.List, opt => opt.Ignore())
                 .ForMember(dest => dest.Platform, opt => opt.Ignore())
                 .ForMember(dest => dest.Status, opt => opt.Ignore());
-
-            Mapper.CreateMap<PileDto, PileModel>()
-                .ForMember(dest => dest.Games, opt => opt.Ignore())
-                .AfterMap((src, dest) =>
-                {
-                    foreach (var gameDto in src.Games)
-                    {
-                        var game = Mapper.Map<GameModel>(gameDto);
-                        game.List = dest.Lists.FirstOrDefault(l => l.Name == gameDto.ListName);
-                        game.Platform = dest.Platforms.FirstOrDefault(p => p.Name == gameDto.PlatformName);
-                        game.Status = dest.Statuses.FirstOrDefault(s => s.Name == gameDto.StatusName);
-
-                        dest.Games.Add(game);
-                    }
-                });
 
             Mapper.AssertConfigurationIsValid();
         }

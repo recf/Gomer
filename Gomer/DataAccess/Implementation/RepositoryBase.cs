@@ -6,7 +6,7 @@ using Gomer.Models;
 
 namespace Gomer.DataAccess.Implementation
 {
-    public abstract class RepositoryBase<TModel> : IRepository<TModel> where TModel : ModelBase<TModel>
+    public abstract class RepositoryBase<TModel> : IRepository<TModel> where TModel : ModelBase<TModel>, new()
     {
         protected abstract ISet<TModel> Set { get; }
 
@@ -24,6 +24,14 @@ namespace Gomer.DataAccess.Implementation
             Sequence = new Sequence();
         }
 
+        protected TModel CopyAndPopulateSecondaryData(TModel model)
+        {
+            var copy = new TModel();
+            copy.SetFrom(model);
+
+            return PopulateSecondaryData(copy);
+        }
+
         public TModel Get(int id)
         {
             var model = Set.FirstOrDefault(x => x.Id == id);
@@ -32,17 +40,17 @@ namespace Gomer.DataAccess.Implementation
                 return null;
             }
 
-            return PopulateSecondaryData(model);
+            return CopyAndPopulateSecondaryData(model);
         }
 
         public IEnumerable<TModel> GetAll()
         {
-            return DefaultSort(Set.Select(PopulateSecondaryData));
+            return DefaultSort(Set.Select(CopyAndPopulateSecondaryData));
         }
 
         public IEnumerable<TModel> Find(Expression<Func<TModel, bool>> predicate)
         {
-            return DefaultSort(Set.Select(PopulateSecondaryData).Where(predicate.Compile()));
+            return DefaultSort(Set.Select(CopyAndPopulateSecondaryData).Where(predicate.Compile()));
         }
 
         public void Add(TModel model)
@@ -64,9 +72,13 @@ namespace Gomer.DataAccess.Implementation
 
         public bool Update(TModel entity)
         {
-            if (!Set.Contains(entity)) return false;
+            var model = Set.FirstOrDefault(x => x.Id == entity.Id);
+            if (model == null)
+            {
+                return false;
+            }
 
-            Set.Add(entity);
+            model.SetFrom(entity);
             return true;
         }
     }

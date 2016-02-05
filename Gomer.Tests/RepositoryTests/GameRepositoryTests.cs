@@ -102,7 +102,7 @@ namespace Gomer.Tests.RepositoryTests
 
         protected override void ModifyModel(GameModel model, IDataContext context)
         {
-            model.Name = (model.Name ?? string.Empty) + " Changed";
+            model.Name = (model.Name ?? string.Empty) + " Modified";
         }
 
         protected override void AssertEqual(GameModel actual, GameModel expected)

@@ -71,8 +71,8 @@ namespace Gomer.Tests.RepositoryTests
             var expected = Set(context).First();
 
             var actual = repo.Get(expected.Id);
-
-            Assert.That(actual, Is.EqualTo(expected));
+            
+            AssertEqual(actual, expected);
         }
 
         [Test]
@@ -106,24 +106,30 @@ namespace Gomer.Tests.RepositoryTests
 
             var repo = GetRepository(context);
 
-            var expected = Set(context);
-            var actual = repo.GetAll();
+            var expectedSet = Set(context);
+            var actualSet = repo.GetAll().ToList();
 
-            Assert.That(actual, Is.EquivalentTo(expected));
+            Assert.That(actualSet.Count(), Is.EqualTo(expectedSet.Count));
+            foreach (var actual in actualSet)
+            {
+                var expected = expectedSet.FirstOrDefault(x => x.Id == actual.Id);
+                AssertEqual(actual, expected);
+            }
         }
 
         [Test]
         public void TestFindWhenExists()
         {
             var context = GetContext(true);
-            var list = Set(context).First();
+            var expected = Set(context).First();
 
             var repo = GetRepository(context);
 
             var actual = repo.Find(GetKnownItemPredicate()).ToList();
 
             Assert.That(actual.Count, Is.EqualTo(1));
-            Assert.That(actual.First(), Is.EqualTo(list));
+
+            AssertEqual(actual.First(), expected);
         }
 
         [Test]

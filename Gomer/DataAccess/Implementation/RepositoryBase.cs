@@ -57,9 +57,17 @@ namespace Gomer.DataAccess.Implementation
             Set.Add(model);
         }
 
-        public bool Remove(TModel model)
+        public bool Remove(TModel entity)
         {
-            return Set.Remove(model);
+            return Set.Remove(entity);
+        }
+
+        public bool Update(TModel entity)
+        {
+            if (!Set.Contains(entity)) return false;
+
+            Set.Add(entity);
+            return true;
         }
     }
 }

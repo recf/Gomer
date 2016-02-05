@@ -99,5 +99,16 @@ namespace Gomer.Tests.RepositoryTests
         {
             return x => x.Name == "Test";
         }
+
+        protected override void ModifyModel(GameModel model, IDataContext context)
+        {
+            model.Name = (model.Name ?? string.Empty) + " Changed";
+        }
+
+        protected override void AssertEqual(GameModel actual, GameModel expected)
+        {
+            Assert.That(actual.Id, Is.EqualTo(expected.Id));
+            Assert.That(actual.Name, Is.EqualTo(expected.Name));
+        }
     }
 }

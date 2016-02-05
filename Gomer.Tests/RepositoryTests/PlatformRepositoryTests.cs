@@ -54,5 +54,16 @@ namespace Gomer.Tests.RepositoryTests
         {
             return x => x.Name == "Foo";
         }
+
+        protected override void ModifyModel(PlatformModel model, IDataContext context)
+        {
+            model.Name += " Modified";
+        }
+
+        protected override void AssertEqual(PlatformModel actual, PlatformModel expected)
+        {
+            Assert.That(actual.Id, Is.EqualTo(expected.Id));
+            Assert.That(actual.Name, Is.EqualTo(expected.Name));
+        }
     }
 }

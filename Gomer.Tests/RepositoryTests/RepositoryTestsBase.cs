@@ -21,7 +21,11 @@ namespace Gomer.Tests.RepositoryTests
         protected abstract TModel GetNewModel(IDataContext context);
 
         protected abstract Expression<Func<TModel, bool>> GetKnownItemPredicate();
-        
+
+        protected abstract void ModifyModel(TModel model, IDataContext context);
+
+        protected abstract void AssertEqual(TModel actual, TModel expected);
+
         [Test]
         public void TestAddEmpty()
         {
@@ -158,6 +162,34 @@ namespace Gomer.Tests.RepositoryTests
 
             var actual = repo.Remove(toRemove);
             Assert.That(actual, Is.False);
+        }
+
+        [Test]
+        public void TestUpdateWhenExists()
+        {
+            var context = GetContext(true);
+            var repo = GetRepository(context);
+
+            var toUpdate = repo.Get(1);
+            ModifyModel(toUpdate, context);
+
+            var updated = repo.Update(toUpdate);
+
+            Assert.That(updated, Is.True);
+            AssertEqual(repo.Get(1), toUpdate);
+        }
+
+        [Test]
+        public void TestUpdateWhenDoesNotExist()
+        {
+            var context = GetContext(false);
+            var repo = GetRepository(context);
+
+            var toUpdate = GetNewModel(context);
+
+            var updated = repo.Update(toUpdate);
+
+            Assert.That(updated, Is.False);
         }
     }
 }

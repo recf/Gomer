@@ -24,7 +24,7 @@ namespace Gomer.DataAccess.Implementation
 
         protected override ListModel PopulateSecondaryData(ListModel model)
         {
-            model.GameCount = Context.Games.Count(x => x.List == model);
+            model.GameCount = Context.Games.Count(x => x.List.Id == model.Id);
 
             return model;
         }

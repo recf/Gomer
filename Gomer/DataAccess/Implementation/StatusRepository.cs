@@ -25,7 +25,7 @@ namespace Gomer.DataAccess.Implementation
 
         protected override StatusModel PopulateSecondaryData(StatusModel model)
         {
-            model.GameCount = Context.Games.Count(x => x.Status == model);
+            model.GameCount = Context.Games.Count(x => x.Status.Id == model.Id);
 
             return model;
         }

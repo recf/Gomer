@@ -122,14 +122,13 @@ namespace Gomer.Generic
 
         private void SelectedDetail_OnUpdated(object sender, ModelEventArgs<TModel> e)
         {
-            var existing = Repository.Get(e.Model.Id);
-            if (existing == null)
+            if (e.Model.IsNew)
             {
                 Repository.Add(e.Model);
             }
             else
             {
-                existing.SetFrom(e.Model);
+                Repository.Update(e.Model);
             }
 
             SelectedDetail.Model = null;
@@ -140,11 +139,7 @@ namespace Gomer.Generic
 
         private void SelectedDetail_OnRemoved(object sender, ModelEventArgs<TModel> e)
         {
-            var existing = Repository.Get(e.Model.Id);
-            if (existing != null)
-            {
-                Repository.Remove(existing);
-            }
+            Repository.Remove(e.Model);
 
             SelectedDetail.Model = null;
             List.RefreshData();

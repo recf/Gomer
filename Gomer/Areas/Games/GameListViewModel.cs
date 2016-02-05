@@ -41,7 +41,7 @@ namespace Gomer.Areas.Games
         {
             Models.Clear();
 
-            var models = Repository.Find(x => x.List == FilterList);
+            var models = Repository.Find(x => x.List.Id == FilterList.Id);
 
             foreach (var model in models)
             {

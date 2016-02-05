@@ -25,7 +25,7 @@ namespace Gomer.DataAccess.Implementation
 
         protected override PlatformModel PopulateSecondaryData(PlatformModel model)
         {
-            model.GameCount = Context.Games.Count(x => x.Platforms.Contains(model));
+            model.GameCount = Context.Games.Count(x => x.Platforms.Select(p => p.Id).Contains(model.Id));
 
             return model;
         }

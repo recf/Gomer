@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Gomer.Models;
 
@@ -23,6 +24,29 @@ namespace Gomer.DataAccess.Implementation
         protected override GameModel PopulateSecondaryData(GameModel model)
         {
             return model;
+        }
+
+        protected override void OnBeforeAdd(GameModel entity)
+        {
+            var date = entity.AddedOn ?? DateTime.Today;
+
+            entity.StatusHistory.Add(new StatusHistoryModel
+            {
+                Status = entity.Status,
+                StatusDate = date
+            });
+        }
+
+        protected override void OnBeforeUpdate(GameModel entity, GameModel previousState)
+        {
+            if (entity.Status.Id != previousState.Status.Id)
+            {
+                entity.StatusHistory.Add(new StatusHistoryModel
+                {
+                    Status = entity.Status,
+                    StatusDate = DateTime.Today
+                });
+            }
         }
     }
 }

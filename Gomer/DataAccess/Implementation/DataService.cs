@@ -85,8 +85,6 @@ namespace Gomer.DataAccess.Implementation
                 var pileDto = _serializer.Deserialize<PileDto>(reader);
 
                 EnsureRecentFile(fileName);
-                Properties.Settings.Default.RecentFiles.Insert(0, fileName);
-                Properties.Settings.Default.Save();
 
                 _context.Lists.Clear();
                 _context.Platforms.Clear();
@@ -192,6 +190,8 @@ namespace Gomer.DataAccess.Implementation
             }
 
             RecentFiles.Insert(0, fileName);
+            Properties.Settings.Default.RecentFiles.Insert(0, fileName);
+            Properties.Settings.Default.Save();
         }
 
         private void SaveFile(string fileName)

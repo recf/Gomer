@@ -16,6 +16,8 @@
                 <Label Content="List"/>
                 <ComboBox SelectedItem="{Binding Model.List}"
                           ItemsSource="{Binding Lists}"
+                          SelectedValue="{Binding Model.List.Id}"
+                          SelectedValuePath="Id"
                           DisplayMemberPath="Name"/>
 
                 <Label Content="Name"/>
@@ -60,9 +62,14 @@
                     </StackPanel>
                 </GroupBox>
 
+                <Label Content="Added On (optional)"/>
+                <DatePicker SelectedDate="{Binding Model.AddedOn}"/>
+
                 <Label Content="Status"/>
                 <ComboBox SelectedItem="{Binding Model.Status}"
                           ItemsSource="{Binding Statuses}"
+                          SelectedValue="{Binding Model.Status.Id}"
+                          SelectedValuePath="Id"
                           DisplayMemberPath="Name"/>
 
                 <Label Content="Estimated Hours"/>
@@ -70,15 +77,6 @@
 
                 <Label Content="Played Hours"/>
                 <TextBox Text="{Binding Model.PlayedHours}"/>
-
-                <Label Content="Added On"/>
-                <DatePicker SelectedDate="{Binding Model.AddedOn}"/>
-
-                <Label Content="Started On"/>
-                <DatePicker SelectedDate="{Binding Model.StartedOn}"/>
-
-                <Label Content="Finished On"/>
-                <DatePicker SelectedDate="{Binding Model.FinishedOn}"/>
 
                 <StackPanel Margin="5">
                     <Button Content="Ok" Command="{Binding UpdateCommand}"/>

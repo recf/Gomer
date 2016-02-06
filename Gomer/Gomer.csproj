@@ -119,6 +119,7 @@
     <Compile Include="DataAccess\Dto\PileDto.cs" />
     <Compile Include="DataAccess\Dto\PlatformDto.cs" />
     <Compile Include="DataAccess\Dto\StatusDto.cs" />
+    <Compile Include="DataAccess\Dto\StatusHistoryDto.cs" />
     <Compile Include="DataAccess\IDataContext.cs" />
     <Compile Include="DataAccess\IDataService.cs" />
     <Compile Include="DataAccess\IGameRepository.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Models\ListModel.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\PlatformModel.cs" />
+    <Compile Include="Models\StatusHistoryModel.cs" />
     <Compile Include="Models\StatusModel.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Services\ConfirmationService.cs" />

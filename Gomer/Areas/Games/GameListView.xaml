@@ -48,8 +48,6 @@
                 <DataGridTextColumn Header="Played Hrs." Binding="{Binding PlayedHours}"/>
                 <DataGridTextColumn Header="Remaining Hrs." Binding="{Binding RemainingHours}" />
                 <DataGridTextColumn Header="Added" Binding="{Binding AddedOn, Converter={StaticResource ToShortDate}}" />
-                <DataGridTextColumn Header="Started" Binding="{Binding StartedOn, Converter={StaticResource ToShortDate}}" />
-                <DataGridTextColumn Header="Finished" Binding="{Binding FinishedOn, Converter={StaticResource ToShortDate}}" />
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

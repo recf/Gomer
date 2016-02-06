@@ -18,6 +18,15 @@ namespace Gomer.DataAccess.Implementation
 
         protected Sequence Sequence { get; private set; }
 
+        protected virtual void OnBeforeAdd(TModel entity)
+        {
+            
+        }
+
+        protected virtual void OnBeforeUpdate(TModel entity, TModel previousState)
+        {
+        }
+
         protected RepositoryBase(IDataContext context)
         {
             Context = context;
@@ -62,6 +71,7 @@ namespace Gomer.DataAccess.Implementation
                 model.Id = Sequence.NextValue();
             } while (presentIds.Contains(model.Id));
 
+            OnBeforeAdd(model);
             Set.Add(model);
         }
 
@@ -72,13 +82,16 @@ namespace Gomer.DataAccess.Implementation
 
         public bool Update(TModel entity)
         {
-            var model = Set.FirstOrDefault(x => x.Id == entity.Id);
-            if (model == null)
+            var oldState = Set.FirstOrDefault(x => x.Id == entity.Id);
+            if (oldState == null)
             {
                 return false;
             }
 
-            model.SetFrom(entity);
+            OnBeforeUpdate(entity, oldState);
+            Set.Remove(oldState);
+            Set.Add(entity);
+
             return true;
         }
     }

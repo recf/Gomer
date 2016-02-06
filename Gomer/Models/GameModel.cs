@@ -18,6 +18,16 @@ namespace Gomer.Models
             }
         }
 
+        private DateTime? _addedOn;
+        public DateTime? AddedOn
+        {
+            get { return _addedOn; }
+            set
+            {
+                SetProperty(ref _addedOn, value);
+            }
+        }
+
         private ListModel _list;
         [Required]
         public ListModel List
@@ -39,36 +49,8 @@ namespace Gomer.Models
             set { SetProperty(ref _status, value); }
         }
 
-        private DateTime? _addedOn;
-        public DateTime? AddedOn
-        {
-            get { return _addedOn; }
-            set
-            {
-                SetProperty(ref _addedOn, value);
-            }
-        }
-
-        private DateTime? _startedOn;
-        public DateTime? StartedOn
-        {
-            get { return _startedOn; }
-            set
-            {
-                SetProperty(ref _startedOn, value);
-            }
-        }
-
-        private DateTime? _finishedOn;
-        public DateTime? FinishedOn
-        {
-            get { return _finishedOn; }
-            set
-            {
-                SetProperty(ref _finishedOn, value);
-            }
-        }
-
+        public ObservableCollection<StatusHistoryModel> StatusHistory { get; private set; }
+        
         private decimal? _estimatedHours;
         public decimal? EstimatedHours
         {
@@ -110,6 +92,8 @@ namespace Gomer.Models
         public GameModel()
         {
             Platforms = new ObservableCollection<PlatformModel>();
+            StatusHistory = new ObservableCollection<StatusHistoryModel>();
+
             AddedOn = DateTime.Today;
         }
 
@@ -121,18 +105,22 @@ namespace Gomer.Models
             List = other.List;
             Status = other.Status;
 
-
             Platforms.Clear();
             foreach (var platform in other.Platforms)
             {
                 Platforms.Add(platform);
             }
 
-            AddedOn = other.AddedOn;
-            StartedOn = other.StartedOn;
-            FinishedOn = other.FinishedOn;
             EstimatedHours = other.EstimatedHours;
             PlayedHours = other.PlayedHours;
+
+            StatusHistory.Clear();
+            foreach (var otherHx in other.StatusHistory)
+            {
+                var statusHx = new StatusHistoryModel();
+                statusHx.SetFrom(otherHx);
+                StatusHistory.Add(statusHx);
+            }
         }
     }
 }

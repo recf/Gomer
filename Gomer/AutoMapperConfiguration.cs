@@ -13,6 +13,7 @@ namespace Gomer
             Mapper.CreateMap<ListModel, ListDto>();
             Mapper.CreateMap<PlatformModel, PlatformDto>();
             Mapper.CreateMap<StatusModel, StatusDto>();
+            Mapper.CreateMap<StatusHistoryModel, StatusHistoryDto>();
 
             Mapper.CreateMap<GameModel, GameDto>()
                 .ForMember(dest => dest.PlatformNames, opt => opt.MapFrom(src => src.Platforms.Select(p => p.Name)));
@@ -34,7 +35,8 @@ namespace Gomer
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.List, opt => opt.Ignore())
                 .ForMember(dest => dest.Platforms, opt => opt.Ignore())
-                .ForMember(dest => dest.Status, opt => opt.Ignore());
+                .ForMember(dest => dest.Status, opt => opt.Ignore())
+                .ForMember(dest => dest.StatusHistory, opt => opt.Ignore());
 
             Mapper.AssertConfigurationIsValid();
         }

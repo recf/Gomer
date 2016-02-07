@@ -62,7 +62,7 @@
                     </StackPanel>
                 </GroupBox>
 
-                <Label Content="Added On (optional)"/>
+                <Label Content="Added On"/>
                 <DatePicker SelectedDate="{Binding Model.AddedOn}"/>
 
                 <Label Content="Status"/>

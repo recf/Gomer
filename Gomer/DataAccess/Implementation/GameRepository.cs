@@ -28,12 +28,10 @@ namespace Gomer.DataAccess.Implementation
 
         protected override void OnBeforeAdd(GameModel entity)
         {
-            var date = entity.AddedOn ?? DateTime.Today;
-
             entity.StatusHistory.Add(new StatusHistoryModel
             {
                 Status = entity.Status,
-                StatusDate = date
+                StatusDate = entity.AddedOn
             });
         }
 

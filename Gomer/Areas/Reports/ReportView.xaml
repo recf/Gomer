@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="Gomer.Areas.Reports.ReportView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:reports="clr-namespace:Gomer.Areas.Reports"
+             mc:Ignorable="d" 
+             
+             d:DataContext="{d:DesignInstance reports:ReportViewModel}"
+             d:DesignHeight="300" 
+             d:DesignWidth="300">
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <WrapPanel>
+
+                <ComboBox ItemsSource="{Binding TimeFrames}"
+                          SelectedItem="{Binding SelectedTimeFrame}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Run Text="{Binding Name}"/>
+                                <Run Text="("/><Run Text="{Binding StartOn, Converter={StaticResource ToShortDate}}"/>
+                                <Run Text="to"/>
+                                <Run Text="{Binding EndOn, Converter={StaticResource ToShortDate}}"/><Run Text=")"/>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <Button Content="Run Report"
+                        Command="{Binding RunReportCommand}"/>
+
+            </WrapPanel>
+
+        </DockPanel>
+
+        <TextBox DockPanel.Dock="Bottom"
+                 IsReadOnly="True"
+                 Text="{Binding ReportText}"/>
+    </DockPanel>
+</UserControl>

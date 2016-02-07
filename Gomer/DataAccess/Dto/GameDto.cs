@@ -11,7 +11,7 @@ namespace Gomer.DataAccess.Dto
         public string Name { get; set; }
 
         [JsonProperty("added_on", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public DateTime? AddedOn { get; set; }
+        public DateTime AddedOn { get; set; }
 
         [JsonProperty("list_name", Required = Required.Always)]
         public string ListName { get; set; }

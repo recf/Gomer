@@ -99,6 +99,11 @@
       <DependentUpon>PlatformListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Areas\Platforms\PlatformListViewModel.cs" />
+    <Compile Include="Areas\Reports\ReportTimeFrame.cs" />
+    <Compile Include="Areas\Reports\ReportView.xaml.cs">
+      <DependentUpon>ReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Reports\ReportViewModel.cs" />
     <Compile Include="Areas\Statuses\StatusDetailView.xaml.cs">
       <DependentUpon>StatusDetailView.xaml</DependentUpon>
     </Compile>
@@ -180,6 +185,10 @@
     <Page Include="Areas\Platforms\PlatformListView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Areas\Reports\ReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Areas\Statuses\StatusDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -3,6 +3,7 @@ using Gomer.Areas.Games;
 using Gomer.Areas.Lists;
 using Gomer.Models;
 using Gomer.Areas.Platforms;
+using Gomer.Areas.Reports;
 using Gomer.Areas.Statuses;
 using Gomer.DataAccess;
 
@@ -79,6 +80,16 @@ namespace Gomer.Areas.Piles
             }
         }
 
+        private ReportViewModel _report;
+        public ReportViewModel Report
+        {
+            get { return _report; }
+            set
+            {
+                SetProperty(ref _report, value);
+            }
+        }
+
         public PileDetailViewModel(IDataService dataService)
         {
             ListsIndex = new ListIndexViewModel(dataService.Lists);
@@ -86,6 +97,8 @@ namespace Gomer.Areas.Piles
             StatusesIndex = new StatusIndexViewModel(dataService.Statuses);
 
             GamesIndex = new GameIndexViewModel(dataService.Games, dataService.Lists, dataService.Platforms, dataService.Statuses);
+
+            Report = new ReportViewModel(dataService.Games);
         }
 
         public void Refresh()

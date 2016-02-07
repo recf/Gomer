@@ -6,7 +6,8 @@
                     xmlns:games="clr-namespace:Gomer.Areas.Games"
                     xmlns:generic="clr-namespace:Gomer.Generic"
                     xmlns:platforms="clr-namespace:Gomer.Areas.Platforms"
-                    xmlns:statuses="clr-namespace:Gomer.Areas.Statuses">
+                    xmlns:statuses="clr-namespace:Gomer.Areas.Statuses"
+                    xmlns:reports="clr-namespace:Gomer.Areas.Reports">
     
     <DataTemplate DataType="{x:Type piles:PileDetailViewModel}">
         <piles:PileDetailView/>
@@ -50,6 +51,10 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type games:GameDetailViewModel}">
         <games:GameDetailView/>
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type reports:ReportViewModel}">
+        <reports:ReportView/>
     </DataTemplate>
     
 </ResourceDictionary>

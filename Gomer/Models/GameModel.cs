@@ -18,8 +18,8 @@ namespace Gomer.Models
             }
         }
 
-        private DateTime? _addedOn;
-        public DateTime? AddedOn
+        private DateTime _addedOn;
+        public DateTime AddedOn
         {
             get { return _addedOn; }
             set
@@ -104,6 +104,8 @@ namespace Gomer.Models
 
             List = other.List;
             Status = other.Status;
+
+            AddedOn = other.AddedOn;
 
             Platforms.Clear();
             foreach (var platform in other.Platforms)

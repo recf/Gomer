@@ -25,26 +25,5 @@ namespace Gomer.DataAccess.Implementation
         {
             return model;
         }
-
-        protected override void OnBeforeAdd(GameModel entity)
-        {
-            entity.StatusHistory.Add(new StatusHistoryModel
-            {
-                Status = entity.Status,
-                StatusDate = entity.AddedOn
-            });
-        }
-
-        protected override void OnBeforeUpdate(GameModel entity, GameModel previousState)
-        {
-            if (entity.Status.Id != previousState.Status.Id)
-            {
-                entity.StatusHistory.Add(new StatusHistoryModel
-                {
-                    Status = entity.Status,
-                    StatusDate = DateTime.Today
-                });
-            }
-        }
     }
 }

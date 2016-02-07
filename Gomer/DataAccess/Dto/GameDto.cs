@@ -12,6 +12,15 @@ namespace Gomer.DataAccess.Dto
 
         [JsonProperty("added_on", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public DateTime AddedOn { get; set; }
+        
+        [JsonProperty("started_on", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public DateTime? StartedOn { get; set; }
+
+        [JsonProperty("finished_on", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public DateTime? FinishedOn { get; set; }
+
+        [JsonProperty("retired_on", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public DateTime? RetiredOn { get; set; }
 
         [JsonProperty("list_name", Required = Required.Always)]
         public string ListName { get; set; }
@@ -21,9 +30,6 @@ namespace Gomer.DataAccess.Dto
 
         [JsonProperty("status_name", Required = Required.Always)]
         public string StatusName { get; set; }
-
-        [JsonProperty("status_history", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public ICollection<StatusHistoryDto> StatusHistory { get; set; }
 
         [JsonProperty("estimated_hours", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public decimal? EstimatedHours { get; set; }

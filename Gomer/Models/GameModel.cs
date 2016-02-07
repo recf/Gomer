@@ -18,16 +18,6 @@ namespace Gomer.Models
             }
         }
 
-        private DateTime _addedOn;
-        public DateTime AddedOn
-        {
-            get { return _addedOn; }
-            set
-            {
-                SetProperty(ref _addedOn, value);
-            }
-        }
-
         private ListModel _list;
         [Required]
         public ListModel List
@@ -41,6 +31,8 @@ namespace Gomer.Models
 
         public ObservableCollection<PlatformModel> Platforms { get; private set; }
 
+        #region Status & Dates
+
         private StatusModel _status;
         [Required]
         public StatusModel Status
@@ -48,9 +40,49 @@ namespace Gomer.Models
             get { return _status; }
             set { SetProperty(ref _status, value); }
         }
-
-        public ObservableCollection<StatusHistoryModel> StatusHistory { get; private set; }
         
+        private DateTime _addedOn;
+        public DateTime AddedOn
+        {
+            get { return _addedOn; }
+            set
+            {
+                SetProperty(ref _addedOn, value);
+            }
+        }
+
+        private DateTime? _startedOn;
+        public DateTime? StartedOn
+        {
+            get { return _startedOn; }
+            set
+            {
+                SetProperty(ref _startedOn, value);
+            }
+        }
+
+        private DateTime? _finishedOn;
+        public DateTime? FinishedOn
+        {
+            get { return _finishedOn; }
+            set
+            {
+                SetProperty(ref _finishedOn, value);
+            }
+        }
+
+        private DateTime? _retiredOn;
+        public DateTime? RetiredOn
+        {
+            get { return _retiredOn; }
+            set
+            {
+                SetProperty(ref _retiredOn, value);
+            }
+        }
+
+        #endregion
+
         private decimal? _estimatedHours;
         public decimal? EstimatedHours
         {
@@ -92,9 +124,8 @@ namespace Gomer.Models
         public GameModel()
         {
             Platforms = new ObservableCollection<PlatformModel>();
-            StatusHistory = new ObservableCollection<StatusHistoryModel>();
 
-            AddedOn = DateTime.Today;
+            RetiredOn = DateTime.Today;
         }
 
         public override void SetFrom(GameModel other)
@@ -103,9 +134,13 @@ namespace Gomer.Models
             Name = other.Name;
 
             List = other.List;
+
             Status = other.Status;
 
             AddedOn = other.AddedOn;
+            StartedOn = other.StartedOn;
+            FinishedOn = other.FinishedOn;
+            RetiredOn = other.RetiredOn;
 
             Platforms.Clear();
             foreach (var platform in other.Platforms)
@@ -115,14 +150,6 @@ namespace Gomer.Models
 
             EstimatedHours = other.EstimatedHours;
             PlayedHours = other.PlayedHours;
-
-            StatusHistory.Clear();
-            foreach (var otherHx in other.StatusHistory)
-            {
-                var statusHx = new StatusHistoryModel();
-                statusHx.SetFrom(otherHx);
-                StatusHistory.Add(statusHx);
-            }
         }
     }
 }

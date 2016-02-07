@@ -37,7 +37,7 @@
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
-                                        
+
                                         <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}"/>
 
                                         <Button Grid.Row="0" Grid.Column="1" 
@@ -62,22 +62,37 @@
                     </StackPanel>
                 </GroupBox>
 
-                <Label Content="Added On"/>
-                <DatePicker SelectedDate="{Binding Model.AddedOn}"/>
+                <GroupBox Header="Status &amp; Dates">
+                    <StackPanel>
 
-                <Label Content="Status"/>
-                <ComboBox SelectedItem="{Binding Model.Status}"
-                          ItemsSource="{Binding Statuses}"
-                          SelectedValue="{Binding Model.Status.Id}"
-                          SelectedValuePath="Id"
-                          DisplayMemberPath="Name"/>
+                        <Label Content="Added On"/>
+                        <DatePicker SelectedDate="{Binding Model.AddedOn}"/>
+
+                        <Label Content="Started On"/>
+                        <DatePicker SelectedDate="{Binding Model.StartedOn}"/>
+
+                        <Label Content="Finished On"/>
+                        <DatePicker SelectedDate="{Binding Model.FinishedOn}"/>
+
+                        <Label Content="Retired On"/>
+                        <DatePicker SelectedDate="{Binding Model.RetiredOn}"/>
+                        
+                        <Label Content="Status"/>
+                        <ComboBox SelectedItem="{Binding Model.Status}"
+                                  ItemsSource="{Binding Statuses}"
+                                  SelectedValue="{Binding Model.Status.Id}"
+                                  SelectedValuePath="Id"
+                                  DisplayMemberPath="Name"/>
+
+                    </StackPanel>
+                </GroupBox>
 
                 <Label Content="Estimated Hours"/>
                 <TextBox Text="{Binding Model.EstimatedHours}"/>
 
                 <Label Content="Played Hours"/>
                 <TextBox Text="{Binding Model.PlayedHours}"/>
-
+                
                 <StackPanel Margin="5">
                     <Button Content="Ok" Command="{Binding UpdateCommand}"/>
                     <Button Content="Cancel" Command="{Binding CancelCommand}"/>

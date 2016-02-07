@@ -93,8 +93,14 @@ namespace Gomer.Areas.Reports
             var sb = new StringBuilder();
 
             var added = _gamesRepository.Find(x => InTimeFrame(x.AddedOn, SelectedTimeFrame)).ToList();
-            
+            var started = _gamesRepository.Find(x => InTimeFrame(x.StartedOn, SelectedTimeFrame)).ToList();
+            var finished = _gamesRepository.Find(x => InTimeFrame(x.FinishedOn, SelectedTimeFrame)).ToList();
+            var retired = _gamesRepository.Find(x => InTimeFrame(x.RetiredOn, SelectedTimeFrame)).ToList();
+
             AppendList(sb, "Added", added);
+            AppendList(sb, "Started", started);
+            AppendList(sb, "Finished", finished);
+            AppendList(sb, "Retired", retired);
 
             ReportText = sb.ToString();
         }

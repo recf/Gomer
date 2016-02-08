@@ -70,10 +70,10 @@ namespace Gomer.DataAccess.Implementation
             Platforms.Add(new PlatformModel { Name = "Wii U" });
             Platforms.Add(new PlatformModel { Name = "PC" });
 
-            Statuses.Add(new StatusModel { Name = "Not Started", Order = 1 });
-            Statuses.Add(new StatusModel { Name = "In Progress", Order = 2 });
-            Statuses.Add(new StatusModel { Name = "Finished", Order = 3, AlwaysIncludeInStats = true });
-            Statuses.Add(new StatusModel { Name = "Retired", Order = 4 });
+            Statuses.Add(new StatusModel { Code = StatusCodes.NotStarted, Order = 1 });
+            Statuses.Add(new StatusModel { Code = StatusCodes.InProgress, Order = 2 });
+            Statuses.Add(new StatusModel { Code = StatusCodes.Finished, Order = 3, AlwaysIncludeInStats = true });
+            Statuses.Add(new StatusModel { Code = StatusCodes.Retired, Order = 4 });
         }
 
         public void OpenFile(string fileName)
@@ -88,7 +88,6 @@ namespace Gomer.DataAccess.Implementation
 
                 _context.Lists.Clear();
                 _context.Platforms.Clear();
-                _context.Statuses.Clear();
                 _context.Games.Clear();
 
                 foreach (var dto in pileDto.Lists)
@@ -114,7 +113,7 @@ namespace Gomer.DataAccess.Implementation
                     var model = Mapper.Map<GameModel>(dto);
 
                     model.List = Lists.Find(l => l.Name == dto.ListName).First();
-                    model.Status = Statuses.Find(s => s.Name == dto.StatusName).First();
+                    //model.Status = Statuses.Find(s => s.Code == dto.Status).First();
 
                     foreach (var platformName in dto.PlatformNames)
                     {

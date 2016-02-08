@@ -34,7 +34,7 @@ namespace Gomer
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.List, opt => opt.Ignore())
                 .ForMember(dest => dest.Platforms, opt => opt.Ignore())
-                .ForMember(dest => dest.Status, opt => opt.Ignore());
+                .ForMember(dest => dest.StatusCode, opt => opt.Ignore());
 
             Mapper.AssertConfigurationIsValid();
         }

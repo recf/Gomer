@@ -94,6 +94,11 @@ namespace Gomer.Generic
             Open(new TModel());
         }
 
+        public virtual bool SupportsNew
+        {
+            get { return true; }
+        }
+
         private void Open(TModel model)
         {
             SelectedDetail.Model = model;

@@ -28,9 +28,6 @@ namespace Gomer.DataAccess.Dto
         [JsonProperty("platform_names", Required = Required.Always)]
         public string[] PlatformNames { get; set; }
 
-        [JsonProperty("status_name", Required = Required.Always)]
-        public string StatusName { get; set; }
-
         [JsonProperty("estimated_hours", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public decimal? EstimatedHours { get; set; }
 

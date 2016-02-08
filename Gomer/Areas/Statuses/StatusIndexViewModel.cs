@@ -11,5 +11,10 @@ namespace Gomer.Areas.Statuses
             base(repository, new StatusListViewModel(repository), new StatusDetailViewModel())
         {
         }
+
+        public override bool SupportsNew
+        {
+            get { return false; }
+        }
     }
 }

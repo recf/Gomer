@@ -24,13 +24,13 @@ namespace Gomer.Tests.RepositoryTests
                 {
                     Id = 1,
                     Order = 2,
-                    Name = "Foo"
+                    Code = StatusCodes.NotStarted
                 });
                 context.Statuses.Add(new StatusModel
                 {
                     Id = 2,
                     Order = 1,
-                    Name = "Bar"
+                    Code = StatusCodes.InProgress
                 });
             }
 
@@ -54,18 +54,19 @@ namespace Gomer.Tests.RepositoryTests
 
         protected override Expression<Func<StatusModel, bool>> GetKnownItemPredicate()
         {
-            return x => x.Name == "Foo";
+            return x => x.Code == StatusCodes.NotStarted;
         }
 
         protected override void ModifyModel(StatusModel model, IDataContext context)
         {
-            model.Name += " Modified";
+            model.Order += 1;
         }
 
         protected override void AssertEqual(StatusModel actual, StatusModel expected)
         {
             Assert.That(actual.Id, Is.EqualTo(expected.Id));
             Assert.That(actual.Name, Is.EqualTo(expected.Name));
+            Assert.That(actual.Order, Is.EqualTo(expected.Order));
         }
     }
 }

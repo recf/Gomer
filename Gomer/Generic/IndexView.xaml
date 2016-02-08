@@ -13,7 +13,8 @@
 
         <WrapPanel DockPanel.Dock="Top" 
                    Margin="10" 
-                   HorizontalAlignment="Right">
+                   HorizontalAlignment="Right"
+                   Visibility="{Binding SupportsNew, Converter={StaticResource BoolToVis}}">
             <Button Content="New" Command="{Binding NewCommand}"/>
         </WrapPanel>
 

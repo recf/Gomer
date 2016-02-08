@@ -151,6 +151,7 @@
     <Compile Include="Models\ListModel.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\PlatformModel.cs" />
+    <Compile Include="Models\StatusCodes.cs" />
     <Compile Include="Models\StatusModel.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Services\ConfirmationService.cs" />

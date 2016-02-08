@@ -6,8 +6,8 @@ namespace Gomer.DataAccess.Dto
     [JsonObject(MemberSerialization.OptIn)]
     public class StatusDto
     {
-        [JsonProperty("name", Required = Required.Always)]
-        public string Name { get; set; }
+        [JsonProperty("code", Required = Required.Always)]
+        public string Code { get; set; }
 
         [JsonProperty("order", Required = Required.Always)]
         public int Order { get; set; }

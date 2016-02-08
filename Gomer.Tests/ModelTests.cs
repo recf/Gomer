@@ -29,5 +29,6 @@ namespace Gomer.Tests
 
             Assert.That(model.IsNew, Is.EqualTo(expected));
         }
+
     }
 }

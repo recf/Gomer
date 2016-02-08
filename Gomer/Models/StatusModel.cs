@@ -9,15 +9,20 @@ namespace Gomer.Models
 {
     public class StatusModel : ModelBase<StatusModel>
     {
-        private string _name;
-        [Required]
-        public string Name
+        private StatusCodes _code;
+        public StatusCodes Code
         {
-            get { return _name; }
+            get { return _code; }
             set
             {
-                SetProperty(ref _name, value);
+                SetProperty(ref _code, value);
+                OnPropertyChanged("Name");
             }
+        }
+        
+        public string Name
+        {
+            get { return Code.ToString(); }
         }
 
         private int _order;
@@ -47,7 +52,7 @@ namespace Gomer.Models
         public override void SetFrom(StatusModel other)
         {
             Id = other.Id;
-            Name = other.Name;
+            Code = other.Code;
             Order = other.Order;
             AlwaysIncludeInStats = other.AlwaysIncludeInStats;
 

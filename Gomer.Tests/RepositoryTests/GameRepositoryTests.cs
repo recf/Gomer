@@ -44,13 +44,13 @@ namespace Gomer.Tests.RepositoryTests
             {
                 Id = 1,
                 Order = 1,
-                Name = "Status 1"
+                Code = StatusCodes.Finished
             });
             context.Statuses.Add(new StatusModel
             {
                 Id = 2,
                 Order = 2,
-                Name = "Status 2"
+                Code = StatusCodes.NotStarted
             });
 
             if (includeDataUnderTest)
@@ -59,8 +59,7 @@ namespace Gomer.Tests.RepositoryTests
                 {
                     Id = 1,
                     Name = "Test",
-                    List = context.Lists.First(),
-                    Status = context.Statuses.First()
+                    List = context.Lists.First()
                 };
                 game1.Platforms.Add(context.Platforms.First());
 
@@ -68,8 +67,7 @@ namespace Gomer.Tests.RepositoryTests
                 {
                     Id = 2,
                     Name = "Test 2",
-                    List = context.Lists.First(),
-                    Status = context.Statuses.First()
+                    List = context.Lists.First()
                 };
                 game2.Platforms.Add(context.Platforms.First(x => x.Name == "Platform 2"));
 

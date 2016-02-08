@@ -11,11 +11,11 @@
              d:DesignWidth="300">
     <StackPanel>
 
-        <Label Content="Order"/>
-        <TextBox Text="{Binding Model.Order}"/>
-
         <Label Content="Name"/>
-        <TextBox Text="{Binding Model.Name}"/>
+        <TextBox Text="{Binding Model.Name, Mode=OneWay}" IsEnabled="False"/>
+
+        <Label Content="Order"/>
+        <TextBox Text="{Binding Model.Order, Mode=OneWay}" IsEnabled="False"/>
 
         <CheckBox IsChecked="{Binding Model.AlwaysIncludeInStats}" 
                   Content="Always include in stats (overrides list setting)?"/>
@@ -24,9 +24,5 @@
             <Button Content="Ok" Command="{Binding UpdateCommand}"/>
             <Button Content="Cancel" Command="{Binding CancelCommand}"/>
         </StackPanel>
-
-        <Expander Header="Delete">
-            <Button Content="Confirm Delete" Command="{Binding RemoveCommand}" />
-        </Expander>
     </StackPanel>
 </UserControl>

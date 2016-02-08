@@ -33,14 +33,18 @@ namespace Gomer.Models
 
         #region Status & Dates
 
-        private StatusModel _status;
-        [Required]
-        public StatusModel Status
+        public StatusCodes StatusCode
         {
-            get { return _status; }
-            set { SetProperty(ref _status, value); }
+            get
+            {
+                if (FinishedOn.HasValue) { return StatusCodes.Finished; }
+                if (RetiredOn.HasValue) { return StatusCodes.Retired; }
+                if (StartedOn.HasValue) { return StatusCodes.InProgress; }
+
+                return StatusCodes.NotStarted;
+            }
         }
-        
+
         private DateTime _addedOn;
         public DateTime AddedOn
         {
@@ -48,6 +52,7 @@ namespace Gomer.Models
             set
             {
                 SetProperty(ref _addedOn, value);
+                OnPropertyChanged("StatusCode");
             }
         }
 
@@ -58,6 +63,7 @@ namespace Gomer.Models
             set
             {
                 SetProperty(ref _startedOn, value);
+                OnPropertyChanged("StatusCode");
             }
         }
 
@@ -68,6 +74,7 @@ namespace Gomer.Models
             set
             {
                 SetProperty(ref _finishedOn, value);
+                OnPropertyChanged("StatusCode");
             }
         }
 
@@ -78,6 +85,7 @@ namespace Gomer.Models
             set
             {
                 SetProperty(ref _retiredOn, value);
+                OnPropertyChanged("StatusCode");
             }
         }
 
@@ -125,7 +133,7 @@ namespace Gomer.Models
         {
             Platforms = new ObservableCollection<PlatformModel>();
 
-            RetiredOn = DateTime.Today;
+            AddedOn = DateTime.Today;
         }
 
         public override void SetFrom(GameModel other)
@@ -134,8 +142,6 @@ namespace Gomer.Models
             Name = other.Name;
 
             List = other.List;
-
-            Status = other.Status;
 
             AddedOn = other.AddedOn;
             StartedOn = other.StartedOn;

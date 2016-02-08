@@ -9,6 +9,7 @@ namespace Gomer
 {
     public class MainWindowViewModel : BindableBase
     {
+        private IOpenFileService _openFileService;
         private readonly IDataService _dataService;
         private readonly IConfirmationService _confirmationService;
 
@@ -72,11 +73,14 @@ namespace Gomer
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand SaveAsCommand { get; private set; }
 
+        public RelayCommand ImportGrouveeCsvCommand { get; private set; }
+
         /// <summary>
         /// Initializes a new instance of the MainWindowViewModel class.
         /// </summary>
-        public MainWindowViewModel(IDataService dataService, IConfirmationService confirmationService)
+        public MainWindowViewModel(IOpenFileService openFileService, IDataService dataService, IConfirmationService confirmationService)
         {
+            _openFileService = openFileService;
             _dataService = dataService;
             _confirmationService = confirmationService;
 
@@ -87,10 +91,12 @@ namespace Gomer
             SaveCommand = new RelayCommand(SaveCommandImpl);
             SaveAsCommand = new RelayCommand(SaveAsCommandImpl);
 
+            ImportGrouveeCsvCommand = new RelayCommand(ImportGrouveeCsvImpl);
+
             _dataService.PopulateDefaultData();
             ShowPile(null);
         }
-        
+
         private void ShowPile(string fileName)
         {
             if (PileDetail != null)
@@ -181,6 +187,15 @@ namespace Gomer
         private void SaveAsCommandImpl()
         {
             SavePile(_dataService.TrySaveAs);
+        }
+        
+        private void ImportGrouveeCsvImpl()
+        {
+            var fileName = _openFileService.GetFileName("*.csv", "Comma Separated Values (*.csv)|*.csv");
+
+            _dataService.ImportGrouveeCsv(fileName);
+            PileDetail.Refresh();
+            IsDirty = true;
         }
 
         #endregion

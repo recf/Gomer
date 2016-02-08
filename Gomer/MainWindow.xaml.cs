@@ -17,8 +17,11 @@ namespace Gomer
 
             AutoMapperConfiguration.Configure();
 
+            var openFileService = new OpenFileService();
+
             DataContext = new MainWindowViewModel(
-                new DataService(new OpenFileService(), new SaveFileService()), 
+                openFileService,
+                new DataService(openFileService, new SaveFileService()), 
                 new ConfirmationService());
         }
 

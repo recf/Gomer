@@ -21,6 +21,27 @@ the file can be found at link:{repo-link}/doc/schemas[].
 There is no installer currently, so to use it, just extract the contents of the
 zip file somewhere on your system and double-click gomer.exe.
 
+== Importing a Grouvee CSV file
+
+You can export your Grouvee data to a CSV file via your accounts settings page.
+
+Importing into Gomer is simple: just select the item from the File menu.
+
+There are a few things to keep in mind:
+
+. Import is currently a one-time, "Insert" operation. That means that running import when you already have data in Gomer (including from a previous import), it will add the games again, rather than update any that are already there.
+. When using the `dates` field, if there are multiple records, Gomer will always use the one with the most recent `date_started` value.
+. Gomer determines which list to put a game in, based on the following (creating the list if necessary):
+.. Games in the "`Played`", "`Playing`", or "`Backlog`" shelves will be mapped to the "`Pile`", or "`Backlog`" list.
+.. Games in the "`Wish List`" shelf will be mapped to the "`Wishlist`" or "`Wish List`" list.
+.. All other games will be mapped to the "`Ignored`" or "`Hidden`" list.
+. Some information needed by Gomer is either not ever included, or not always included in the export, so we need to make some educated guesses.
+.. _Platforms_ - Inluded on Grouvee itself, but not in the export. Games imported to Grouvee, from steam are automatically put into the "Steam" shelf. If this shelf is present, the Import will add Steam as a platform (creating it if necessary). However, no other platforms will be added.
+.. _Added On_ - Inluded on Grouvee itself, but not in the export. If `date` information is found, Gomer will use the `date_started` value. Other wise, the import will use the `release_date`, instead. This obviously can lead to wildly inaccurate Added On Dates. However, the assumption is that if you are importing it, it was not added recently, and it is therefore safer to use an old, but possibly wrong date, instead of using the current date and having it "`count against you`".
+.. _Started On_ - If `date` information is found, Gomer will use the `date_started` value. Otherwise, if the game is in the "`Played`", or "`Playing`" shelves it will fall back on `release_date`, as above.
+.. _Finished On_ - If `date` information is found, Gomer will use the `date_finished` value. Otherwise, if the game is in the "`Played`" sheld, it will fall back on the end of last year.
+.. _Played Hours_ - If `date` information is found, Gomer will use the `seconds_played` value. Otherwise it will be left empty.
+
 == TODO
 
 * `Psake` task to patch the version in this README file.

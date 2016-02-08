@@ -28,5 +28,12 @@ namespace Gomer.DataAccess.Implementation
 
             return model;
         }
+
+        public IEnumerable<ListModel> FindByName(string name, params string[] names)
+        {
+            var searchNames = names.Concat(new[] { name });
+
+            return Find(x => searchNames.Any(n => string.Equals(n, x.Name, StringComparison.CurrentCultureIgnoreCase)));
+        }
     }
 }

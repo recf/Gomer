@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using AutoMapper;
+using CsvHelper;
+using CsvHelper.Configuration;
 using Gomer.DataAccess.Dto;
+using Gomer.ImportCsv;
 using Gomer.Models;
 using Gomer.Services;
 using Newtonsoft.Json;
@@ -13,10 +16,11 @@ using Newtonsoft.Json.Converters;
 
 namespace Gomer.DataAccess.Implementation
 {
+    // TODO: All this TryOpen/TrySave stuff probably ought to move to MainVeiwModel
     public class DataService : IDataService
     {
-        private IOpenFileService _openFileService;
-        private ISaveFileService _saveFileService;
+        private readonly IOpenFileService _openFileService;
+        private readonly ISaveFileService _saveFileService;
 
         private string _defaultExt = ".pile";
         private string _filter = "Gomer Pile File (*.pile)|*.pile";
@@ -185,6 +189,147 @@ namespace Gomer.DataAccess.Implementation
                 EnsureRecentFile(fileName);
                 _serializer.Serialize(writer, pileDto);
             }
+        }
+
+        // TODO: This method is long as hell. Break it up into helper methods
+        public void ImportGrouveeCsv(string fileName)
+        {
+            var endOfLastYear = new DateTime(DateTime.Today.Year - 1, 12, 31);
+
+            ListModel pile = null;
+            ListModel wishlist = null;
+            ListModel ignored = null;
+
+            PlatformModel steam = null;
+
+            TextReader textReader = File.OpenText(fileName);
+            var csv = new CsvReader(textReader);
+
+            while (csv.Read())
+            {
+                // Fields
+                var name = csv.GetField<string>("name");
+                DateTime releaseDate;
+                if (!csv.TryGetField("release_date", out releaseDate))
+                {
+                    releaseDate = endOfLastYear;
+                }
+
+                var shelvesField = csv.GetField<string>("shelves");
+                var datesField = csv.GetField<string>("dates");
+
+                // Check for known shelves
+                var shelves = JsonConvert.DeserializeObject<ICollection<string>>(shelvesField);
+
+                var playedShelf = shelves.Contains("Played");
+                var playingShelf = shelves.Contains("Playing");
+                var backlogShelf = shelves.Contains("Backlog");
+                var wishlistShelf = shelves.Contains("Wish List");
+                var steamShelf = shelves.Contains("Steam");
+
+                // Determine list
+                ListModel list = null;
+                if (playedShelf || playingShelf || backlogShelf)
+                {
+                    if (pile == null)
+                    {
+                        pile = Lists.FindByName("Pile", "Backlog").FirstOrDefault();
+                        if (pile == null)
+                        {
+                            pile = new ListModel { Name = "Pile" };
+                            Lists.Add(pile);
+                        }
+                    }
+                    list = pile;
+                }
+                else if (wishlistShelf)
+                {
+                    if (wishlist == null)
+                    {
+                        wishlist = Lists.FindByName("Wishlist", "Wish List").FirstOrDefault();
+                        if (wishlist == null)
+                        {
+                            wishlist = new ListModel { Name = "Wishlist", IncludeInStats = false };
+                            Lists.Add(wishlist);
+                        }
+                    }
+                    list = wishlist;
+                }
+                else
+                {
+                    if (ignored == null)
+                    {
+                        ignored = Lists.FindByName("Ignored", "Hidden").FirstOrDefault();
+                        if (ignored == null)
+                        {
+                            ignored = new ListModel { Name = "Ignored", IncludeInStats = false };
+                            Lists.Add(ignored);
+                        }
+                    }
+                    list = ignored;
+                }
+
+                // Determine dates
+                var dateSet = GrouveeCsvDatesField(datesField);
+
+                DateTime? startedOn = dateSet.DateStarted;
+                DateTime? finishedOn = dateSet.DateFinished;
+
+                if (!startedOn.HasValue && (playedShelf || playingShelf || backlogShelf))
+                {
+                    startedOn = releaseDate;
+                }
+
+                if (!finishedOn.HasValue && playedShelf)
+                {
+                    finishedOn = endOfLastYear;
+                }
+
+                decimal playedHours = dateSet.SecondsPlayed/60.0m/60.0m;
+                // round to tenths place
+                playedHours = Math.Round(playedHours*10)/10.0m;
+
+                // Create game
+                var model = new GameModel
+                {
+                    Name = name,
+                    List = list,
+                    AddedOn = releaseDate,
+                    StartedOn = startedOn,
+                    FinishedOn = finishedOn,
+                    PlayedHours = playedHours
+                };
+
+                if (steamShelf)
+                {
+                    if (steam == null)
+                    {
+                        steam = Platforms.FindByName("Steam").FirstOrDefault();
+                        if (steam == null)
+                        {
+                            steam = new PlatformModel { Name = "Steam" };
+                            Platforms.Add(steam);
+                        }
+                    }
+                    model.Platforms.Add(steam);
+                }
+
+                Games.Add(model);
+            }
+        }
+
+        private static GrouveeCsvDatesField GrouveeCsvDatesField(string datesField)
+        {
+            // Fix the level_of_completion fields because Grouvee doesn't emit valid JSON
+            // The invalid JSON bits look like pythonisms.
+            // 1. Switch `None` to `null`
+            // 2. Strip the `u` Unicode marker
+            var input = datesField.Replace("'level_of_completion': None", "'level_of_completion': null");
+            input = input.Replace("'level_of_completion': u'", "'level_of_completion': '");
+
+            var dateSets = JsonConvert.DeserializeObject<ICollection<GrouveeCsvDatesField>>(input);
+            var dateSet = dateSets.OrderByDescending(x => x.DateStarted).FirstOrDefault() ?? new GrouveeCsvDatesField();
+            return dateSet;
         }
     }
 }

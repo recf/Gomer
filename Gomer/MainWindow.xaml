@@ -43,6 +43,8 @@
                         </Style>
                     </MenuItem.ItemContainerStyle>
                 </MenuItem>
+                <Separator/>
+                <MenuItem Header="Import Grouvee CSV File" Command="{Binding ImportGrouveeCsvCommand}"/>
             </MenuItem>
         </Menu>
 

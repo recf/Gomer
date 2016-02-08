@@ -12,10 +12,16 @@
     <DockPanel>
         <GroupBox DockPanel.Dock="Top" Header="Filter">
             <WrapPanel Orientation="Vertical">
+                
                 <Label Content="List"/>
                 <ComboBox SelectedItem="{Binding FilterList}" 
                           ItemsSource="{Binding Lists}"
+                          SelectedValue="{Binding FilterList.Id}"
+                          SelectedValuePath="Id"
                           DisplayMemberPath="Name"/>
+                
+                <Button Content="Search" Command="{Binding SearchCommand}"/>
+               
             </WrapPanel>
         </GroupBox>
 

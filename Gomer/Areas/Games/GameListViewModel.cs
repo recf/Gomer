@@ -18,11 +18,12 @@ namespace Gomer.Areas.Games
             set
             {
                 SetProperty(ref _filterList, value);
-                RefreshData();
             }
         }
 
         public ObservableCollection<ListModel> Lists { get; private set; }
+
+        public RelayCommand SearchCommand { get; private set; }
 
         public GameListViewModel(IGameRepository repository, IListRepository lists)
             : base(repository)
@@ -30,11 +31,8 @@ namespace Gomer.Areas.Games
             _listRepository = lists;
 
             Lists = new ObservableCollection<ListModel>();
-        }
 
-        public override bool Filter(GameModel model)
-        {
-            return model.List == FilterList; 
+            SearchCommand = new RelayCommand(RefreshData);
         }
 
         public override void RefreshData()
@@ -51,6 +49,7 @@ namespace Gomer.Areas.Games
 
         public override void RefreshLookupData()
         {
+            // Filter is bound in the UI via ComboBox, so clearing the list, clears the value
             // Save filter
             var filterList = FilterList;
 

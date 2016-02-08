@@ -17,5 +17,6 @@ namespace Gomer.DataAccess
 
         bool TrySave(out string fileName);
         bool TrySaveAs(out string fileName);
+        void ImportGrouveeCsv(string fileName);
     }
 }

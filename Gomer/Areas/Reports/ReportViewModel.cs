@@ -24,7 +24,7 @@ namespace Gomer.Areas.Reports
         }
 
         public ObservableCollection<ReportTimeFrame> TimeFrames { get; private set; }
-        
+
         private string _reportText;
 
         public string ReportText
@@ -38,9 +38,9 @@ namespace Gomer.Areas.Reports
 
         public RelayCommand RunReportCommand { get; private set; }
 
-        public ReportViewModel(IGameRepository gamesGamesRepository)
+        public ReportViewModel(IGameRepository gamesRepository)
         {
-            _gamesRepository = gamesGamesRepository;
+            _gamesRepository = gamesRepository;
 
             TimeFrames = new ObservableCollection<ReportTimeFrame>();
 
@@ -114,10 +114,13 @@ namespace Gomer.Areas.Reports
 
             return timeFrame.StartOn <= date.Value && timeFrame.EndOn >= date.Value;
         }
-        
+
         private static void AppendList(StringBuilder sb, string title, List<GameModel> gameModels)
         {
+            if (!gameModels.Any()) { return; }
+
             sb.AppendLine(string.Format("[b]{0}[/b]", title));
+            sb.AppendLine("[list=1]");
 
             foreach (var game in gameModels)
             {
@@ -127,6 +130,7 @@ namespace Gomer.Areas.Reports
                 sb.AppendLine(line);
             }
 
+            sb.AppendLine("[/list]");
             sb.AppendLine();
         }
     }

@@ -96,7 +96,7 @@ namespace Gomer.Areas.Piles
             PlatformsIndex = new PlatformIndexViewModel(dataService.Platforms);
             StatusesIndex = new StatusIndexViewModel(dataService.Statuses);
 
-            GamesIndex = new GameIndexViewModel(dataService.Games, dataService.Lists, dataService.Platforms, dataService.Statuses);
+            GamesIndex = new GameIndexViewModel(dataService.Games, dataService.Lists, dataService.Platforms);
 
             Report = new ReportViewModel(dataService.Games);
         }

@@ -10,11 +10,10 @@ namespace Gomer.Areas.Games
         public GameIndexViewModel(
             IGameRepository repository,
             IListRepository lists,
-            IPlatformRepository platforms,
-            IStatusRepository statuses)
+            IPlatformRepository platforms)
             : base(repository,
             new GameListViewModel(repository, lists), 
-            new GameDetailViewModel(lists, platforms, statuses))
+            new GameDetailViewModel(lists, platforms))
         {
         }
     }

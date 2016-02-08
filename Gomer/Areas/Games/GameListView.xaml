@@ -43,14 +43,14 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 
-                <DataGridTextColumn Header="Status" Binding="{Binding Status.Name}" SortMemberPath="Status.Order"/>
-                <DataGridTextColumn Header="Estimate Hrs." Binding="{Binding EstimatedHours}" />
-                <DataGridTextColumn Header="Played Hrs." Binding="{Binding PlayedHours}"/>
-                <DataGridTextColumn Header="Remaining Hrs." Binding="{Binding RemainingHours}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding StatusCode}" />
                 <DataGridTextColumn Header="Added" Binding="{Binding AddedOn, Converter={StaticResource ToShortDate}}" />
                 <DataGridTextColumn Header="Started" Binding="{Binding StartedOn, Converter={StaticResource ToShortDate}}" />
                 <DataGridTextColumn Header="Finished" Binding="{Binding FinishedOn, Converter={StaticResource ToShortDate}}" />
-                <DataGridTextColumn Header="Added" Binding="{Binding RetiredOn, Converter={StaticResource ToShortDate}}" />
+                <DataGridTextColumn Header="Retired" Binding="{Binding RetiredOn, Converter={StaticResource ToShortDate}}" />
+                <DataGridTextColumn Header="Estimate Hrs." Binding="{Binding EstimatedHours}" />
+                <DataGridTextColumn Header="Played Hrs." Binding="{Binding PlayedHours}"/>
+                <DataGridTextColumn Header="Remaining Hrs." Binding="{Binding RemainingHours}" />
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Gomer.DataAccess;
 using Gomer.Generic;
@@ -10,11 +11,9 @@ namespace Gomer.Areas.Games
     {
         private readonly IListRepository _listRepo;
         private readonly IPlatformRepository _platformRepo;
-        private readonly IStatusRepository _statusRepo;
 
         public ObservableCollection<ListModel> Lists { get; private set; }
         public ObservableCollection<PlatformModel> Platforms { get; private set; }
-        public ObservableCollection<StatusModel> Statuses { get; private set; }
 
         private PlatformModel _platformSelectedForAdd;
         public PlatformModel PlatformSelectedForAdd
@@ -28,16 +27,13 @@ namespace Gomer.Areas.Games
 
         public GameDetailViewModel(
             IListRepository lists, 
-            IPlatformRepository platforms,
-            IStatusRepository statuses)
+            IPlatformRepository platforms)
         {
             _listRepo = lists;
             _platformRepo = platforms;
-            _statusRepo = statuses;
 
             Lists = new ObservableCollection<ListModel>();
             Platforms = new ObservableCollection<PlatformModel>();
-            Statuses = new ObservableCollection<StatusModel>();
 
             AddPlatformCommand = new RelayCommand<PlatformModel>(x => Model.Platforms.Add(x));
             RemovePlatformCommand = new RelayCommand<PlatformModel>(x => Model.Platforms.Remove(x));
@@ -59,12 +55,6 @@ namespace Gomer.Areas.Games
                 Platforms.Add(model);
             }
             PlatformSelectedForAdd = Platforms.First();
-
-            Statuses.Clear();
-            foreach (var model in _statusRepo.GetAll())
-            {
-                Statuses.Add(model);
-            }
         }
     }
 }

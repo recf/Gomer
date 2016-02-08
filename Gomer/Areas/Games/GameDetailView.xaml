@@ -78,11 +78,7 @@
                         <DatePicker SelectedDate="{Binding Model.RetiredOn}"/>
                         
                         <Label Content="Status"/>
-                        <ComboBox SelectedItem="{Binding Model.Status}"
-                                  ItemsSource="{Binding Statuses}"
-                                  SelectedValue="{Binding Model.Status.Id}"
-                                  SelectedValuePath="Id"
-                                  DisplayMemberPath="Name"/>
+                        <TextBox Text="{Binding Model.StatusCode, Mode=OneWay}" IsEnabled="False"/>
 
                     </StackPanel>
                 </GroupBox>

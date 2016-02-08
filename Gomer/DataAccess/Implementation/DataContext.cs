@@ -11,7 +11,6 @@ namespace Gomer.DataAccess.Implementation
     {
         public ISet<ListModel> Lists { get; private set; }
         public ISet<PlatformModel> Platforms { get; private set; }
-        public ISet<StatusModel> Statuses { get; private set; }
 
         public ISet<GameModel> Games { get; private set; }
 
@@ -19,7 +18,6 @@ namespace Gomer.DataAccess.Implementation
         {
             Platforms = new HashSet<PlatformModel>(new ModelEqualityComparer<PlatformModel>());
             Lists = new HashSet<ListModel>(new ModelEqualityComparer<ListModel>());
-            Statuses = new HashSet<StatusModel>(new ModelEqualityComparer<StatusModel>());
 
             Games = new HashSet<GameModel>(new ModelEqualityComparer<GameModel>());
         }

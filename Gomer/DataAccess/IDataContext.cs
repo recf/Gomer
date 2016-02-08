@@ -7,7 +7,6 @@ namespace Gomer.DataAccess
     {
         ISet<ListModel> Lists { get; }
         ISet<PlatformModel> Platforms { get; }
-        ISet<StatusModel> Statuses { get; }
 
         ISet<GameModel> Games { get; }
     }

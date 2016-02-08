@@ -14,6 +14,5 @@
         <TabItem Header="Report" Content="{Binding Report}"/>
         <TabItem Header="Manage Lists" Content="{Binding ListsIndex}"/>
         <TabItem Header="Manage Platforms" Content="{Binding PlatformsIndex}"/>
-        <TabItem Header="Manage Statuses" Content="{Binding StatusesIndex}"/>
     </TabControl>
 </UserControl>

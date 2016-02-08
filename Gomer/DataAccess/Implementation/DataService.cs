@@ -25,7 +25,6 @@ namespace Gomer.DataAccess.Implementation
         private readonly IDataContext _context;
         public IListRepository Lists { get; private set; }
         public IPlatformRepository Platforms { get; private set; }
-        public IStatusRepository Statuses { get; private set; }
         public IGameRepository Games { get; private set; }
 
         public DataService()
@@ -34,7 +33,6 @@ namespace Gomer.DataAccess.Implementation
             _context = new DataContext();
             Lists = new ListRepository(_context);
             Platforms = new PlatformRepository(_context);
-            Statuses = new StatusRepository(_context);
             Games = new GameRepository(_context);
 
             // Serializer
@@ -69,11 +67,6 @@ namespace Gomer.DataAccess.Implementation
             Platforms.Add(new PlatformModel { Name = "Xbox One" });
             Platforms.Add(new PlatformModel { Name = "Wii U" });
             Platforms.Add(new PlatformModel { Name = "PC" });
-
-            Statuses.Add(new StatusModel { Code = StatusCodes.NotStarted, Order = 1 });
-            Statuses.Add(new StatusModel { Code = StatusCodes.InProgress, Order = 2 });
-            Statuses.Add(new StatusModel { Code = StatusCodes.Finished, Order = 3, AlwaysIncludeInStats = true });
-            Statuses.Add(new StatusModel { Code = StatusCodes.Retired, Order = 4 });
         }
 
         public void OpenFile(string fileName)
@@ -102,18 +95,11 @@ namespace Gomer.DataAccess.Implementation
                     Platforms.Add(model);
                 }
 
-                foreach (var dto in pileDto.Statuses)
-                {
-                    var model = Mapper.Map<StatusModel>(dto);
-                    Statuses.Add(model);
-                }
-
                 foreach (var dto in pileDto.Games)
                 {
                     var model = Mapper.Map<GameModel>(dto);
 
                     model.List = Lists.Find(l => l.Name == dto.ListName).First();
-                    //model.Status = Statuses.Find(s => s.Code == dto.Status).First();
 
                     foreach (var platformName in dto.PlatformNames)
                     {
@@ -199,7 +185,6 @@ namespace Gomer.DataAccess.Implementation
             {
                 Lists = Mapper.Map<ICollection<ListDto>>(Lists.GetAll()),
                 Platforms = Mapper.Map<ICollection<PlatformDto>>(Platforms.GetAll()),
-                Statuses = Mapper.Map<ICollection<StatusDto>>(Statuses.GetAll()),
 
                 Games = Mapper.Map<ICollection<GameDto>>(Games.GetAll())
             };

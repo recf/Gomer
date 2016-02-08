@@ -104,15 +104,6 @@
       <DependentUpon>ReportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Areas\Reports\ReportViewModel.cs" />
-    <Compile Include="Areas\Statuses\StatusDetailView.xaml.cs">
-      <DependentUpon>StatusDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Statuses\StatusDetailViewModel.cs" />
-    <Compile Include="Areas\Statuses\StatusIndexViewModel.cs" />
-    <Compile Include="Areas\Statuses\StatusListView.xaml.cs">
-      <DependentUpon>StatusListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Statuses\StatusListViewModel.cs" />
     <Compile Include="AutoMapperConfiguration.cs" />
     <Compile Include="BindableBase.cs" />
     <Compile Include="Converters\DateToShortDateStringConverter.cs" />
@@ -135,10 +126,8 @@
     <Compile Include="DataAccess\Implementation\PlatformRepository.cs" />
     <Compile Include="DataAccess\Implementation\RepositoryBase.cs" />
     <Compile Include="DataAccess\Implementation\Sequence.cs" />
-    <Compile Include="DataAccess\Implementation\StatusRepository.cs" />
     <Compile Include="DataAccess\IPlatformRepository.cs" />
     <Compile Include="DataAccess\IRepository.cs" />
-    <Compile Include="DataAccess\IStatusRepository.cs" />
     <Compile Include="Events\GameEventArgs.cs" />
     <Compile Include="Events\ModelEventArgs.cs" />
     <Compile Include="Generic\DetailViewModelBase.cs" />
@@ -152,7 +141,6 @@
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\PlatformModel.cs" />
     <Compile Include="Models\StatusCodes.cs" />
-    <Compile Include="Models\StatusModel.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Services\ConfirmationService.cs" />
     <Compile Include="Services\IConfirmationService.cs" />
@@ -188,14 +176,6 @@
     <Page Include="Areas\Reports\ReportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Areas\Statuses\StatusDetailView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Areas\Statuses\StatusListView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="DataTemplates.xaml">
       <SubType>Designer</SubType>

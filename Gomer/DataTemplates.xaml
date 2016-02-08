@@ -33,16 +33,6 @@
         <platforms:PlatformDetailView/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type statuses:StatusIndexViewModel}">
-        <generic:IndexView/>
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type statuses:StatusListViewModel}">
-        <statuses:StatusListView/>
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type statuses:StatusDetailViewModel}">
-        <statuses:StatusDetailView/>
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type games:GameIndexViewModel}">
         <generic:IndexView/>
     </DataTemplate>

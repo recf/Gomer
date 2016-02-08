@@ -58,7 +58,6 @@
     <Compile Include="RepositoryTests\ListRepositoryTestsBase.cs" />
     <Compile Include="RepositoryTests\PlatformRepositoryTests.cs" />
     <Compile Include="RepositoryTests\RepositoryTestsBase.cs" />
-    <Compile Include="RepositoryTests\StatusRepositoryTests.cs" />
     <Compile Include="SequenceTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -40,19 +40,6 @@ namespace Gomer.Tests.RepositoryTests
                 Name = "Platform 2"
             });
 
-            context.Statuses.Add(new StatusModel
-            {
-                Id = 1,
-                Order = 1,
-                Code = StatusCodes.Finished
-            });
-            context.Statuses.Add(new StatusModel
-            {
-                Id = 2,
-                Order = 2,
-                Code = StatusCodes.NotStarted
-            });
-
             if (includeDataUnderTest)
             {
                 var game1 = new GameModel

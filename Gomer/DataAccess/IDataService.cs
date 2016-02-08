@@ -7,7 +7,6 @@ namespace Gomer.DataAccess
     {
         IListRepository Lists { get; }
         IPlatformRepository Platforms { get; }
-        IStatusRepository Statuses { get; }
         IGameRepository Games { get; }
 
         ObservableCollection<string> RecentFiles { get; }

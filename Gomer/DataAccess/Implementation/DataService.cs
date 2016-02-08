@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using AutoMapper;
 using Gomer.DataAccess.Dto;
 using Gomer.Models;
+using Gomer.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -14,6 +15,9 @@ namespace Gomer.DataAccess.Implementation
 {
     public class DataService : IDataService
     {
+        private IOpenFileService _openFileService;
+        private ISaveFileService _saveFileService;
+
         private string _defaultExt = ".pile";
         private string _filter = "Gomer Pile File (*.pile)|*.pile";
         private string _lastFileName;
@@ -27,8 +31,11 @@ namespace Gomer.DataAccess.Implementation
         public IPlatformRepository Platforms { get; private set; }
         public IGameRepository Games { get; private set; }
 
-        public DataService()
+        public DataService(IOpenFileService openFileService, ISaveFileService saveFileService)
         {
+            _openFileService = openFileService;
+            _saveFileService = saveFileService;
+
             // Repositories
             _context = new DataContext();
             Lists = new ListRepository(_context);
@@ -114,20 +121,11 @@ namespace Gomer.DataAccess.Implementation
 
         public bool TryOpen(out string fileName)
         {
-            var dialog = new OpenFileDialog
-            {
-                DefaultExt = _defaultExt,
-                Filter = _filter
-            };
+            fileName = _openFileService.GetFileName(_defaultExt, _filter);
 
-            if (dialog.ShowDialog() != DialogResult.OK)
-            {
-                fileName = null;
-                return false;
-            }
+            if (string.IsNullOrEmpty(fileName)) { return false; }
 
-            fileName = dialog.FileName;
-            OpenFile(dialog.FileName);
+            OpenFile(fileName);
             return true;
         }
 
@@ -147,19 +145,9 @@ namespace Gomer.DataAccess.Implementation
 
         public bool TrySaveAs(out string fileName)
         {
-            var dialog = new SaveFileDialog()
-            {
-                DefaultExt = _defaultExt,
-                Filter = _filter
-            };
+            fileName = _saveFileService.GetFileName(_defaultExt, _filter);
 
-            if (dialog.ShowDialog() != DialogResult.OK)
-            {
-                fileName = null;
-                return false;
-            }
-
-            fileName = dialog.FileName;
+            if (string.IsNullOrEmpty(fileName)) { return false; }
 
             SaveFile(fileName);
 

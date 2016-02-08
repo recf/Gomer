@@ -143,6 +143,10 @@
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Services\ConfirmationService.cs" />
     <Compile Include="Services\IConfirmationService.cs" />
+    <Compile Include="Services\IOpenFileService.cs" />
+    <Compile Include="Services\ISaveFileService.cs" />
+    <Compile Include="Services\OpenFileService.cs" />
+    <Compile Include="Services\SaveFileService.cs" />
     <Compile Include="ValidatableBindableBase.cs" />
     <Page Include="Areas\Games\GameDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>

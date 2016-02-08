@@ -17,7 +17,9 @@ namespace Gomer
 
             AutoMapperConfiguration.Configure();
 
-            DataContext = new MainWindowViewModel(new DataService(), new ConfirmationService());
+            DataContext = new MainWindowViewModel(
+                new DataService(new OpenFileService(), new SaveFileService()), 
+                new ConfirmationService());
         }
 
         private void MainWindow_OnClosing(object sender, CancelEventArgs e)

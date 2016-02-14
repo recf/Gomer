@@ -35,7 +35,7 @@ namespace Gomer.Areas.Games
             SearchCommand = new RelayCommand(RefreshData);
         }
 
-        public override void RefreshData()
+        protected override void RefreshData()
         {
             Models.Clear();
 
@@ -47,7 +47,7 @@ namespace Gomer.Areas.Games
             }
         }
 
-        public override void RefreshLookupData()
+        protected override void RefreshLookupData()
         {
             // Filter is bound in the UI via ComboBox, so clearing the list, clears the value
             // Save filter

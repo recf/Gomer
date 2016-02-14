@@ -10,9 +10,9 @@
              d:DesignHeight="300" 
              d:DesignWidth="300">
     <TabControl>
-        <TabItem Header="Games" Content="{Binding GamesIndex}"/>
-        <TabItem Header="Report" Content="{Binding Report}"/>
-        <TabItem Header="Manage Lists" Content="{Binding ListsIndex}"/>
-        <TabItem Header="Manage Platforms" Content="{Binding PlatformsIndex}"/>
+        <TabItem Header="Games" Content="{Binding GamesIndex}" MouseLeftButtonUp="TabItem_OnMouseLeftButtonUp" />
+        <TabItem Header="Report" Content="{Binding Report}" MouseLeftButtonUp="TabItem_OnMouseLeftButtonUp"  />
+        <TabItem Header="Manage Lists" Content="{Binding ListsIndex}" MouseLeftButtonUp="TabItem_OnMouseLeftButtonUp"  />
+        <TabItem Header="Manage Platforms" Content="{Binding PlatformsIndex}" MouseLeftButtonUp="TabItem_OnMouseLeftButtonUp" />
     </TabControl>
 </UserControl>

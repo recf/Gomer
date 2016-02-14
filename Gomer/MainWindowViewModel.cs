@@ -36,7 +36,7 @@ namespace Gomer
                 OnPropertyChanged("Title");
             }
         }
-        
+
         public string Title
         {
             get
@@ -107,7 +107,7 @@ namespace Gomer
             PileDetail = new PileDetailViewModel(_dataService);
             PileDetail.DataChanged += PileDetail_DataChanged;
             PileDetail.Refresh();
-            
+
             IsDirty = false;
 
             if (string.IsNullOrEmpty(fileName))
@@ -166,7 +166,7 @@ namespace Gomer
                 ShowPile(fileName);
             }
         }
-        
+
         private void OpenRecentCommandImpl(string fileName)
         {
             if (!ConfirmCloseFile())
@@ -188,10 +188,11 @@ namespace Gomer
         {
             SavePile(_dataService.TrySaveAs);
         }
-        
+
         private void ImportGrouveeCsvImpl()
         {
             var fileName = _openFileService.GetFileName("*.csv", "Comma Separated Values (*.csv)|*.csv");
+            if (string.IsNullOrEmpty(fileName)) { return; }
 
             _dataService.ImportGrouveeCsv(fileName);
             PileDetail.Refresh();

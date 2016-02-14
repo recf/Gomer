@@ -10,7 +10,7 @@ using Gomer.Models;
 
 namespace Gomer.Generic
 {
-    public class ListViewModelBase<TRepository, TModel> : BindableBase
+    public class ListViewModelBase<TRepository, TModel> : ViewModelBase
         where TRepository : IRepository<TModel>
         where TModel : ModelBase<TModel>
     {
@@ -28,17 +28,17 @@ namespace Gomer.Generic
             OpenCommand = new RelayCommand<TModel>(OpenCommandImpl);
         }
 
-        public void Refresh()
+        public override void Refresh()
         {
             RefreshLookupData();
             RefreshData();
         }
 
-        public virtual void RefreshLookupData()
+        protected virtual void RefreshLookupData()
         {
         }
 
-        public virtual void RefreshData()
+        protected virtual void RefreshData()
         {
             Models.Clear();
             var models = Repository.GetAll().ToList();

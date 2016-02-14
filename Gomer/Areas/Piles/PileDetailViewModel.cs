@@ -9,7 +9,7 @@ using Gomer.DataAccess;
 namespace Gomer.Areas.Piles
 {
     // TODO: Move in MainViewModel?
-    public class PileDetailViewModel : BindableBase
+    public class PileDetailViewModel : ViewModelBase
     {
         private ListIndexViewModel _listsIndex;
         public ListIndexViewModel ListsIndex
@@ -82,7 +82,7 @@ namespace Gomer.Areas.Piles
             Report = new ReportViewModel(dataService.Games);
         }
 
-        public void Refresh()
+        public override void Refresh()
         {
             ListsIndex.Refresh();
             PlatformsIndex.Refresh();
@@ -106,15 +106,11 @@ namespace Gomer.Areas.Piles
 
         private void LookupData_OnDataChanged(object sender, EventArgs e)
         {
-            GamesIndex.List.RefreshLookupData();
-            GamesIndex.SelectedDetail.RefreshLookupData();
-
             OnDataChanged();
         }
 
         private void GameData_OnDataChanged(object sender, EventArgs e)
         {
-            GamesIndex.List.RefreshData();
             OnDataChanged();
         }
     }

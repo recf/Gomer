@@ -153,6 +153,7 @@
     <Compile Include="Services\OpenFileService.cs" />
     <Compile Include="Services\SaveFileService.cs" />
     <Compile Include="ValidatableBindableBase.cs" />
+    <Compile Include="ViewModelBase.cs" />
     <Page Include="Areas\Games\GameDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

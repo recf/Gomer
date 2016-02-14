@@ -9,7 +9,7 @@ using Gomer.Models;
 
 namespace Gomer.Generic
 {
-    public abstract class IndexViewModelBase<TRepository, TModel, TModelList, TModelDetail> : BindableBase
+    public abstract class IndexViewModelBase<TRepository, TModel, TModelList, TModelDetail> : ViewModelBase
         where TRepository : IRepository<TModel>
         where TModel : ModelBase<TModel>, new()
         where TModelList : ListViewModelBase<TRepository, TModel>
@@ -69,10 +69,10 @@ namespace Gomer.Generic
             NewCommand = new RelayCommand(NewCommandImpl, () => SelectedDetail.Model == null);
         }
         
-        public virtual void Refresh()
+        public override void Refresh()
         {
             List.Refresh();
-            SelectedDetail.RefreshLookupData();
+            SelectedDetail.Refresh();
         }
 
         #region Events
@@ -137,7 +137,7 @@ namespace Gomer.Generic
             }
 
             SelectedDetail.Model = null;
-            List.RefreshData();
+            List.Refresh();
 
             OnDataChanged();
         }
@@ -147,7 +147,7 @@ namespace Gomer.Generic
             Repository.Remove(e.Model);
 
             SelectedDetail.Model = null;
-            List.RefreshData();
+            List.Refresh();
 
             OnDataChanged();
         }

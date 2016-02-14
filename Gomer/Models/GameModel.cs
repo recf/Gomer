@@ -129,6 +129,20 @@ namespace Gomer.Models
             }
         }
 
+        private bool _isDigital;
+        public bool IsDigital
+        {
+            get { return _isDigital; }
+            set { SetProperty(ref _isDigital, value); }
+        }
+
+        private string _note;
+        public string Note
+        {
+            get { return _note; }
+            set { SetProperty(ref _note, value); }
+        }
+
         public GameModel()
         {
             Platforms = new ObservableCollection<PlatformModel>();

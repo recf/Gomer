@@ -9,7 +9,7 @@ using Gomer.Models;
 
 namespace Gomer.Areas.Reports
 {
-    public class ReportViewModel : BindableBase
+    public class ReportViewModel : ViewModelBase
     {
         private readonly IGameRepository _gamesRepository;
 

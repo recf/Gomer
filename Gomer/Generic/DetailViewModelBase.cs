@@ -5,7 +5,7 @@ using Gomer.Models;
 
 namespace Gomer.Generic
 {
-    public class DetailViewModelBase<TModel> : BindableBase
+    public class DetailViewModelBase<TModel> : ViewModelBase
         where TModel : ModelBase<TModel>, new()
     {
         private TModel _model;
@@ -123,6 +123,12 @@ namespace Gomer.Generic
         private void Model_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
         {
             UpdateCommand.RaiseCanExecuteChanged();
+        }
+
+        public override void Refresh()
+        {
+            base.Refresh();
+            RefreshLookupData();
         }
 
         public virtual void RefreshLookupData()

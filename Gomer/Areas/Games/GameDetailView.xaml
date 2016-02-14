@@ -82,12 +82,20 @@
 
                     </StackPanel>
                 </GroupBox>
+                
+                <CheckBox IsChecked="{Binding Model.IsDigital}" Content="Digital?"/>
 
                 <Label Content="Estimated Hours"/>
                 <TextBox Text="{Binding Model.EstimatedHours}"/>
 
                 <Label Content="Played Hours"/>
                 <TextBox Text="{Binding Model.PlayedHours}"/>
+                
+                <Label Content="Note"/>
+                <TextBox Text="{Binding Model.Note}" 
+                         AcceptsReturn="True"
+                         TextWrapping="WrapWithOverflow"
+                         MaxLines="5"/>
                 
                 <StackPanel Margin="5">
                     <Button Content="Ok" Command="{Binding UpdateCommand}"/>

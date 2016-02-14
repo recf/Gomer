@@ -33,5 +33,11 @@ namespace Gomer.DataAccess.Dto
 
         [JsonProperty("played_hours", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public decimal? PlayedHours { get; set; }
+
+        [JsonProperty("digital", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public bool IsDigital { get; set; }
+
+        [JsonProperty("note", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string Note { get; set; }
     }
 }

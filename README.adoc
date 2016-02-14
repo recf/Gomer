@@ -51,11 +51,6 @@ There are a few things to keep in mind:
 * Localization
 ** Hide lists
 ** whether to include in stats
-* Set multiple platforms per game
-* Status Dates
-* Playthrough information: Status, Start Date, Finish Date, Note
-* A flag for whether I own a game on disc/cartridge or digitally.
-* Keep a games platforms sorted
 
 === From Source
 

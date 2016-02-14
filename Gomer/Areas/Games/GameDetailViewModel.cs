@@ -35,8 +35,27 @@ namespace Gomer.Areas.Games
             Lists = new ObservableCollection<ListModel>();
             Platforms = new ObservableCollection<PlatformModel>();
 
-            AddPlatformCommand = new RelayCommand<PlatformModel>(x => Model.Platforms.Add(x));
+            AddPlatformCommand = new RelayCommand<PlatformModel>(AddPlatformImpl);
             RemovePlatformCommand = new RelayCommand<PlatformModel>(x => Model.Platforms.Remove(x));
+        }
+
+        private void AddPlatformImpl(PlatformModel platform)
+        {
+            // Skip if already there
+            if (Model.Platforms.Any(p => p.Name == platform.Name))
+            {
+                return;
+            }
+
+            // keep sorted by name
+            var currentPlatforms = Model.Platforms.ToList();
+            currentPlatforms.Add(platform);
+
+            Model.Platforms.Clear();
+            foreach (var p in currentPlatforms.OrderBy(x => x.Name))
+            {
+                Model.Platforms.Add(p);
+            }
         }
 
         public override void RefreshLookupData()

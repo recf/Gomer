@@ -312,6 +312,7 @@ namespace Gomer.DataAccess.Implementation
                         }
                     }
                     model.Platforms.Add(steam);
+                    model.IsDigital = true;
                 }
 
                 Games.Add(model);

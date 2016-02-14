@@ -54,6 +54,7 @@
                 <DataGridTextColumn Header="Started" Binding="{Binding StartedOn, Converter={StaticResource ToShortDate}}" />
                 <DataGridTextColumn Header="Finished" Binding="{Binding FinishedOn, Converter={StaticResource ToShortDate}}" />
                 <DataGridTextColumn Header="Retired" Binding="{Binding RetiredOn, Converter={StaticResource ToShortDate}}" />
+                <DataGridCheckBoxColumn Header="Digital" Binding="{Binding IsDigital}"/>
                 <DataGridTextColumn Header="Estimate Hrs." Binding="{Binding EstimatedHours}" />
                 <DataGridTextColumn Header="Played Hrs." Binding="{Binding PlayedHours}"/>
                 <DataGridTextColumn Header="Remaining Hrs." Binding="{Binding RemainingHours}" />

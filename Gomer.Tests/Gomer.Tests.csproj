@@ -51,8 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMapperTests.cs" />
-    <Compile Include="GameModelTests.cs" />
-    <Compile Include="ModelTests.cs" />
+    <Compile Include="ModelTests\GameModelTests.cs" />
+    <Compile Include="ModelTests\ListModelTests.cs" />
+    <Compile Include="ModelTests\ModelTestsBase.cs" />
+    <Compile Include="ModelTests\PlatformModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryTests\GameRepositoryTests.cs" />
     <Compile Include="RepositoryTests\ListRepositoryTestsBase.cs" />

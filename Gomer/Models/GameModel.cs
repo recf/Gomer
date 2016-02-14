@@ -170,6 +170,9 @@ namespace Gomer.Models
 
             EstimatedHours = other.EstimatedHours;
             PlayedHours = other.PlayedHours;
+
+            IsDigital = other.IsDigital;
+            Note = other.Note;
         }
     }
 }
